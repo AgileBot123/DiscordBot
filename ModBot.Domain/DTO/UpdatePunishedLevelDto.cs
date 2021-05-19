@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Testing.Controllers
+namespace ModBot.Domain.DTO
 {
-    public class BannedWordControllerTest
+    public class UpdatePunishedLevelDto
     {
-
     }
 }

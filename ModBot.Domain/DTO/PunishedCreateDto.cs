@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Testing.Controllers
+namespace ModBot.Domain.DTO
 {
-    class ChangeLogController
+    public class PunishedCreateDto
     {
+
     }
 }

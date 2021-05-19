@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Testing.Services
 {
-    class PunishedLevelServiceTest
+    public class PunishedLevelServiceTest
     {
     }
 }

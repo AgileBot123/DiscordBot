@@ -4,8 +4,7 @@ using System.Text;
 
 namespace ModBot.Testing.Controllers
 {
-    public class BannedWordControllerTest
+    public class ChangeLogControllerTest
     {
-
     }
 }
