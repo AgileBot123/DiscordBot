@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Domain.Interfaces
 {
-    public interface IPunishmentsLevels
+    public interface PunishmentsLevels
     {
         int TimeOut { get; set; }
         int Kick { get; set; }

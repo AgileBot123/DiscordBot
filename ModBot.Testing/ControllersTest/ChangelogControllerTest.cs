@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ModBot.Domain.Interfaces
+namespace ModBot.Testing.ControllersTest
 {
-    public interface ICommandLogic
+    class ChangelogControllerTest
     {
-
     }
 }
