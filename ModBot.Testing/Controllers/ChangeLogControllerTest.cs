@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Testing.Controllers
 {
-    class ChangeLogController
+    public class ChangeLogControllerTest
     {
     }
 }
