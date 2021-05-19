@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.WebClient.Controllers
 {
-    public class HomeController : Controller
+    public class AuthenticationController : Controller
     {
         public IActionResult Index()
         {
