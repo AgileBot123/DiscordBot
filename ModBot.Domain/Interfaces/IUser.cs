@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Domain.interfaces
 {
-    public interface User
+    public interface IUser
     {
         ulong Id { get; set; }
         int Strikes { get; set; }
