@@ -23,6 +23,7 @@ namespace ChatFilterBot
 
         public async Task RunBotAsync()
         {
+
             _client = new DiscordSocketClient();
             _commands = new CommandService();
 
@@ -69,5 +70,8 @@ namespace ChatFilterBot
                 if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
             }
         }
+
+
+   
     }
 }
