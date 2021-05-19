@@ -4,7 +4,8 @@ using System.Text;
 
 namespace ModBot.Domain.DTO
 {
-    class Class1
+    public class PunishedCreateDto
     {
+
     }
 }
