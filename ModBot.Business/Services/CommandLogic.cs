@@ -7,6 +7,9 @@ namespace ModBot.Business.Services
 {
     public class CommandLogic : ICommandLogic
     {
-
+        public string GetUserStrikes(ulong UserID)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
