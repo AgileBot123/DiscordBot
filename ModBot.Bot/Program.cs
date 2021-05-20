@@ -27,6 +27,7 @@ namespace ChatFilterBot
 
         public async Task RunBotAsync()
         {
+
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 

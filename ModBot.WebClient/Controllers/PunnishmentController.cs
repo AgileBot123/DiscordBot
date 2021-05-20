@@ -16,15 +16,8 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
-        public IActionResult Create_PunishLevel()
-        {
-            return View();
-        }
-        public IActionResult Delete_PunishLevel(int id)
-        {
-            return View();
-        }
-        public IActionResult Update_PunishLevel(int id)
+       
+        public IActionResult Settings(int id)
         {
             return View();
         }
