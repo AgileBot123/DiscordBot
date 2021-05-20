@@ -7,7 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModBot.Business.Services;
 using ModBot.DAL.Data;
+using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +31,9 @@ namespace ModBot.API
         {
             services.AddControllers();
             services.AddDbContext<ModBotContext>(o => o.UseSqlServer(Configuration.GetConnectionString("ModBotDatabase")));
+            services.AddScoped<IPunishedLevelService, PunishedLevelService>();
+            services.AddScoped<IChangelogService, ChangelogService>();
+            services.AddScoped<IBannedWordService, BannedWordService>();
 
         }
 

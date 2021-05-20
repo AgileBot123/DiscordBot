@@ -7,5 +7,6 @@ namespace ModBot.Business.Services
 {
     public class BannedWordService : IBannedWordService
     {
+
     }
 }
