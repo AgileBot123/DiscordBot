@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using ModBot.Domain.DTO;
+
+
 
 namespace ModBot.WebClient.Controllers
 {
@@ -12,5 +11,15 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
+        [HttpPost]
+        public IActionResult loggin()
+        {
+            return View();
+        }
+        public IActionResult loggin(LoginDTO model)
+        {
+            return View();
+        }
+
     }
 }
