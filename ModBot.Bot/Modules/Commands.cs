@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using ModBot.Business.Services;
@@ -13,17 +14,21 @@ namespace ModBot.Bot.Modules
     public class Commands : ModuleBase<SocketCommandContext>
     {
         private readonly ICommandLogic _commandLogic;
-
-        Commands(ICommandLogic commandLogic)
+        public Commands(ICommandLogic commandLogic)
         {
             _commandLogic = commandLogic;
         }
 
 
         [Command("ping")]
-        public async Task Ping()
+        public async Task Ping(SocketCommandContext context)
         {
             await ReplyAsync("pong");
+            //var user = Context.User as IUser;
+
+            var response = _commandLogic.BotResponseCooldown(context);
+            if (response != null)
+                await ReplyAsync(response);
 
         }
 
@@ -31,7 +36,7 @@ namespace ModBot.Bot.Modules
         
         public async Task UserStrike()
         {
-
+      
         }
 
         [Command("Strike")] //checkar själva användares egna strikes
@@ -46,14 +51,14 @@ namespace ModBot.Bot.Modules
 
         public async Task RemoveStrike()
         {
-
+        
         }
 
         [Command("AddStrike")]
 
         public async Task AddStrike()
         {
-
+        
         }
     }
 }
