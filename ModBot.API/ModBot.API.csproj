@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ModBot.Business\ModBot.Business.csproj" />
     <ProjectReference Include="..\ModBot.DAL\ModBot.DAL.csproj" />
   </ItemGroup>
 
