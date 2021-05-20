@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace ModBot.Business.Services
 {
 
-    public class CommandLogic : ModuleBase<SocketCommandContext> , ICommandLogic
+    public class CommandLogicService : ModuleBase<SocketCommandContext> , ICommandLogic
     {
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
