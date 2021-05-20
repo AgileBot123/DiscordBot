@@ -21,15 +21,13 @@ namespace ModBot.Bot.Modules
 
 
         [Command("ping")]
-        public async Task Ping(SocketCommandContext context)
+        public async Task Ping()
         {
-            await ReplyAsync("pong");
-            //var user = Context.User as IUser;
-
-            var response = _commandLogic.BotResponseCooldown(context);
+            var response = _commandLogic.BotResponseCooldown(Context);
             if (response != null)
                 await ReplyAsync(response);
-
+            else
+                await ReplyAsync("pong");
         }
 
         [Command("UserStrike")]

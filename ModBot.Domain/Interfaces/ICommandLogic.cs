@@ -12,7 +12,7 @@ namespace ModBot.Domain.Interfaces
     {
         string GetUserStrikes(ulong UserID);
 
-        string BotResponseCooldown();
+        string BotResponseCooldown(SocketCommandContext context);
         
     }
 }
