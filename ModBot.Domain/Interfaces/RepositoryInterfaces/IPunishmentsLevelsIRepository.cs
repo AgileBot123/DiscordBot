@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
-    public interface IPunishedLevelIRepository
+    public interface IPunishmentsLevelsIRepository
     {
         void Get(int id);
         IEnumerable<IPunishedLevelService> GetAll();

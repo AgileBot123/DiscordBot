@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Domain.Models
 {
-    public class PunishedLevel
+    public class PunishmentsLevels
     {
     }
 }

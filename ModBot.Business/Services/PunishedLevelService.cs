@@ -16,7 +16,7 @@ namespace ModBot.Business.Services
             
         }
 
-        public Task<PunishedLevel> GetPunishedLevel(int id)
+        public Task<PunishmentsLevels> GetPunishedLevel(int id)
         {
             throw new NotImplementedException();
         }
