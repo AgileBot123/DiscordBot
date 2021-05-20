@@ -4,5 +4,10 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ModBot.Business\ModBot.Business.csproj" />
+    <ProjectReference Include="..\ModBot.Domain\ModBot.Domain.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -11,10 +11,7 @@ namespace ModBot.Business.Services
     {
 
      
-        public PunishedLevelService()
-        {
-            
-        }
+        
 
         public Task<PunishedLevel> GetPunishedLevel(int id)
         {

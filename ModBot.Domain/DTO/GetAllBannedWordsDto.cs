@@ -4,8 +4,7 @@ using System.Text;
 
 namespace ModBot.Domain.DTO
 {
-    public class PunishedCreateDto
+    public class GetAllBannedWordsDto
     {
-
     }
 }
