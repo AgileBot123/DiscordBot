@@ -58,7 +58,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                return NoContent();
             }
             catch (Exception)
             {
