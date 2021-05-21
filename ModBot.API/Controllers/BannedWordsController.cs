@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -14,9 +15,11 @@ namespace ModBot.API.Controllers
     public class BannedWordsController : ControllerBase
     {
         public readonly IBannedWordService _bannedWordService;
-        public BannedWordsController(IBannedWordService bannedWordService)
+        public readonly IBannedWordIRepository _bannedWordRepo;
+        public BannedWordsController(IBannedWordService bannedWordService,IBannedWordIRepository bannedWord)
         {
             this._bannedWordService = bannedWordService;
+            this._bannedWordRepo = bannedWord;
 
         }
 
