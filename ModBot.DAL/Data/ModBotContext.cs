@@ -23,7 +23,7 @@ namespace ModBot.DAL.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Members
-            modelBuilder.Entity<Member>().HasKey(p => new { p.Id });
+            modelBuilder.Entity<Member>().HasKey(p => new { p.Id });          
             modelBuilder.Entity<Member>().Property(b => b.Id).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
             modelBuilder.Entity<Member>().Property(b => b.Strikes).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
 
@@ -40,9 +40,11 @@ namespace ModBot.DAL.Data
 
             //PunishmentLevels
             modelBuilder.Entity<PunishmentsLevels>().Property(b => b.Id).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
+            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.TimeOutLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
             modelBuilder.Entity<PunishmentsLevels>().Property(b => b.KickLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
             modelBuilder.Entity<PunishmentsLevels>().Property(b => b.BanLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.TimeOutLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
+            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.SpamMuteTime).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
+            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.StrikeMuteTime).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
         }
     }
 }
