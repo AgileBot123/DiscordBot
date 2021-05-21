@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
-    [Route("api/[controller]")]
+   
     [ApiController]
     public class BannedWordsController : ControllerBase
     {
@@ -20,7 +21,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBannedWord()
+        [Route(Routes.BannedWords.GetBannedWord)]
+        public async Task<IActionResult> GetBannedWord(int id)
         {
             try
             {
@@ -35,6 +37,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
+        [Route(Routes.BannedWords.GetAllBannedWords)]
         public async Task<IActionResult> GetAllBannedWords()
         {
             try
@@ -49,6 +52,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
+        [Route(Routes.BannedWords.CreateBannedWord)]
         public async Task<IActionResult> CreateBannedWord()
         {
             try
@@ -63,6 +67,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpDelete]
+        [Route(Routes.BannedWords.DeleteBannedWord)]
         public async Task<IActionResult> DeleteBannedWord()
         {
             try
@@ -77,6 +82,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPut]
+        [Route(Routes.BannedWords.UpdateBannedWord)]
         public async Task<IActionResult> UpdateBannedWord()
         {
             try

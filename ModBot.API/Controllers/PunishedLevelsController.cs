@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
-    [Route("api/[controller]")]
+    
     [ApiController]
     public class PunishedLevelsController : ControllerBase
     {
@@ -16,10 +17,12 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPunishedLevel()
+        [Route(Routes.PunishedLevels.GetPunishedLevel)]
+        public async Task<IActionResult> GetPunishedLevel(int id)
         {
              try
             {
+
                 return Ok();
             }
             catch (Exception)
@@ -30,7 +33,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPunishedLevels(int id)
+        [Route(Routes.PunishedLevels.GetPunishedLevels)]
+        public async Task<IActionResult> GetPunishedLevels()
         {
             try
             {
@@ -44,6 +48,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
+        [Route(Routes.PunishedLevels.CreatePunishedLevel)]
         public async Task<IActionResult> CreatePunishedLevel()
         {
             try
@@ -58,6 +63,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpDelete]
+        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
         public async Task<IActionResult> DeletePunishedLevel(int id)
         {
              try
@@ -72,6 +78,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPut]
+        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
         public async Task<IActionResult> UpdatePunishedLevel(int id)
         {
             try

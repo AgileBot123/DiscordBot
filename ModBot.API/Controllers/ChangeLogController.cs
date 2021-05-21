@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -8,7 +9,6 @@ using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ChangeLogController : ControllerBase
     {
@@ -20,7 +20,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetChangeLog()
+        [Route(Routes.ChangeLog.GetLog)]
+        public async Task<IActionResult> GetChangeLog(int id)
         {
             try
             {
@@ -34,6 +35,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
+        [Route(Routes.ChangeLog.GetAllLogs)]
         public async Task<IActionResult> GetAllLogs()
         {
             try
@@ -48,6 +50,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
+        [Route(Routes.ChangeLog.CreateLog)]
         public async Task<IActionResult> CreateLog()
         {
             try
@@ -62,6 +65,7 @@ namespace ModBot.API.Controllers
         }
 
         [HttpDelete]
+        [Route(Routes.ChangeLog.DeleteLog)]
         public async Task<IActionResult> DeleteLog()
         {
             try
