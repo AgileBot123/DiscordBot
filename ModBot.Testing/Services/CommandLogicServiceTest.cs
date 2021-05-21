@@ -23,7 +23,7 @@ namespace ModBot.Testing.Services
         public CommandLogicServiceTest()
         {
             _mockCommand = new Mock<ICommandLogicRepository>();
-            _commandService = new CommandLogicService(_mockCommand.Object);
+            _commandService = new CommandLogicService();
         }
 
 
