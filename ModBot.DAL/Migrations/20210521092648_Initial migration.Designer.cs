@@ -10,7 +10,7 @@ using ModBot.DAL.Data;
 namespace ModBot.DAL.Migrations
 {
     [DbContext(typeof(ModBotContext))]
-    [Migration("20210521074741_Initial migration")]
+    [Migration("20210521092648_Initial migration")]
     partial class Initialmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,10 +62,10 @@ namespace ModBot.DAL.Migrations
 
             modelBuilder.Entity("ModBot.Domain.Models.Member", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<decimal>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("decimal(20,0)")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
                     b.Property<int>("Strikes")
                         .HasColumnType("int");
@@ -73,6 +73,33 @@ namespace ModBot.DAL.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevels", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BanLevel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("KickLevel")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("SpamMuteTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StrikeMuteTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TimeOutLevel")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PunishmentsLevels");
                 });
 #pragma warning restore 612, 618
         }

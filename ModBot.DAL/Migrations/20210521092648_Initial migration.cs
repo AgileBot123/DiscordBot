@@ -40,13 +40,29 @@ namespace ModBot.DAL.Migrations
                 name: "Members",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     Strikes = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Members", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PunishmentsLevels",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TimeOutLevel = table.Column<int>(type: "int", nullable: false),
+                    KickLevel = table.Column<int>(type: "int", nullable: false),
+                    BanLevel = table.Column<int>(type: "int", nullable: false),
+                    SpamMuteTime = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StrikeMuteTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PunishmentsLevels", x => x.Id);
                 });
         }
 
@@ -60,6 +76,9 @@ namespace ModBot.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Members");
+
+            migrationBuilder.DropTable(
+                name: "PunishmentsLevels");
         }
     }
 }

@@ -11,7 +11,6 @@ namespace ModBot.Domain.Models
         private ulong id;
         private int strikes;
 
-        [Key]
         public ulong Id => id;
         public int Strikes => strikes;
 

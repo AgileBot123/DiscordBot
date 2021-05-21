@@ -29,7 +29,7 @@ namespace ModBot.API
         {
             services.AddControllers();
             services.AddDbContext<ModBotContext>(o => o.UseSqlServer(Configuration.GetConnectionString("ModBotDatabase")));
-            services.AddScoped<IPunishedLevelService, PunishedLevelService>();
+            services.AddScoped<IPunishmentsLevelsService, PunishmentsLevelsService>();
             services.AddScoped<IChangelogService, ChangelogService>();
             services.AddScoped<IBannedWordService, BannedWordService>();
 
