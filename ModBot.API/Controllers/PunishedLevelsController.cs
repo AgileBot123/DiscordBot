@@ -22,9 +22,17 @@ namespace ModBot.API.Controllers
         {
              try
             {
+                if (id == 0)
+                    return BadRequest("id is null");
+
+                var punishedLevel = await _punishedLevelService.GetPunishedLevel(id);
+
+                if (punishedLevel == null)
+                    return NotFound("No punished ");
 
                 return Ok();
             }
+
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");

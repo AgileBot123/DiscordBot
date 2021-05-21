@@ -1,5 +1,5 @@
 ﻿using ModBot.Domain.DTO;
-using ModBot.Domain.Interfaces.ServiceInterface;
+using ModBot.Domain.Interfaces.ModelsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -8,10 +8,10 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IBannedWordIRepository
     {
-        void Get(int id);
-        IEnumerable<IBannedWordService> GetAll();
-        void Create(CreateBannedWordDto createBannedWord);
+        IBannedWord Get(int id);
+        IEnumerable<IBannedWord> GetAll();
+        void Create(IBannedWord createBannedWord);
         void Delete(int id);
-        void Update(UpdateBannedWordDto updateBannedWord, int id);
+        IChangelog Update(IBannedWord updateBannedWord, int id);
     }
 }

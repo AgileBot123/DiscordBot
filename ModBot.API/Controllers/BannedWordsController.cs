@@ -26,6 +26,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
+                
                 return Ok();
             }
             catch(Exception)
