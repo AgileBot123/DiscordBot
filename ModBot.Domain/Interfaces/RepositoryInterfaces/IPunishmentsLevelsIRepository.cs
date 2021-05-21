@@ -8,8 +8,8 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     {
         IPunishmentsLevels Get(int id);
         IEnumerable<IPunishmentsLevels> GetAll();
-        void Create(CreatePunishedDto createPunished);
+        void Create(IPunishmentsLevels createPunished);
         void Delete(int id);
-        void Update(UpdatePunishedLevelDto updatePunished, int id);
+        IPunishmentsLevels Update(IPunishmentsLevels updatePunished, int id);
     }
 }
