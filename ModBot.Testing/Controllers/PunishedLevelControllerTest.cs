@@ -13,13 +13,13 @@ namespace ModBot.Testing.Controllers
     [TestClass]
     public class PunishedLevelControllerTest
     {
-        private readonly Mock<IPunishedLevelService> _mockPunish;
+        private readonly Mock<IPunishmentsLevelsService> _mockPunish;
         private PunishedLevelsController _punishedLevelsController;
-        public PunishedLevelControllerTest()
-        {
-            _mockPunish = new Mock<IPunishedLevelService>();
-            _punishedLevelsController = new PunishedLevelsController(_mockPunish.Object);
-        }
+        //public PunishedLevelControllerTest()
+        //{
+        //    _mockPunish = new Mock<IPunishmentsLevelsService>();
+        //    _punishedLevelsController = new PunishedLevelsController(_mockPunish.Object);
+        //}
 
 
         [TestMethod]

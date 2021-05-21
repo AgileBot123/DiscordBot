@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
 {
-    public class PunishmentsLevelsService : IPunishedLevelService
+    public class PunishmentsLevelsService : IPunishmentsLevelsService
     {
 
      

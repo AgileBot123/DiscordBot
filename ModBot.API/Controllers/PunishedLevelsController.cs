@@ -10,8 +10,8 @@ namespace ModBot.API.Controllers
     [ApiController]
     public class PunishedLevelsController : ControllerBase
     {
-        private readonly IPunishedLevelService _punishedLevelService;
-        public PunishedLevelsController(IPunishedLevelService punishedLevelService)
+        private readonly IPunishmentsLevelsService _punishedLevelService;
+        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService)
         {
             this._punishedLevelService = punishedLevelService;
         }
