@@ -15,11 +15,12 @@ namespace ModBot.API.Controllers
         {
 
         }
-
+        [Route("Api/GetBannedWord")]
         public IActionResult GetBannedWord()
         {
             return Ok();
         }
+
         public IActionResult GetAllBannedWords()
         {
             return Ok();
