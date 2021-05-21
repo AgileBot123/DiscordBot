@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using ModBot.Bot.Modules;
 using ModBot.Business.Services;
 using ModBot.Domain.Interfaces;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 
 namespace ChatFilterBot
 {
