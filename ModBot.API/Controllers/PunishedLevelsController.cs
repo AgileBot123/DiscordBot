@@ -13,12 +13,11 @@ namespace ModBot.API.Controllers
     {
 
         private readonly IPunishmentsLevelsService _punishedLevelService;
-        private readonly IPunishmentsLevelsIRepository _punishmentsLevelsRepo;
-        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService, IPunishmentsLevelsIRepository punishmentsLevelsRepo)
-
+     
+        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService)
         {
             this._punishedLevelService = punishedLevelService;
-            this._punishmentsLevelsRepo = punishmentsLevelsRepo;
+    
         }
 
         [HttpGet]

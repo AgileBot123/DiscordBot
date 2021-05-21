@@ -14,11 +14,11 @@ namespace ModBot.API.Controllers
     public class ChangeLogController : ControllerBase
     {
         private readonly IChangelogService _changelogService;
-        private readonly IChangeLogIRepository _changeLogRepo;
-        public ChangeLogController(IChangelogService changelogService, IChangeLogIRepository logRepo)
+     
+        public ChangeLogController(IChangelogService changelogService)
         {
             this._changelogService = changelogService;
-            this._changeLogRepo = logRepo;
+          
 
         }
 

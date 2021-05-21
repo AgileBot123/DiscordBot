@@ -15,11 +15,11 @@ namespace ModBot.API.Controllers
     public class BannedWordsController : ControllerBase
     {
         public readonly IBannedWordService _bannedWordService;
-        public readonly IBannedWordIRepository _bannedWordRepo;
-        public BannedWordsController(IBannedWordService bannedWordService,IBannedWordIRepository bannedWord)
+        
+        public BannedWordsController(IBannedWordService bannedWordService)
         {
             this._bannedWordService = bannedWordService;
-            this._bannedWordRepo = bannedWord;
+         
 
         }
 
