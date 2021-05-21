@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Interfaces.ServiceInterface;
+using System;
+using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
@@ -6,35 +9,80 @@ namespace ModBot.API.Controllers
     [ApiController]
     public class PunishedLevelsController : ControllerBase
     {
-        public PunishedLevelsController()
+        private readonly IPunishedLevelService _punishedLevelService;
+        public PunishedLevelsController(IPunishedLevelService punishedLevelService)
         {
+            this._punishedLevelService = punishedLevelService;
+        }
 
-        }
-        public IActionResult GetPunishedLevel()
+        [HttpGet]
+        public async Task<IActionResult> GetPunishedLevel()
         {
-            return Ok();
+             try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult GetPunishedLevels(int id)
+
+        [HttpGet]
+        public async Task<IActionResult> GetPunishedLevels(int id)
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpPost]
-        public IActionResult CreatePunishedLevel()
+        public async Task<IActionResult> CreatePunishedLevel()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpDelete]
-        public IActionResult DeletePunishedLevel(int id)
+        public async Task<IActionResult> DeletePunishedLevel(int id)
         {
-            return Ok();
+             try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpPut]
-        public IActionResult UpdatePunishedLevel(int id)
+        public async Task<IActionResult> UpdatePunishedLevel(int id)
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
     }
 }

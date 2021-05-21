@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ModBot.Domain\ModBot.Domain.csproj" />
+    <ProjectReference Include="..\ModBot.Testing\ModBot.Testing.csproj" />
   </ItemGroup>
 
 </Project>
