@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,25 +12,67 @@ namespace ModBot.API.Controllers
     [ApiController]
     public class ChangeLogController : ControllerBase
     {
-        public ChangeLogController()
+        private readonly IChangelogService _changelogService;
+        public ChangeLogController(IChangelogService changelogService)
         {
+            this._changelogService = changelogService;
 
         }
-        public IActionResult GetChangeLog()
+
+        [HttpGet]
+        public async Task<IActionResult> GetChangeLog()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult GetAllLogs()
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllLogs()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult CreateLog()
+
+        [HttpPost]
+        public async Task<IActionResult> CreateLog()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult DeleteLog()
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteLog()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
  
     }
