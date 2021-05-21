@@ -8,7 +8,7 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
 {
    public interface IPunishedLevelService
     {
-        Task<PunishmentsLevels> GetPunishedLevel(int id);
+         Task<PunishmentsLevels> GetPunishedLevel(int id);
 
     }
 }
