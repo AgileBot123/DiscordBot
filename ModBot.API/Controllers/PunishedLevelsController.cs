@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Threading.Tasks;
@@ -11,9 +12,11 @@ namespace ModBot.API.Controllers
     public class PunishedLevelsController : ControllerBase
     {
         private readonly IPunishedLevelService _punishedLevelService;
-        public PunishedLevelsController(IPunishedLevelService punishedLevelService)
+        private readonly IPunishmentsLevelsIRepository _punishmentsLevelsRepo;
+        public PunishedLevelsController(IPunishedLevelService punishedLevelService, IPunishmentsLevelsIRepository punishmentsLevelsRepo)
         {
             this._punishedLevelService = punishedLevelService;
+            this._punishmentsLevelsRepo = punishmentsLevelsRepo;
         }
 
         [HttpGet]

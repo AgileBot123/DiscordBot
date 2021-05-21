@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -13,9 +14,11 @@ namespace ModBot.API.Controllers
     public class ChangeLogController : ControllerBase
     {
         private readonly IChangelogService _changelogService;
-        public ChangeLogController(IChangelogService changelogService)
+        private readonly IChangeLogIRepository _changeLogRepo;
+        public ChangeLogController(IChangelogService changelogService, IChangeLogIRepository logRepo)
         {
             this._changelogService = changelogService;
+            this._changeLogRepo = logRepo;
 
         }
 
