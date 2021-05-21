@@ -8,19 +8,19 @@ namespace ModBot.Domain.Models
     public class PunishmentsLevels : IPunishmentsLevels
     {
         private int id;
-        private readonly int timeoutLevel;
+        private readonly int timeOutLevel;
         private readonly int kickLevel;
         private readonly int banLevel;
-        private readonly DateTime spamMuteLevel;
-        private readonly DateTime strikeMuteLevel;
+        private readonly DateTime spamMuteTime;
+        private readonly DateTime strikeMuteTime;
 
 
         public int Id => id;
-        public int TimeOutLevel => timeoutLevel;
+        public int TimeOutLevel => timeOutLevel;
         public int KickLevel => kickLevel;
         public int BanLevel => banLevel;
-        public DateTime SpamMuteTime => spamMuteLevel;
-        public DateTime StrikeMuteTime => strikeMuteLevel;
+        public DateTime SpamMuteTime => spamMuteTime;
+        public DateTime StrikeMuteTime => strikeMuteTime;
 
         private PunishmentsLevels(){}
 
@@ -28,11 +28,11 @@ namespace ModBot.Domain.Models
         public PunishmentsLevels(int id, int timeoutLevel, int kickLevel, int banLevel, DateTime spamMuteLevel, DateTime strikeMuteLevel)
         {
             this.id = id;
-            this.timeoutLevel = timeoutLevel;
+            this.timeOutLevel = timeoutLevel;
             this.kickLevel = kickLevel;
             this.banLevel = banLevel;
-            this.spamMuteLevel = spamMuteLevel;
-            this.strikeMuteLevel = strikeMuteLevel;          
+            this.spamMuteTime = spamMuteLevel;
+            this.strikeMuteTime = strikeMuteLevel;          
         }
     }
 }
