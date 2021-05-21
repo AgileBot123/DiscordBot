@@ -12,9 +12,9 @@ namespace ModBot.API.Controllers
     public class PunishedLevelsController : ControllerBase
     {
 
-        private readonly IPunishedLevelService _punishedLevelService;
+        private readonly IPunishmentsLevelsService _punishedLevelService;
         private readonly IPunishmentsLevelsIRepository _punishmentsLevelsRepo;
-        public PunishedLevelsController(IPunishedLevelService punishedLevelService, IPunishmentsLevelsIRepository punishmentsLevelsRepo)
+        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService, IPunishmentsLevelsIRepository punishmentsLevelsRepo)
 
         {
             this._punishedLevelService = punishedLevelService;
@@ -66,7 +66,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                return NoContent();
             }
             catch (Exception)
             {
@@ -96,7 +96,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                return NoContent();
             }
             catch (Exception)
             {
