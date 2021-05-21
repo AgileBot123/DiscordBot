@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Threading.Tasks;
@@ -10,10 +11,14 @@ namespace ModBot.API.Controllers
     [ApiController]
     public class PunishedLevelsController : ControllerBase
     {
-        private readonly IPunishmentsLevelsService _punishedLevelService;
-        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService)
+
+        private readonly IPunishedLevelService _punishedLevelService;
+        private readonly IPunishmentsLevelsIRepository _punishmentsLevelsRepo;
+        public PunishedLevelsController(IPunishedLevelService punishedLevelService, IPunishmentsLevelsIRepository punishmentsLevelsRepo)
+
         {
             this._punishedLevelService = punishedLevelService;
+            this._punishmentsLevelsRepo = punishmentsLevelsRepo;
         }
 
         [HttpGet]
@@ -22,9 +27,17 @@ namespace ModBot.API.Controllers
         {
              try
             {
+                if (id == 0)
+                    return BadRequest("id is null");
+
+                var punishedLevel = await _punishedLevelService.GetPunishedLevel(id);
+
+                if (punishedLevel == null)
+                    return NotFound("No punished ");
 
                 return Ok();
             }
+
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
