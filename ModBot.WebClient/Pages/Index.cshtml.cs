@@ -16,10 +16,13 @@ namespace ModBot.WebClient.Pages
         {
             _logger = logger;
         }
+        [BindProperty(SupportsGet = true)]
+        public string UserName{get; set;}
 
         public void OnGet()
         {
-
+            if (string.IsNullOrWhiteSpace(UserName))
+                UserName = "You are not Logged in.";
         }
     }
 }
