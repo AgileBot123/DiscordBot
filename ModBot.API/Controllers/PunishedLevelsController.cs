@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -32,7 +33,7 @@ namespace ModBot.API.Controllers
                 var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
 
                 if (punishedLevel == null)
-                    return NotFound("No punished ");
+                    return NotFound("No punishment ");
 
                 return Ok(punishedLevel);
             }
@@ -50,7 +51,12 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
+
+                if (punishmentLevels == null)
+                    return NotFound("No Punishemnts");
+
+                return Ok(punishmentLevels);
             }
             catch (Exception)
             {
@@ -61,11 +67,18 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.PunishedLevels.CreatePunishedLevel)]
-        public async Task<IActionResult> CreatePunishedLevel()
+        public async Task<IActionResult> CreatePunishedLevel(CreatePunishmentDto createPunishment)
         {
             try
             {
-                return NoContent();
+                 _punishedLevelService.CreatePunishmentLevel(createPunishment);
+
+                if (createPunishment == null)
+                {
+                    return NoContent();
+                }
+
+                return Ok();
             }
             catch (Exception)
             {
@@ -80,7 +93,16 @@ namespace ModBot.API.Controllers
         {
              try
             {
-                return Ok();
+                var punishment = await _punishedLevelService.GetPunishmentLevel(id);
+
+                if (punishment == null)
+                {
+                    return NotFound("No punishemnt found");
+                }
+
+                _punishedLevelService.DeletePunishemntLevel(punishment);
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -91,10 +113,23 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> UpdatePunishedLevel(int id)
+        public async Task<IActionResult> UpdatePunishedLevel(int id, UpdatePunishmentLevelDto updatePunishment)
         {
             try
             {
+                if(updatePunishment == null)
+                {
+                    return BadRequest("object is null");
+                }
+
+                var punishment = await _punishedLevelService.GetPunishmentLevel(id);
+
+                if(punishment == null)
+                {
+                    return NotFound();
+                }
+
+                _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
                 return NoContent();
             }
             catch (Exception)
