@@ -6,5 +6,6 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface ICommandLogicRepository
     {
+
     }
 }
