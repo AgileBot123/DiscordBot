@@ -28,8 +28,17 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                if (id == 0)
+                    return BadRequest("id is null");
+
+                var getLog = await _changelogService.GetChangeLog(id);
+
+                if (getLog == null)
+                    return NotFound("No Log found ");
+
+                return Ok(getLog);
             }
+
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
@@ -43,7 +52,13 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                var allLogs = await _changelogService.GetAllChangelogs();
+                if(allLogs == null)
+                {
+                    return NotFound("Log is empty");
+                }
+
+                return Ok(allLogs);
             }
             catch (Exception)
             {
