@@ -10,8 +10,8 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IBannedWord> GetBannedWord(int id);
         Task<IEnumerable<IBannedWord>> GetAllBannedWords();
-        Task CreateBannedWord(CreateBannedWordDto createBannedWord);
-        Task DeleteBannedWord(IBannedWord bannedWord);
-        Task UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id);
+        bool CreateBannedWord(CreateBannedWordDto createBannedWord);
+        Task<bool> DeleteBannedWord(int id);
+        Task<bool> UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id);
     }
 }

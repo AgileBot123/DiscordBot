@@ -76,16 +76,19 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.BannedWords.CreateBannedWord)]
-        public async Task<IActionResult> CreateBannedWord(CreateBannedWordDto createBannedWord)
+        public IActionResult CreateBannedWord(CreateBannedWordDto createBannedWord)
         {
             try
             {              
                 if(createBannedWord == null)               
                     return BadRequest();
                 
-                 await _bannedWordService.CreateBannedWord(createBannedWord);
+               var result =  _bannedWordService.CreateBannedWord(createBannedWord);
 
+                if(result)
                 return NoContent();
+
+                return BadRequest("Banned word was not created");
             }
             catch (Exception)
             {
@@ -100,15 +103,15 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                var bannedWord = await _bannedWordService.GetBannedWord(id);
-                if(bannedWord == null)
-                {
-                    return NotFound("Banned wortd not found");
-                }
+                if (id == 0)
+                    return BadRequest("id cannot be empty");
 
-              await  _bannedWordService.DeleteBannedWord(bannedWord);
+              var result = await  _bannedWordService.DeleteBannedWord(id);
 
-                return Ok();
+                if (result)
+                    return NoContent();
+
+                return BadRequest("No banned word found");
             }
             catch (Exception)
             {
@@ -123,20 +126,18 @@ namespace ModBot.API.Controllers
         {
             try
             {
+
                 if(updateBannedWord == null)
                 {
-                    return BadRequest("object is null");
+                    return BadRequest("object not found");
                 }
 
-                var bannedWord = await _bannedWordService.GetBannedWord(id);
+               var result = await _bannedWordService.UpdateBannedWord(updateBannedWord, id);
 
-                if(bannedWord == null)
-                {
-                    return NotFound("Banned word not found");
-                }
+                if (result)
+                    return NoContent();
 
-               await _bannedWordService.UpdateBannedWord(updateBannedWord, id);
-                return NoContent();
+                return BadRequest("banned word was not update");
             }
             catch (Exception)
             {

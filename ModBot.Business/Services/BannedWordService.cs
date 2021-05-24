@@ -3,8 +3,10 @@ using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.Domain.DTO.ChangelogDto;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,27 +20,50 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public Task CreateBannedWord(CreateBannedWordDto createBannedWord)
+        public bool CreateBannedWord(CreateBannedWordDto createBannedWord)
         {
-            throw new NotImplementedException();
+            var createdBannedWord = new BannedWord(
+                word: createBannedWord.Word,
+                strikes: createBannedWord.Strikes,
+                punishment: createBannedWord.Punishment);
+
+            return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
 
-        public Task DeleteBannedWord(IBannedWord bannedWord)
+        public async Task<bool> DeleteBannedWord(int id)
         {
-            throw new NotImplementedException();
+            var getBannedWord = await _databaseRepository.GetBannedWord(id);
+
+            if(getBannedWord != null)
+            {
+                _databaseRepository.DeleteBannedWord(getBannedWord);
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<IEnumerable<IBannedWord>> GetAllBannedWords()
+        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
         {
-            throw new NotImplementedException();
+            var bannedWords = await _databaseRepository.GetAllBannedWords();
+
+            if (bannedWords.Count() == 0)
+                return null;
+
+            return bannedWords;
         }
 
-        public Task<IBannedWord> GetBannedWord(int id)
+        public async Task<IBannedWord> GetBannedWord(int id)
         {
-            throw new NotImplementedException();
+            var bannedWord = await _databaseRepository.GetBannedWord(id);
+
+            if (bannedWord == null)
+                return null;
+
+            return bannedWord;
         }
 
-        public Task UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
+        public Task<bool> UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
         {
             throw new NotImplementedException();
         }

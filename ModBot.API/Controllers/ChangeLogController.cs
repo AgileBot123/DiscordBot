@@ -70,16 +70,19 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.ChangeLog.CreateLog)]
-        public async Task<IActionResult> CreateLog(CreateChangeLogDto createChangeLog)
+        public IActionResult CreateLog(CreateChangeLogDto createChangeLog)
         {
             try
             {
                 if(createChangeLog == null)               
                     return BadRequest("Parameters is null");
                 
-                await _changelogService.CreateChangelog(createChangeLog);
+                var result = _changelogService.CreateChangelog(createChangeLog);
 
-                return Ok();
+                if (result)
+                    return NoContent();
+
+                return BadRequest("Log was not created");
             }
             catch (Exception)
             {
@@ -94,15 +97,15 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                var log = await _changelogService.GetChangeLog(id);
-                if(log == null)
-                {
-                    return NotFound("No log found");
-                }
+                if (id == 0)
+                    return BadRequest("Id cannot be empty");
 
-                await _changelogService.DeleteChangelog(log);
+               var result = await _changelogService.DeleteChangelog(id);
 
+                if(result)
                 return NoContent();
+
+                return BadRequest("log could not delete");
             }
             catch (Exception)
             {
@@ -119,15 +122,14 @@ namespace ModBot.API.Controllers
                     return BadRequest("object is null");
                 }
 
-                var log = await _changelogService.GetChangeLog(id);
+                var result = await _changelogService.UpdateChangelog(updateChangelog, id);
 
-                if (log == null)
+                if (result)
                 {
                     return NotFound();
                 }
 
-                await _changelogService.UpdateChangelog(updateChangelog, id);
-                return NoContent();
+                return BadRequest("Log could not update");
             }
             catch (Exception)
             {

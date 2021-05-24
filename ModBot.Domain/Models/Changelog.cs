@@ -15,5 +15,19 @@ namespace ModBot.Domain.Models
         public int Id => id;
         public DateTime ChangedDate => changedDate;
         public string Changed => changed;
+
+        private Changelog() { }
+
+        public Changelog(DateTime changeDate, string changed)
+        {
+            this.changedDate = changeDate;
+            this.changed = changed;
+        }
+        public Changelog(int id, DateTime changeDate, string changed)
+        {
+            this.id = id;
+            this.changedDate = changeDate;
+            this.changed = changed;
+        }
     }
 }

@@ -11,8 +11,8 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IChangelog> GetChangeLog(int id);
         Task<IEnumerable<IChangelog>> GetAllChangelogs();
-        Task CreateChangelog(CreateChangeLogDto createChangelog);
-        Task DeleteChangelog(IChangelog changelog);
-        Task UpdateChangelog(UpdateChangelogDto updateChangelog, int id);
+        bool CreateChangelog(CreateChangeLogDto createChangelog);
+        Task<bool> DeleteChangelog(int id);
+        Task<bool> UpdateChangelog(UpdateChangelogDto updateChangelog, int id);
     }
 }
