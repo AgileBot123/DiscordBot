@@ -3,6 +3,7 @@ using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,14 +17,24 @@ namespace ModBot.Business.Services
         {
             this._databaseRepository = databaseRepository;
         }
-        public Task<IEnumerable<IMember>> GetAllMembers()
+        public async Task<IEnumerable<IMember>> GetAllMembers()
         {
-            throw new NotImplementedException();
+            var members = await _databaseRepository.GetAllMembers();
+
+            if (members.Count() == 0)
+                return null;
+
+            return members;
         }
 
-        public Task<IMember> GetMemberById(ulong id)
+        public async Task<IMember> GetMemberById(ulong id)
         {
-            throw new NotImplementedException();
+            var member = await _databaseRepository.GetMember(id);
+
+            if (member == null)
+                return null;
+
+            return member;
         }
     }
 }

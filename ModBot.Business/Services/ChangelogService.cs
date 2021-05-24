@@ -2,8 +2,10 @@
 using ModBot.Domain.DTO.ChangelogDto;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,27 +20,49 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public Task CreateChangelog(CreateChangeLogDto createChangelog)
+        public bool CreateChangelog(CreateChangeLogDto createChangelog)
         {
-            throw new NotImplementedException();
+            var createdLog = new Changelog(
+                changeDate: createChangelog.ChangeDate,
+                changed: createChangelog.Changed);
+
+            return _databaseRepository.CreateChangelog(createdLog);
         }
 
-        public Task DeleteChangelog(IChangelog changelog)
+        public async Task<bool> DeleteChangelog(int id)
         {
-            throw new NotImplementedException();
+            var getLog = await _databaseRepository.GetChangelog(id);
+
+            if(getLog != null)
+            {
+                _databaseRepository.DeleteChangelog(getLog);
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<IEnumerable<IChangelog>> GetAllChangelogs()
+        public async Task<IEnumerable<IChangelog>> GetAllChangelogs()
         {
-            throw new NotImplementedException();
+            var logs = await _databaseRepository.GetAllChangelogs();
+
+            if (logs.Count() == 0)
+                return null;
+
+            return logs;
         }
 
-        public Task<IChangelog> GetChangeLog(int id)
+        public async Task<IChangelog> GetChangeLog(int id)
         {
-            throw new NotImplementedException();
+            var log = await _databaseRepository.GetChangelog(id);
+
+            if (log == null)
+                return null;
+
+            return log;
         }
 
-        public Task UpdateChangelog(UpdateChangelogDto updateChangelog, int id)
+        public Task<bool> UpdateChangelog(UpdateChangelogDto updateChangelog, int id)
         {
             throw new NotImplementedException();
         }
