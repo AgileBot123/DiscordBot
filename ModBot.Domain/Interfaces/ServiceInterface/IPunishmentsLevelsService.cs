@@ -9,11 +9,11 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
 {
    public interface IPunishmentsLevelsService
     {
-         Task<PunishmentsLevels> GetPunishmentLevel(int id);
-         Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
-        void CreatePunishmentLevel(CreatePunishmentDto createPunished);
-        void DeletePunishemntLevel(IPunishmentsLevels punishments);
-        void UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id);
+        Task<IPunishmentsLevels> GetPunishmentLevel(int id);
+        Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
+        Task CreatePunishmentLevel(CreatePunishmentDto createPunished);
+        Task DeletePunishemntLevel(IPunishmentsLevels punishments);
+        Task UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id);
 
     }
 }

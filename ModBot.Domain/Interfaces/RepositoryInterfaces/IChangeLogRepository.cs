@@ -3,15 +3,16 @@ using ModBot.Domain.Interfaces.ModelsInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IChangeLogRepository
     {
-        IChangelog Get(int id);
-        IEnumerable<IChangelog> GetAll();
-        void Create(IChangelog createLog);
-        void Delete(int id);
-        void Update(int id, IChangelog changelog);
+        Task<IChangelog> GetChangelog(int id);
+        Task<IEnumerable<IChangelog>> GetAllChangelogs();
+        void CreateChangelog(IChangelog createLog);
+        void DeleteChangelog(IChangelog changelog);
+        void UpdateChangelog(int id, IChangelog changelog);
     }
 }

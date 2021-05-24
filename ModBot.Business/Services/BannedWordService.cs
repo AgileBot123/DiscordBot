@@ -18,13 +18,12 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-
-        public void CreateBannedWord(CreateBannedWordtDto createBannedWord)
+        public Task CreateBannedWord(CreateBannedWordDto createBannedWord)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteBannedWord(IBannedWord bannedWord)
+        public Task DeleteBannedWord(IBannedWord bannedWord)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +38,7 @@ namespace ModBot.Business.Services
             throw new NotImplementedException();
         }
 
-        public void UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
+        public Task UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
         {
             throw new NotImplementedException();
         }
