@@ -19,32 +19,32 @@ namespace ModBot.DAL.Repository
             _context = context;
         }
 
-        public void CreateBannedWord(IBannedWord createBannedWord)
+        public bool CreateBannedWord(IBannedWord createBannedWord)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateChangelog(IChangelog createLog)
+        public bool CreateChangelog(IChangelog createLog)
         {
             throw new NotImplementedException();
         }
 
-        public void CreateGetPunishment(IPunishmentsLevels createPunished)
+        public bool CreateGetPunishment(IPunishmentsLevels createPunished)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteBannedWord(IBannedWord bannedWord)
+        public bool DeleteBannedWord(IBannedWord bannedWord)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteChangelog(IChangelog changelog)
+        public bool DeleteChangelog(IChangelog changelog)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteGetPunishment(IPunishmentsLevels punishmentLevel)
+        public bool DeleteGetPunishment(IPunishmentsLevels punishmentLevel)
         {
             throw new NotImplementedException();
         }
@@ -89,17 +89,17 @@ namespace ModBot.DAL.Repository
             throw new NotImplementedException();
         }
 
-        public IChangelog UpdateBannedWord(IBannedWord updateBannedWord, int id)
+        public bool UpdateBannedWord(IBannedWord updateBannedWord, int id)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateChangelog(int id, IChangelog changelog)
+        public bool UpdateChangelog(int id, IChangelog changelog)
         {
             throw new NotImplementedException();
         }
 
-        public void UpdateGetPunishment(IPunishmentsLevels updatePunished, int id)
+        public bool UpdateGetPunishment(IPunishmentsLevels updatePunished, int id)
         {
             throw new NotImplementedException();
         }

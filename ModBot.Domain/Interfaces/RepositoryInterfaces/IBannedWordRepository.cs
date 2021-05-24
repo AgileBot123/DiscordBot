@@ -11,8 +11,8 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     {
         Task<IBannedWord> GetBannedWord(int id);
         Task<IEnumerable<IBannedWord>> GetAllBannedWords();
-        void CreateBannedWord(IBannedWord createBannedWord);
-        void DeleteBannedWord(IBannedWord bannedWord);
-        IChangelog UpdateBannedWord(IBannedWord updateBannedWord, int id);
+        bool CreateBannedWord(IBannedWord createBannedWord);
+        bool DeleteBannedWord(IBannedWord bannedWord);
+        bool UpdateBannedWord(IBannedWord updateBannedWord, int id);
     }
 }

@@ -26,7 +26,7 @@ namespace ModBot.API.Controllers
         [Route(Routes.PunishedLevels.GetPunishedLevel)]
         public async Task<IActionResult> GetPunishedLevel(int id)
         {
-             try
+            try
             {
                 if (id == 0)
                 {
@@ -57,13 +57,11 @@ namespace ModBot.API.Controllers
             {
                 var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
 
-
-                if (punishmentLevels == null)
+                if (punishmentLevels.Count() == 0)
                 {
                     return NotFound("Punishemnts is empty");
                 }
-
-
+                
                 return Ok(punishmentLevels);
             }
             catch (Exception)
@@ -75,21 +73,23 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.PunishedLevels.CreatePunishedLevel)]
-        public async Task<IActionResult> CreatePunishedLevel(CreatePunishmentDto createPunishment)
+        public IActionResult CreatePunishedLevel(CreatePunishmentDto createPunishment)
         {
             try
             {              
                 if (createPunishment == null)              
                     return BadRequest("Parameters is null");
                
-                await _punishedLevelService.CreatePunishmentLevel(createPunishment);
+                var result =_punishedLevelService.CreatePunishmentLevel(createPunishment);
 
-                return Ok();
+                if (result)
+                    return NoContent();
+                
+                return BadRequest("PunishedLevel was not created");
             }
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -97,23 +97,21 @@ namespace ModBot.API.Controllers
         [Route(Routes.PunishedLevels.DeletePunishedLevel)]
         public async Task<IActionResult> DeletePunishedLevel(int id)
         {
-             try
+            try
             {
-                var punishment = await _punishedLevelService.GetPunishmentLevel(id);
+                if (id == 0)                
+                    return BadRequest("Id cannot be 0");
+                
+               var result = await _punishedLevelService.DeletePunishemntLevel(id);
 
-                if (punishment == null)
-                {
-                    return NotFound("No punishemnt found");
-                }
+                if (result)              
+                    return NoContent();
 
-               await _punishedLevelService.DeletePunishemntLevel(punishment);
-
-                return NoContent();
+                return BadRequest("PunishedLevel was not created");
             }
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -123,25 +121,19 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                if(updatePunishment == null)
-                {
+                if(updatePunishment == null)              
                     return BadRequest("object is null");
-                }
+                
+               var result = await _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
 
-                var punishment = await _punishedLevelService.GetPunishmentLevel(id);
+                if (result)           
+                   return NoContent();
 
-                if(punishment == null)
-                {
-                    return NotFound();
-                }
-
-               await _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
-                return NoContent();
+                return BadRequest("Punishmentlevels was not updated");    
             }
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
-
             }
         }
     }
