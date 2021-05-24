@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO.ChangelogDto;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -69,11 +70,17 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.ChangeLog.CreateLog)]
-        public async Task<IActionResult> CreateLog()
+        public async Task<IActionResult> CreateLog(CreateChangeLogDto createChangeLog)
         {
             try
             {
-                return NoContent();
+                if(createChangeLog == null)
+                {
+                    return NoContent();
+                }
+                await _changelogService.CreateChangelog(createChangeLog);
+
+                return Ok();
             }
             catch (Exception)
             {
@@ -84,11 +91,44 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.ChangeLog.DeleteLog)]
-        public async Task<IActionResult> DeleteLog()
+        public async Task<IActionResult> DeleteLog(int id)
         {
             try
             {
-                return Ok();
+                var log = await _changelogService.GetChangeLog(id);
+                if(log == null)
+                {
+                    return NotFound("No log found");
+                }
+
+                await _changelogService.DeleteChangelog(log);
+
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
+        }
+        public async Task<IActionResult> UpdateLog(UpdateChangelogDto updateChangelog, int id)
+        {
+            try
+            {
+                if (updateChangelog == null)
+                {
+                    return BadRequest("object is null");
+                }
+
+                var log = await _changelogService.GetChangeLog(id);
+
+                if (log == null)
+                {
+                    return NotFound();
+                }
+
+                await _changelogService.UpdateChangelog(updateChangelog, id);
+                return NoContent();
             }
             catch (Exception)
             {
