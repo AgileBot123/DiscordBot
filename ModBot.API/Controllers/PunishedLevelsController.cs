@@ -78,13 +78,10 @@ namespace ModBot.API.Controllers
         public async Task<IActionResult> CreatePunishedLevel(CreatePunishmentDto createPunishment)
         {
             try
-            {
-                
-
-                if (createPunishment == null)
-                {
-                    return NoContent();
-                }
+            {              
+                if (createPunishment == null)              
+                    return BadRequest("Parameters is null");
+               
                 await _punishedLevelService.CreatePunishmentLevel(createPunishment);
 
                 return Ok();

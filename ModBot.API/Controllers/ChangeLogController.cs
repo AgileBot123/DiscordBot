@@ -74,10 +74,9 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                if(createChangeLog == null)
-                {
-                    return NoContent();
-                }
+                if(createChangeLog == null)               
+                    return BadRequest("Parameters is null");
+                
                 await _changelogService.CreateChangelog(createChangeLog);
 
                 return Ok();
