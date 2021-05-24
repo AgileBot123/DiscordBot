@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
+using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,40 +10,94 @@ using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
-    [Route("api/[controller]")]
+   
     [ApiController]
     public class BannedWordsController : ControllerBase
     {
-        public BannedWordsController()
+        public readonly IBannedWordService _bannedWordService;
+        
+        public BannedWordsController(IBannedWordService bannedWordService)
         {
+            this._bannedWordService = bannedWordService;
+         
 
         }
 
-        public IActionResult GetBannedWord()
+        [HttpGet]
+        [Route(Routes.BannedWords.GetBannedWord)]
+        public async Task<IActionResult> GetBannedWord(int id)
         {
-            return Ok();
+            try
+            {
+                
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return StatusCode(500,"internal server error");
+
+            }
+            
         }
-        public IActionResult GetAllBannedWords()
+
+        [HttpGet]
+        [Route(Routes.BannedWords.GetAllBannedWords)]
+        public async Task<IActionResult> GetAllBannedWords()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpPost]
-        public IActionResult CreateBannedWord()
+        [Route(Routes.BannedWords.CreateBannedWord)]
+        public async Task<IActionResult> CreateBannedWord()
         {
-            return Ok();
+            try
+            {
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpDelete]
-        public IActionResult DeleteBannedWord()
+        [Route(Routes.BannedWords.DeleteBannedWord)]
+        public async Task<IActionResult> DeleteBannedWord()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
 
         [HttpPut]
-        public IActionResult UpdateBannedWord()
+        [Route(Routes.BannedWords.UpdateBannedWord)]
+        public async Task<IActionResult> UpdateBannedWord()
         {
-            return Ok();
+            try
+            {
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
     }
 }

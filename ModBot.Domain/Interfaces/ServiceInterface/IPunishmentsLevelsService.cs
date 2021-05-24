@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ModBot.Domain.Interfaces.ServiceInterface
 {
-   public interface IPunishedLevelService
+   public interface IPunishmentsLevelsService
     {
-        Task<PunishedLevel> GetPunishedLevel(int id);
+         Task<PunishmentsLevels> GetPunishedLevel(int id);
 
     }
 }

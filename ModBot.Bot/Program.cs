@@ -10,6 +10,10 @@ using Discord.API;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
+using ModBot.Bot.Modules;
+using ModBot.Business.Services;
+using ModBot.Domain.Interfaces;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
 
 namespace ChatFilterBot
 {
@@ -18,21 +22,25 @@ namespace ChatFilterBot
         public static void Main(string[] args) => new Program().RunBotAsync().GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
-        private CommandService _commands;
+        private CommandService _commandsServices;
         private IServiceProvider _services;
+        // private Commands _BotCommands;
 
         public async Task RunBotAsync()
         {
 
             _client = new DiscordSocketClient();
-            _commands = new CommandService();
+            _commandsServices = new CommandService();
 
             _services = new ServiceCollection()
                 .AddSingleton(_client)
+                .AddSingleton<ICommandLogic, CommandLogicService>()
                 .AddSingleton(_client)
                 .BuildServiceProvider();
 
-            string Token = "";
+           // _BotCommands = new Commands(new CommandLogic());
+
+            string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.YFxf6PAcFRZws3hbx8YYE8KuLWs";
 
             _client.Log += _client_Log;
             await RegisterComamndsAsync();
@@ -53,7 +61,7 @@ namespace ChatFilterBot
         public async Task RegisterComamndsAsync()
         {
             _client.MessageReceived += HandleCommandsAsync;
-            await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
+            await _commandsServices.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
         }
 
@@ -66,9 +74,12 @@ namespace ChatFilterBot
             int argPos = 0;
             if (message.HasStringPrefix("!", ref argPos))
             {
-                var result = await _commands.ExecuteAsync(context, argPos, _services);
+                var result = await _commandsServices.ExecuteAsync(context, argPos, _services);
                 if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
+                
+
             }
+
         }
 
 

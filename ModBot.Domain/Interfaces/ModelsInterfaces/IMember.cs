@@ -4,10 +4,10 @@ using System.Text;
 
 namespace ModBot.Domain.interfaces
 {
-    public interface IUser
+    public interface IMember
     {
-        ulong Id { get; set; }
-        int Strikes { get; set; }
+        ulong Id { get; }
+        int Strikes { get;}
         void AddStrikes(int strikes);
         void RemoveStrikes(int strikes);
     }

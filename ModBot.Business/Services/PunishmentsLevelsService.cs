@@ -7,16 +7,16 @@ using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
 {
-    public class PunishedLevelService : IPunishedLevelService
+    public class PunishmentsLevelsService : IPunishmentsLevelsService
     {
 
      
-        public PunishedLevelService()
+        public PunishmentsLevelsService()
         {
             
         }
 
-        public Task<PunishedLevel> GetPunishedLevel(int id)
+        public Task<PunishmentsLevels> GetPunishedLevel(int id)
         {
             throw new NotImplementedException();
         }

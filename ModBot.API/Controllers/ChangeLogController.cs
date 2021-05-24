@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.RepositoryInterfaces;
+using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,29 +10,76 @@ using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
     public class ChangeLogController : ControllerBase
     {
-        public ChangeLogController()
+        private readonly IChangelogService _changelogService;
+     
+        public ChangeLogController(IChangelogService changelogService)
         {
+            this._changelogService = changelogService;
+          
 
         }
-        public IActionResult GetChangeLog()
+
+        [HttpGet]
+        [Route(Routes.ChangeLog.GetLog)]
+        public async Task<IActionResult> GetChangeLog(int id)
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult GetAllLogs()
+
+        [HttpGet]
+        [Route(Routes.ChangeLog.GetAllLogs)]
+        public async Task<IActionResult> GetAllLogs()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult CreateLog()
+
+        [HttpPost]
+        [Route(Routes.ChangeLog.CreateLog)]
+        public async Task<IActionResult> CreateLog()
         {
-            return Ok();
+            try
+            {
+                return NoContent();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
-        public IActionResult DeleteLog()
+
+        [HttpDelete]
+        [Route(Routes.ChangeLog.DeleteLog)]
+        public async Task<IActionResult> DeleteLog()
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
         }
  
     }

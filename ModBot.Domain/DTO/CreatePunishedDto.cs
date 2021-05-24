@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Domain.Models
+namespace ModBot.Domain.DTO
 {
-    public class PunishedLevel
+    public class CreatePunishedDto
     {
+
     }
 }
