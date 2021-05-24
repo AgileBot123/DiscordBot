@@ -23,7 +23,21 @@ namespace ModBot.Domain.Models
         /// </summary>
         private BannedWord()
         {
+        }
+        public BannedWord(string word, int strikes, string punishment)
+        {
+            this.word = word;
+            this.strikes = strikes;
+            this.punishment = punishment;
 
+
+        }
+        public BannedWord(int id,string word, int strikes, string punishment)
+        {
+            this.id = id;
+            this.word = word;
+            this.strikes = strikes;
+            this.punishment = punishment;
         }
     }
 }
