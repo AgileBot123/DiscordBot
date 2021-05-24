@@ -24,6 +24,11 @@ namespace ModBot.Domain.Models
 
         private PunishmentsLevels(){}
 
+        public PunishmentsLevels(int id)
+        {
+            this.id = id;
+        }
+
         public PunishmentsLevels(int timeoutLevel, int kickLevel, int banLevel, DateTime spamMuteLevel, DateTime strikeMuteLevel)
         {
             this.timeOutLevel = timeoutLevel;

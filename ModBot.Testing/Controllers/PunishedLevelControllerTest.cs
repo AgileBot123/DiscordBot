@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModBot.API.Controllers;
+using ModBot.Domain.DTO;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -99,19 +100,6 @@ namespace ModBot.Testing.Controllers
         }
 
         [TestMethod]
-        public async Task GetPunishedLevel_ShouldReturnInternalServerError()
-        {
-            //Arrange
-            IPunishmentsLevels punishmentLevelIsNull = null;
-            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(punishmentLevelIsNull);
-            //Act
-            var response = await punishedLevelsController.GetPunishedLevel(1);
-            //Assert
-            var result = response.Should().BeOfType<ObjectResult>().Subject;
-            result.Value.Should().Be("internal server error");
-        }
-
-        [TestMethod]
         public async Task GetPunishedLevel_ShouldReturnBadRequest()
         {
             //Arrange
@@ -123,23 +111,39 @@ namespace ModBot.Testing.Controllers
         }
 
         [TestMethod]
-        public async Task CreatePunishedLevel_ShouldReturnNoContent()
+        public void CreatePunishedLevel_ShouldReturnNoContent()
         {
             //Arrange
+            var createPunishment = new CreatePunishmentDto()
+            {
+                TimeOutLevel = 1,
+                KickLevel = 1,
+                BanLevel = 1, 
+                SpamMuteTime = DateTime.Now,
+                StrikeMuteTime = DateTime.Now
+            };
+
+            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<CreatePunishmentDto>()));
 
             //Act
+            var response =  punishedLevelsController.CreatePunishedLevel(createPunishment);
 
             //Assert
+            response.Should().BeOfType<OkResult>();
         }
 
         [TestMethod]
-        public async Task CreatePunishedLevel_ShouldReturnBadRequest()
+        public void CreatePunishedLevel_ShouldReturnBadRequestWhenParameterIsNull()
         {
             //Arrange
+            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<CreatePunishmentDto>()));
 
             //Act
+            var response =  punishedLevelsController.CreatePunishedLevel(null);
 
             //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Parameters is null");
         }
 
         [TestMethod]
@@ -162,6 +166,27 @@ namespace ModBot.Testing.Controllers
             //Assert
         }
 
+        [TestMethod]
+        public async Task DeletePunishedLevel_ShouldReturnNoContentWhenSuccessfull()
+        {
+            //Arrange
+            int id = 1;
+            _mockPunish.Setup(x => x.DeletePunishemntLevel(It.IsAny<int>()));
+            //Act
+            var response = await punishedLevelsController.DeletePunishedLevel(1);
+            //Assert
+            response.Should().BeOfType<NoContentResult>();
+        }
+
+        [TestMethod]
+        public async Task DeletePunishedLevel_ShouldReturnBadRequest()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+        }
 
     }
 }
