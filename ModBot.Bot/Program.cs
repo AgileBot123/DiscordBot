@@ -14,6 +14,7 @@ using ModBot.Bot.Modules;
 using ModBot.Business.Services;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
+using ModBot.DAL.Repository;
 
 namespace ChatFilterBot
 {
@@ -35,6 +36,7 @@ namespace ChatFilterBot
             _services = new ServiceCollection()
                 .AddSingleton(_client)
                 .AddSingleton<ICommandLogic, CommandLogicService>()
+                .AddSingleton<ICommandLogicRepository, DatabaseRepository>()
                 .AddSingleton(_client)
                 .BuildServiceProvider();
 

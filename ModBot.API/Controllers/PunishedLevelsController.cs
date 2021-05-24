@@ -29,12 +29,12 @@ namespace ModBot.API.Controllers
                 if (id == 0)
                     return BadRequest("id is null");
 
-                var punishedLevel = await _punishedLevelService.GetPunishedLevel(id);
+                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
 
                 if (punishedLevel == null)
                     return NotFound("No punished ");
 
-                return Ok();
+                return Ok(punishedLevel);
             }
 
             catch (Exception)
