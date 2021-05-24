@@ -46,7 +46,6 @@ namespace ModBot.API.Controllers
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -58,10 +57,12 @@ namespace ModBot.API.Controllers
             {
                 var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
 
+
                 if (punishmentLevels == null)
                 {
                     return NotFound("Punishemnts is empty");
                 }
+
 
                 return Ok(punishmentLevels);
             }
