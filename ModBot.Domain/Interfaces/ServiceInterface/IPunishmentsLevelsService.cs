@@ -1,4 +1,5 @@
-﻿using ModBot.Domain.Models;
+﻿using ModBot.Domain.DTO;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,5 +11,9 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
          Task<PunishmentsLevels> GetPunishmentLevel(int id);
          Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
+        void CreatePunishmentLevel(CreatePunishmentDto createPunished);
+        void DeletePunishemntLevel(IPunishmentsLevels punishments);
+        void UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id);
+
     }
 }
