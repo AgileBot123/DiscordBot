@@ -15,13 +15,13 @@ namespace ModBot.API.Controllers
         {
 
         }
-        public async Task<IActionResult> GetMember(ulong id)
-        {
-            return Ok();
-        }
-        public async Task<IActionResult> GetAllMembers(ulong id)
-        {
-            return Ok();
-        }
+        //public async Task<IActionResult> GetMember(ulong id)
+        //{
+        //    return Ok();
+        //}
+        //public async Task<IActionResult> GetAllMembers(ulong id)
+        //{
+        //    return Ok();
+        //}
     }
 }

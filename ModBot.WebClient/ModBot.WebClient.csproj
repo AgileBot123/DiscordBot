@@ -13,4 +13,15 @@
     <ProjectReference Include="..\ModBot.Testing\ModBot.Testing.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Pages\Shared\_ValidationScriptsPartial.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\Shared\" />
+  </ItemGroup>
+
 </Project>
