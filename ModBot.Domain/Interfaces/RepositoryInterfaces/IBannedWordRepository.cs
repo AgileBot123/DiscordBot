@@ -6,11 +6,12 @@ using System.Text;
 
 namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
-    public interface IChangeLogIRepository
+    public interface IBannedWordRepository
     {
-        IChangelog Get(int id);
-        IEnumerable<IChangelog> GetAll();
-        void Create(IChangelog createLog);
+        IBannedWord Get(int id);
+        IEnumerable<IBannedWord> GetAll();
+        void Create(IBannedWord createBannedWord);
         void Delete(int id);
+        IChangelog Update(IBannedWord updateBannedWord, int id);
     }
 }

@@ -5,6 +5,7 @@ using ModBot.API.Controllers;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
+using ModBot.Testing.Mocks.ControllerMocks;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -29,10 +30,13 @@ namespace ModBot.Testing.Controllers
         public async Task GetAllPunishedLevels_ShouldReturnOk()
         {
             //Arrange
-
+            _mockPunish.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(PunishedLevelControllerMock.ListofPunishedLevelMock);
             //Act
-
+            var response = punishedLevelsController.GetPunishedLevels();
             //Assert
+            var result = response.Should().BeOfType<OkObjectResult>().Subject;
+            var okValue = result.Value.Should().BeOfType<List<IPunishmentsLevels>>().Subject;
+            okValue.Count.Should().Be(1);
         }
 
 

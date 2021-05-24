@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
-    public interface IPunishmentsLevelsIRepository
+    public interface IPunishmentsLevelsRepository
     {
         IPunishmentsLevels Get(int id);
         IEnumerable<IPunishmentsLevels> GetAll();
         void Create(IPunishmentsLevels createPunished);
         void Delete(int id);
-        IPunishmentsLevels Update(IPunishmentsLevels updatePunished, int id);
+        void Update(IPunishmentsLevels updatePunished, int id);
     }
 }

@@ -17,10 +17,10 @@ namespace ModBot.Business.Services
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
 
-        private readonly ICommandLogicRepository _commandRepo;
-        public CommandLogicService(ICommandLogicRepository commandRepo)
+        private readonly DatabaseRepository _databaseRepository;
+        public CommandLogicService(DatabaseRepository databaseRepository)
         {
-            _commandRepo = commandRepo;
+            _databaseRepository = databaseRepository;
         }
 
         public string GetUserStrikes(ulong UserID)

@@ -1,4 +1,6 @@
-﻿using ModBot.Domain.Interfaces;
+﻿using ModBot.DAL.Repository;
+using ModBot.Domain.DTO;
+using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
 using System;
@@ -10,11 +12,21 @@ namespace ModBot.Business.Services
 {
     public class PunishmentsLevelsService : IPunishmentsLevelsService
     {
-
-     
-        public PunishmentsLevelsService()
+        private readonly DatabaseRepository _databaseRepository;
+        public PunishmentsLevelsService(DatabaseRepository databaseRepository)
         {
-            
+            _databaseRepository = databaseRepository;
+        }
+
+
+        public void CreatePunishmentLevel(CreatePunishmentDto createPunished)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeletePunishemntLevel(IPunishmentsLevels punishments)
+        {
+            throw new NotImplementedException();
         }
 
         public Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
@@ -27,5 +39,9 @@ namespace ModBot.Business.Services
             throw new NotImplementedException();
         }
 
+        public void UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
