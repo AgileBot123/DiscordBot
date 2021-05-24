@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using ModBot.DAL.Repository;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
 {
-
+  
     public class CommandLogicService : ModuleBase<SocketCommandContext> , ICommandLogic
     {
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();

@@ -1,4 +1,5 @@
-﻿using ModBot.Domain.Interfaces.ServiceInterface;
+﻿using ModBot.Domain.Interfaces;
+using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -16,9 +17,15 @@ namespace ModBot.Business.Services
             
         }
 
-        public Task<PunishmentsLevels> GetPunishedLevel(int id)
+        public Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
         {
             throw new NotImplementedException();
         }
+
+        public Task<PunishmentsLevels> GetPunishmentLevel(int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
