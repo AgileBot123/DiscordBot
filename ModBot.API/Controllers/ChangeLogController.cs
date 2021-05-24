@@ -54,7 +54,7 @@ namespace ModBot.API.Controllers
             try
             {
                 var allLogs = await _changelogService.GetAllChangelogs();
-                if(allLogs == null)
+                if(allLogs.Count() == 0)
                 {
                     return NotFound("Log is empty");
                 }

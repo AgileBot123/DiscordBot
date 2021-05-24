@@ -60,7 +60,7 @@ namespace ModBot.API.Controllers
             {
                 var bannedWords = await _bannedWordService.GetAllBannedWords();
 
-                if (bannedWords == null)
+                if (bannedWords.Count() == 0)
                 {
                     return NotFound(" Banned words is empty");
                 }

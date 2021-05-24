@@ -45,13 +45,13 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                var member = await _memberService.GetAllMembers();
-                if(member == null)
+                var members = await _memberService.GetAllMembers();
+                if(members.Count() == 0)
                 {
                     return NotFound("Member is empty");
                 }
 
-                return Ok(member);
+                return Ok(members);
             }
             catch (Exception)
             {
