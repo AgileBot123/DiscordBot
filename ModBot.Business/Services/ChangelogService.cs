@@ -18,13 +18,12 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-
-        public void CreateChangelog(CreateChangeLogDto createChangelog)
+        public Task CreateChangelog(CreateChangeLogDto createChangelog)
         {
             throw new NotImplementedException();
         }
 
-        public void DeleteChangelog(IChangelog changelog)
+        public Task DeleteChangelog(IChangelog changelog)
         {
             throw new NotImplementedException();
         }
@@ -39,7 +38,7 @@ namespace ModBot.Business.Services
             throw new NotImplementedException();
         }
 
-        public void UpdateChangelog(UpdateChangelogDto updateChangelog, int id)
+        public Task UpdateChangelog(UpdateChangelogDto updateChangelog, int id)
         {
             throw new NotImplementedException();
         }

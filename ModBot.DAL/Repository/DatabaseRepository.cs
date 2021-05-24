@@ -6,6 +6,7 @@ using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
@@ -18,79 +19,87 @@ namespace ModBot.DAL.Repository
             _context = context;
         }
 
-
-
-        public void Create(IBannedWord createBannedWord)
+        public void CreateBannedWord(IBannedWord createBannedWord)
         {
             throw new NotImplementedException();
         }
 
-        public void Create(IChangelog createLog)
+        public void CreateChangelog(IChangelog createLog)
         {
             throw new NotImplementedException();
         }
 
-        public void Create(IPunishmentsLevels createPunished)
+        public void CreateGetPunishment(IPunishmentsLevels createPunished)
         {
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void DeleteBannedWord(IBannedWord bannedWord)
         {
             throw new NotImplementedException();
         }
 
-        public IBannedWord Get(int id)
+        public void DeleteChangelog(IChangelog changelog)
         {
             throw new NotImplementedException();
         }
 
-        public IMember Get(ulong id)
+        public void DeleteGetPunishment(IPunishmentsLevels punishmentLevel)
         {
             throw new NotImplementedException();
         }
 
-        public IEnumerable<IBannedWord> GetAll()
+        public Task<IEnumerable<IBannedWord>> GetAllBannedWords()
         {
             throw new NotImplementedException();
         }
 
-        public IChangelog Update(IBannedWord updateBannedWord, int id)
+        public Task<IEnumerable<IChangelog>> GetAllChangelogs()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(int id, IChangelog changelog)
+        public Task<IEnumerable<IMember>> GetAllMembers()
         {
             throw new NotImplementedException();
         }
 
-        public void Update(IPunishmentsLevels updatePunished, int id)
+        public Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
         {
             throw new NotImplementedException();
         }
 
-        IChangelog IChangeLogRepository.Get(int id)
+        public Task<IBannedWord> GetBannedWord(int id)
         {
             throw new NotImplementedException();
         }
 
-        IPunishmentsLevels IPunishmentsLevelsRepository.Get(int id)
+        public Task<IChangelog> GetChangelog(int id)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<IChangelog> IChangeLogRepository.GetAll()
+        public Task<IMember> GetMember(ulong id)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<IPunishmentsLevels> IPunishmentsLevelsRepository.GetAll()
+        public Task<IPunishmentsLevels> GetPunishment(int id)
         {
             throw new NotImplementedException();
         }
 
-        IEnumerable<IMember> IMemberRepository.GetAll()
+        public IChangelog UpdateBannedWord(IBannedWord updateBannedWord, int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateChangelog(int id, IChangelog changelog)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateGetPunishment(IPunishmentsLevels updatePunished, int id)
         {
             throw new NotImplementedException();
         }
