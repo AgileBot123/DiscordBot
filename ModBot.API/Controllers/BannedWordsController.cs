@@ -60,7 +60,7 @@ namespace ModBot.API.Controllers
             {
                 var bannedWords = await _bannedWordService.GetAllBannedWords();
 
-                if (bannedWords == null)
+                if (bannedWords.Count() == 0)
                 {
                     return NotFound(" Banned words is empty");
                 }
@@ -80,11 +80,12 @@ namespace ModBot.API.Controllers
         {
             try
             {
-               // _bannedWordService.CreateBannedWord(createBannedWord);
+               
                 if(createBannedWord == null)
                 {
                     return NoContent();
                 }
+                 await _bannedWordService.CreateBannedWord(createBannedWord);
                 return Ok();
             }
             catch (Exception)
@@ -106,7 +107,7 @@ namespace ModBot.API.Controllers
                     return NotFound("Banned wortd not found");
                 }
 
-                _bannedWordService.DeleteBannedWord(bannedWord);
+              await  _bannedWordService.DeleteBannedWord(bannedWord);
 
                 return NoContent();
             }
@@ -135,7 +136,7 @@ namespace ModBot.API.Controllers
                     return NotFound("Banned word not found");
                 }
 
-                _bannedWordService.UpdateBannedWord(updateBannedWord, id);
+               await _bannedWordService.UpdateBannedWord(updateBannedWord, id);
                 return NoContent();
             }
             catch (Exception)

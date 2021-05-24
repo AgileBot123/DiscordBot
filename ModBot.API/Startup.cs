@@ -32,6 +32,7 @@ namespace ModBot.API
             services.AddScoped<IPunishmentsLevelsService, PunishmentsLevelsService>();
             services.AddScoped<IChangelogService, ChangelogService>();
             services.AddScoped<IBannedWordService, BannedWordService>();
+            services.AddScoped<IMemberService, MemberService>();
 
         }
 

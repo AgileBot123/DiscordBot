@@ -4,6 +4,7 @@ using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
@@ -28,12 +29,16 @@ namespace ModBot.API.Controllers
              try
             {
                 if (id == 0)
+                {
                     return BadRequest("id is null");
+                }
 
                 var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
 
                 if (punishedLevel == null)
-                    return NotFound("No punishment ");
+                {
+                    return NotFound("No punishment found ");
+                }
 
                 return Ok(punishedLevel);
             }
@@ -54,7 +59,9 @@ namespace ModBot.API.Controllers
                 var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
 
                 if (punishmentLevels == null)
-                    return NotFound("No Punishemnts");
+                {
+                    return NotFound("Punishemnts is empty");
+                }
 
                 return Ok(punishmentLevels);
             }
@@ -71,12 +78,13 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                 _punishedLevelService.CreatePunishmentLevel(createPunishment);
+                
 
                 if (createPunishment == null)
                 {
                     return NoContent();
                 }
+                await _punishedLevelService.CreatePunishmentLevel(createPunishment);
 
                 return Ok();
             }
@@ -100,7 +108,7 @@ namespace ModBot.API.Controllers
                     return NotFound("No punishemnt found");
                 }
 
-                _punishedLevelService.DeletePunishemntLevel(punishment);
+               await _punishedLevelService.DeletePunishemntLevel(punishment);
 
                 return NoContent();
             }
@@ -129,7 +137,7 @@ namespace ModBot.API.Controllers
                     return NotFound();
                 }
 
-                _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
+               await _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
                 return NoContent();
             }
             catch (Exception)
