@@ -79,14 +79,13 @@ namespace ModBot.API.Controllers
         public async Task<IActionResult> CreateBannedWord(CreateBannedWordDto createBannedWord)
         {
             try
-            {
-               
-                if(createBannedWord == null)
-                {
-                    return NoContent();
-                }
+            {              
+                if(createBannedWord == null)               
+                    return BadRequest();
+                
                  await _bannedWordService.CreateBannedWord(createBannedWord);
-                return Ok();
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -109,7 +108,7 @@ namespace ModBot.API.Controllers
 
               await  _bannedWordService.DeleteBannedWord(bannedWord);
 
-                return NoContent();
+                return Ok();
             }
             catch (Exception)
             {
