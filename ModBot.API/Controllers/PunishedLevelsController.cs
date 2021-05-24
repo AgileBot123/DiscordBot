@@ -4,6 +4,7 @@ using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ModBot.API.Controllers
@@ -41,7 +42,6 @@ namespace ModBot.API.Controllers
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -53,7 +53,7 @@ namespace ModBot.API.Controllers
             {
                 var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
 
-                if (punishmentLevels == null)
+                if (punishmentLevels.Count() == 0)
                     return NotFound("No Punishemnts");
 
                 return Ok(punishmentLevels);
