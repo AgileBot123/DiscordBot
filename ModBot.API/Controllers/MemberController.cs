@@ -17,11 +17,31 @@ namespace ModBot.API.Controllers
         }
         public async Task<IActionResult> GetMember(ulong id)
         {
-            return Ok();
+            try
+            {
+                if(id == 0)
+                {
+                    return BadRequest("is is null");
+                }
+
+                
+                return Ok();
+            }
+            catch(Exception)
+            {
+                return StatusCode(500, "internal serve error");
+            }
         }
         public async Task<IActionResult> GetAllMembers(ulong id)
         {
-            return Ok();
+            try
+            {
+                return Ok();
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal serve error");
+            }
         }
     }
 }

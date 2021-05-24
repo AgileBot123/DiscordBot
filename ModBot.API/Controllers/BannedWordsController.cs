@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -29,8 +30,19 @@ namespace ModBot.API.Controllers
         {
             try
             {
+                if(id == 0)
+                {
+                    return BadRequest("id is null");
+                }
+
+                var bannedWord = await _bannedWordService.GetBannedWord(id);
+
+                if(bannedWord == null)
+                {
+                    return NotFound("banned word not found");
+                }
                 
-                return Ok();
+                return Ok(bannedWord);
             }
             catch(Exception)
             {
@@ -46,7 +58,14 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                var bannedWords = await _bannedWordService.GetAllBannedWords();
+
+                if (bannedWords == null)
+                {
+                    return NotFound(" Banned words is empty");
+                }
+
+                return Ok(bannedWords);
             }
             catch (Exception)
             {
@@ -57,11 +76,16 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.BannedWords.CreateBannedWord)]
-        public async Task<IActionResult> CreateBannedWord()
+        public async Task<IActionResult> CreateBannedWord(CreateBannedWordDto createBannedWord)
         {
             try
             {
-                return NoContent();
+               // _bannedWordService.CreateBannedWord(createBannedWord);
+                if(createBannedWord == null)
+                {
+                    return NoContent();
+                }
+                return Ok();
             }
             catch (Exception)
             {
@@ -72,11 +96,19 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.BannedWords.DeleteBannedWord)]
-        public async Task<IActionResult> DeleteBannedWord()
+        public async Task<IActionResult> DeleteBannedWord(int id)
         {
             try
             {
-                return Ok();
+                var bannedWord = await _bannedWordService.GetBannedWord(id);
+                if(bannedWord == null)
+                {
+                    return NotFound("Banned wortd not found");
+                }
+
+                _bannedWordService.DeleteBannedWord(bannedWord);
+
+                return NoContent();
             }
             catch (Exception)
             {
@@ -87,10 +119,23 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.BannedWords.UpdateBannedWord)]
-        public async Task<IActionResult> UpdateBannedWord()
+        public async Task<IActionResult> UpdateBannedWord(UpdateBannedWordDto updateBannedWord,int id)
         {
             try
             {
+                if(updateBannedWord == null)
+                {
+                    return BadRequest("object is null");
+                }
+
+                var bannedWord = await _bannedWordService.GetBannedWord(id);
+
+                if(bannedWord == null)
+                {
+                    return NotFound("Banned word not found");
+                }
+
+                _bannedWordService.UpdateBannedWord(updateBannedWord, id);
                 return NoContent();
             }
             catch (Exception)
