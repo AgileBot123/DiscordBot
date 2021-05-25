@@ -30,9 +30,9 @@ namespace ModBot.Business.Services
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
 
-        public async Task<bool> DeleteBannedWord(int id)
+        public async Task<bool> DeleteBannedWord(string word)
         {
-            var getBannedWord = await _databaseRepository.GetBannedWord(id);
+            var getBannedWord = await _databaseRepository.GetBannedWord(word);
 
             if(getBannedWord != null)
             {
@@ -53,9 +53,9 @@ namespace ModBot.Business.Services
             return bannedWords;
         }
 
-        public async Task<IBannedWord> GetBannedWord(int id)
+        public async Task<IBannedWord> GetBannedWord(string word)
         {
-            var bannedWord = await _databaseRepository.GetBannedWord(id);
+            var bannedWord = await _databaseRepository.GetBannedWord(word);
 
             if (bannedWord == null)
                 return null;

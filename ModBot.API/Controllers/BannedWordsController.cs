@@ -26,16 +26,16 @@ namespace ModBot.API.Controllers
 
         [HttpGet]
         [Route(Routes.BannedWords.GetBannedWord)]
-        public async Task<IActionResult> GetBannedWord(int id)
+        public async Task<IActionResult> GetBannedWord(string word)
         {
             try
             {
-                if(id == 0)
+                if(string.IsNullOrEmpty(word))
                 {
                     return BadRequest("id is null");
                 }
 
-                var bannedWord = await _bannedWordService.GetBannedWord(id);
+                var bannedWord = await _bannedWordService.GetBannedWord(word);
 
                 if(bannedWord == null)
                 {
@@ -98,14 +98,14 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.BannedWords.DeleteBannedWord)]
-        public async Task<IActionResult> DeleteBannedWord(int id)
+        public async Task<IActionResult> DeleteBannedWord(string word)
         {
             try
             {
-                if (id == 0)
+                if (string.IsNullOrEmpty(word))
                     return BadRequest("id cannot be empty");
 
-              var result = await  _bannedWordService.DeleteBannedWord(id);
+              var result = await  _bannedWordService.DeleteBannedWord(word);
 
                 if (result)
                     return NoContent();

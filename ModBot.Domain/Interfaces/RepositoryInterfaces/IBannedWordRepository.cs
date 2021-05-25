@@ -9,7 +9,7 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IBannedWordRepository
     {
-        Task<IBannedWord> GetBannedWord(int id);
+        Task<IBannedWord> GetBannedWord(string word);
         Task<IEnumerable<IBannedWord>> GetAllBannedWords();
         bool CreateBannedWord(IBannedWord createBannedWord);
         bool DeleteBannedWord(IBannedWord bannedWord);

@@ -3,27 +3,25 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModBot.DAL.Migrations
 {
-    public partial class Initialmigration : Migration
+    public partial class initialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "BannedWords",
+                name: "BannedWord",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Word = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Word = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Strikes = table.Column<int>(type: "int", nullable: false),
                     Punishment = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BannedWords", x => x.Id);
+                    table.PrimaryKey("PK_BannedWord", x => x.Word);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Changelogs",
+                name: "Changelog",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -33,11 +31,11 @@ namespace ModBot.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Changelogs", x => x.Id);
+                    table.PrimaryKey("PK_Changelog", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Members",
+                name: "Member",
                 columns: table => new
                 {
                     Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
@@ -45,7 +43,7 @@ namespace ModBot.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Members", x => x.Id);
+                    table.PrimaryKey("PK_Member", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,13 +67,13 @@ namespace ModBot.DAL.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "BannedWords");
+                name: "BannedWord");
 
             migrationBuilder.DropTable(
-                name: "Changelogs");
+                name: "Changelog");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "Member");
 
             migrationBuilder.DropTable(
                 name: "PunishmentsLevels");

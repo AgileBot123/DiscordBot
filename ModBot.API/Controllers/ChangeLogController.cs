@@ -113,6 +113,9 @@ namespace ModBot.API.Controllers
 
             }
         }
+
+        [HttpPut]
+        [Route(Routes.ChangeLog.UpdateLog)]
         public async Task<IActionResult> UpdateLog(UpdateChangelogDto updateChangelog, int id)
         {
             try

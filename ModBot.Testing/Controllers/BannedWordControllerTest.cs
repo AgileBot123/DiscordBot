@@ -74,19 +74,25 @@ namespace ModBot.Testing.Controllers
         public async Task GetBannedWord_ShouldReturnOk()
         {
             //Arrange
-
+            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<string>())).ReturnsAsync(new BannedWord("Fuck", 4, "Timeout"));
             //Act
-
+            var response = await _bannedWordsController.GetBannedWord("Fuck");
             //Assert
+            var result = response.Should().BeOfType<OkObjectResult>().Subject;
+            var okValue = result.Value.Should().BeOfType<BannedWord>().Subject;
+            okValue.Word.Should().Be("Fuck");
+
         }
         [TestMethod]
         public async Task GetBannedWord_ShouldReturnNotFound()
         {
-            //Arrange
-
+            //Arrangep
+            IBannedWord BannedWordIsNull = null;
+            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<string>())).ReturnsAsync(BannedWordIsNull);
             //Act
-
+            var response = await _bannedWordsController.GetBannedWord("Fuck");
             //Assert
+            response.Should().BeOfType<NotFoundObjectResult>();
         }
         [TestMethod]
         public async Task GetBannedWord_ShouldReturnBadRequest()
