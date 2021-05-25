@@ -26,7 +26,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                
+              
                 if(id == 0)
                 {
                     return BadRequest("is is null");
@@ -37,13 +37,11 @@ namespace ModBot.API.Controllers
                 {
                     return NotFound("Member not found");
                 }
-                return Ok(member);
-
-                             
+                return Ok(member);            
             }
             catch(Exception)
             {
-                return StatusCode(500, "internal serve error");
+                return StatusCode(500, "internal server error");
             }
         }
 
@@ -63,7 +61,7 @@ namespace ModBot.API.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(500, "internal serve error");
+                return StatusCode(500, "internal server error");
             }
         }
     }

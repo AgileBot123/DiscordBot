@@ -103,14 +103,14 @@ namespace ModBot.API.Controllers
             try
             {
                 if (string.IsNullOrEmpty(word))
-                    return BadRequest("id cannot be empty");
+                    return BadRequest("word cannot be empty or null");
 
               var result = await  _bannedWordService.DeleteBannedWord(word);
 
                 if (result)
                     return NoContent();
 
-                return BadRequest("No banned word found");
+                return BadRequest("Banned word was not deleted");
             }
             catch (Exception)
             {
@@ -125,7 +125,6 @@ namespace ModBot.API.Controllers
         {
             try
             {
-
                 if(updateBannedWordListDto.BannedWordList == null)
                 {
                     return BadRequest("Parameters cannot be null and/or id cannot be zero");
