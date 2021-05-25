@@ -16,6 +16,12 @@ namespace ModBot.Domain.Models
 
         private Member() {}
 
+        public Member(ulong id, int strikes)
+        {
+            this.id = id;
+            this.strikes = strikes;
+        }
+
 
         public void AddStrikes(int strikes)
         {

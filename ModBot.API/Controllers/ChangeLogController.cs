@@ -70,7 +70,7 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.ChangeLog.CreateLog)]
-        public IActionResult CreateLog(CreateChangeLogDto createChangeLog)
+        public IActionResult CreateLog(ChangeLogDto createChangeLog)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.ChangeLog.UpdateLog)]
-        public async Task<IActionResult> UpdateLog(UpdateChangelogDto updateChangelog, int id)
+        public async Task<IActionResult> UpdateLog(ChangeLogDto updateChangelog, int id)
         {
             try
             {

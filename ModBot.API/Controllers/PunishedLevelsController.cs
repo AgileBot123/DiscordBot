@@ -73,7 +73,7 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.PunishedLevels.CreatePunishedLevel)]
-        public IActionResult CreatePunishedLevel(CreatePunishmentDto createPunishment)
+        public IActionResult CreatePunishedLevel(PunishmentDto createPunishment)
         {
             try
             {              
@@ -117,7 +117,7 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> UpdatePunishedLevel(int id, UpdatePunishmentLevelDto updatePunishment)
+        public async Task<IActionResult> UpdatePunishedLevel(int id, PunishmentDto updatePunishment)
         {
             try
             {
