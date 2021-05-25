@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ModBot.API\ModBot.API.csproj" />
+    <ProjectReference Include="..\ModBot.Bot\ModBot.Bot.csproj" />
     <ProjectReference Include="..\ModBot.Domain\ModBot.Domain.csproj" />
   </ItemGroup>
 
