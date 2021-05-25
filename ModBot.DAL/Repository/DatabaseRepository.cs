@@ -63,15 +63,9 @@ namespace ModBot.DAL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IMember>> GetAllMembers()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<IMember>> GetAllMembers() => await _context.Members.ToListAsync();
 
-        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels() => await _context.PunishmentsLevels.ToListAsync();
 
         public async Task<IBannedWord> GetBannedWord(string word) => 
             await _context.BannedWords.Where(x => x.Word == word).SingleAsync();
