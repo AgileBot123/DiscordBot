@@ -1,3 +1,4 @@
+
 ﻿using ModBot.DAL.Repository;
 using ModBot.Domain.DTO;
 using ModBot.Domain.Interfaces;
@@ -55,6 +56,7 @@ namespace ModBot.Business.Services
             return punishmentLevels;
         }
 
+
         public async Task<IPunishmentsLevels> GetPunishmentLevel(int id)
         {
 
@@ -71,5 +73,9 @@ namespace ModBot.Business.Services
             throw new NotImplementedException();
         }
 
+        public void UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

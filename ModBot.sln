@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModBot.API", "ModBot.API\Mo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModBot.WebClient", "ModBot.WebClient\ModBot.WebClient.csproj", "{769F9172-F363-444E-87FA-FBB7ED602B29}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModBot.Testing", "ModBot.Testing\ModBot.Testing.csproj", "{F2FB23A6-A217-4D54-8F4B-5A3A9159A9B2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ModBot.Testing", "ModBot.Testing\ModBot.Testing.csproj", "{F2FB23A6-A217-4D54-8F4B-5A3A9159A9B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

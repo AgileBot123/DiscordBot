@@ -11,15 +11,6 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
-        [HttpPost]
-        public IActionResult loggin()
-        {
-            return View();
-        }
-        public IActionResult loggin(LoginDTO model)
-        {
-            return View();
-        }
 
     }
 }
