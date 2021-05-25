@@ -3,8 +3,10 @@ using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -49,7 +51,7 @@ namespace ModBot.DAL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IBannedWord>> GetAllBannedWords()
+        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
         {
             throw new NotImplementedException();
         }
@@ -85,6 +87,11 @@ namespace ModBot.DAL.Repository
         }
 
         public Task<IPunishmentsLevels> GetPunishment(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Member GetUser(ulong id)
         {
             throw new NotImplementedException();
         }

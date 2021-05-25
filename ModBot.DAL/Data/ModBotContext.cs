@@ -2,6 +2,7 @@
 using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace ModBot.DAL.Data
@@ -13,10 +14,10 @@ namespace ModBot.DAL.Data
 
 
 
-        public DbSet<Member> Members { get; set; }
-        public DbSet<BannedWord> BannedWords { get; set; }
-        public  DbSet<Changelog> Changelogs { get; set; }
-        public DbSet<PunishmentsLevels> PunishmentsLevels { get; set; }
+        public IQueryable<Member> Members { get; set; }
+        public IQueryable<BannedWord> BannedWords { get; set; }
+        public IQueryable<Changelog> Changelogs { get; set; }
+        public IQueryable<PunishmentsLevels> PunishmentsLevels { get; set; }
 
 
 

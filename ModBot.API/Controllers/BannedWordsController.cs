@@ -48,8 +48,7 @@ namespace ModBot.API.Controllers
             {
                 return StatusCode(500,"internal server error");
 
-            }
-            
+            }    
         }
 
         [HttpGet]

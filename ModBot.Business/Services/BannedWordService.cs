@@ -63,7 +63,7 @@ namespace ModBot.Business.Services
             return bannedWord;
         }
 
-        public Task<bool> UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
+        public async Task<bool> UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
         {
             throw new NotImplementedException();
         }
