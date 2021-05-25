@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO.ChangelogDto;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -28,8 +29,17 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                if (id == 0)
+                    return BadRequest("id is null");
+
+                var getLog = await _changelogService.GetChangeLog(id);
+
+                if (getLog == null)
+                    return NotFound("No Log found ");
+
+                return Ok(getLog);
             }
+
             catch (Exception)
             {
                 return StatusCode(500, "internal server error");
@@ -43,7 +53,13 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok();
+                var allLogs = await _changelogService.GetAllChangelogs();
+                if(allLogs.Count() == 0)
+                {
+                    return NotFound("Log is empty");
+                }
+
+                return Ok(allLogs);
             }
             catch (Exception)
             {
@@ -54,11 +70,19 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.ChangeLog.CreateLog)]
-        public async Task<IActionResult> CreateLog()
+        public IActionResult CreateLog(CreateChangeLogDto createChangeLog)
         {
             try
             {
-                return NoContent();
+                if(createChangeLog == null)               
+                    return BadRequest("Parameters is null");
+                
+                var result = _changelogService.CreateChangelog(createChangeLog);
+
+                if (result)
+                    return NoContent();
+
+                return BadRequest("Log was not created");
             }
             catch (Exception)
             {
@@ -69,11 +93,46 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.ChangeLog.DeleteLog)]
-        public async Task<IActionResult> DeleteLog()
+        public async Task<IActionResult> DeleteLog(int id)
         {
             try
             {
-                return Ok();
+                if (id == 0)
+                    return BadRequest("Id cannot be empty");
+
+               var result = await _changelogService.DeleteChangelog(id);
+
+                if(result)
+                return NoContent();
+
+                return BadRequest("log could not delete");
+            }
+            catch (Exception)
+            {
+                return StatusCode(500, "internal server error");
+
+            }
+        }
+
+        [HttpPut]
+        [Route(Routes.ChangeLog.UpdateLog)]
+        public async Task<IActionResult> UpdateLog(UpdateChangelogDto updateChangelog, int id)
+        {
+            try
+            {
+                if (updateChangelog == null)
+                {
+                    return BadRequest("object is null");
+                }
+
+                var result = await _changelogService.UpdateChangelog(updateChangelog, id);
+
+                if (result)
+                {
+                    return NotFound();
+                }
+
+                return BadRequest("Log could not update");
             }
             catch (Exception)
             {

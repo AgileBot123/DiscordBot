@@ -6,10 +6,10 @@ namespace ModBot.Domain.DTO
 {
     public class UpdatePunishmentLevelDto
     {
-        public int TimeOutLevel { get; }
-        public int KickLevel { get; }
-        public int BanLevel { get; }
-        public DateTime SpamMuteTime { get; }
-        public DateTime StrikeMuteTime { get; }
+        public int TimeOutLevel { get; set; }
+        public int KickLevel { get; set; }
+        public int BanLevel { get; set;  }
+        public DateTime SpamMuteTime { get; set; }
+        public DateTime StrikeMuteTime { get; set; }
     }
 }
