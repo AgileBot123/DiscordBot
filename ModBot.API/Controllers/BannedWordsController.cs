@@ -75,7 +75,7 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.BannedWords.CreateBannedWord)]
-        public IActionResult CreateBannedWord(CreateBannedWordDto createBannedWord)
+        public IActionResult CreateBannedWord(BannedWordDto createBannedWord)
         {
             try
             {              
@@ -121,17 +121,17 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.BannedWords.UpdateBannedWord)]
-        public async Task<IActionResult> UpdateBannedWord(UpdateBannedWordDto updateBannedWord,int id)
+        public async Task<IActionResult> UpdateBannedWordList(BannedWordListDto updateBannedWordListDto)
         {
             try
             {
 
-                if(updateBannedWord == null)
+                if(updateBannedWordListDto == null)
                 {
                     return BadRequest("object not found");
                 }
 
-               var result = await _bannedWordService.UpdateBannedWord(updateBannedWord, id);
+               var result = await _bannedWordService.UpdateBannedWord(updateBannedWordListDto);
 
                 if (result)
                     return NoContent();

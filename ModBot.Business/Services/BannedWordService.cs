@@ -1,13 +1,10 @@
 ﻿using ModBot.DAL.Repository;
 using ModBot.Domain.DTO.BannedWordDto;
-using ModBot.Domain.DTO.ChangelogDto;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
@@ -20,7 +17,7 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public bool CreateBannedWord(CreateBannedWordDto createBannedWord)
+        public bool CreateBannedWord(BannedWordDto createBannedWord)
         {
             var createdBannedWord = new BannedWord(
                 word: createBannedWord.Word,
@@ -34,7 +31,7 @@ namespace ModBot.Business.Services
         {
             var getBannedWord = await _databaseRepository.GetBannedWord(word);
 
-            if(getBannedWord != null)
+            if (getBannedWord != null)
             {
                 _databaseRepository.DeleteBannedWord(getBannedWord);
                 return true;
@@ -63,9 +60,34 @@ namespace ModBot.Business.Services
             return bannedWord;
         }
 
-        public async Task<bool> UpdateBannedWord(UpdateBannedWordDto updatePunishment, int id)
+        public async Task<bool> UpdateBannedWordList(BannedWordListDto updatedBannedWordListDto)
         {
-            throw new NotImplementedException();
+            var bannedWordList = await _databaseRepository.GetAllBannedWords();
+            var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
+            var newBannedWordList = new List<IBannedWord>();
+            foreach (var bannedWord in bannedWordList)
+            {
+                foreach(var updatedBannedWord in updatedBannedWordList)
+                {
+                   
+                    if(bannedWord.Word == updatedBannedWord.Word)
+                    {
+                        var changedBannedWord = new BannedWord(updatedBannedWord.Word,
+                                                     updatedBannedWord.Strikes,
+                                                     updatedBannedWord.Punishment);
+
+                        _databaseRepository.UpdateBannedWord(changedBannedWord);
+
+                        continue;
+                    }
+                    
+                }
+
+                _databaseRepository.DeleteBannedWord(bannedWord);
+            }
+
+            return false;
+
         }
     }
 }

@@ -19,7 +19,7 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public bool CreatePunishmentLevel(CreatePunishmentDto createPunished)
+        public bool CreatePunishmentLevel(PunishmentDto createPunished)
         {
             var createdPunishment = new PunishmentsLevels(
                         timeoutLevel: createPunished.TimeOutLevel,
@@ -66,9 +66,24 @@ namespace ModBot.Business.Services
             return punishment;          
         }
 
-        public async Task<bool> UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id)
+        public async Task<bool> UpdatePunishmentLevel(PunishmentDto updatePunishment, int id)
         {
-            throw new NotImplementedException();
+            var selectPunishment = await _databaseRepository.GetPunishment(id);
+
+            if(selectPunishment != null)
+            {
+                var punishment = new PunishmentsLevels(updatePunishment.TimeOutLevel,
+                                                       updatePunishment.KickLevel,
+                                                       updatePunishment.BanLevel,
+                                                       updatePunishment.SpamMuteTime,
+                                                       updatePunishment.StrikeMuteTime);
+
+                _databaseRepository.UpdateGetPunishment(punishment,id);
+
+                return true;                            
+            }
+            return false;
+            
         }
 
     }

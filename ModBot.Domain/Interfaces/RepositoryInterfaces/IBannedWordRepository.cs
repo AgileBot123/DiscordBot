@@ -13,6 +13,6 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
         Task<IEnumerable<IBannedWord>> GetAllBannedWords();
         bool CreateBannedWord(IBannedWord createBannedWord);
         bool DeleteBannedWord(IBannedWord bannedWord);
-        bool UpdateBannedWord(IBannedWord updateBannedWord, int id);
+        bool UpdateBannedWord(IBannedWord updateBannedWord);
     }
 }
