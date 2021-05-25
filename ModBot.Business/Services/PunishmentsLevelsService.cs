@@ -87,10 +87,5 @@ namespace ModBot.Business.Services
             return false;
             
         }
-
-        public void UpdatePunishmentLevel(UpdatePunishmentLevelDto updatePunishment, int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
