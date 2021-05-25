@@ -32,7 +32,7 @@ namespace ModBot.API.Controllers
             {
                 if(string.IsNullOrEmpty(word))
                 {
-                    return BadRequest("id is null");
+                    return BadRequest("word is null or empty");
                 }
 
                 var bannedWord = await _bannedWordService.GetBannedWord(word);
@@ -78,9 +78,9 @@ namespace ModBot.API.Controllers
         public IActionResult CreateBannedWord(BannedWordDto createBannedWord)
         {
             try
-            {              
+            {             
                 if(createBannedWord == null)               
-                    return BadRequest();
+                    return BadRequest("Parameters cannot be null");
                 
                var result =  _bannedWordService.CreateBannedWord(createBannedWord);
 
@@ -126,12 +126,12 @@ namespace ModBot.API.Controllers
             try
             {
 
-                if(updateBannedWordListDto == null)
+                if(updateBannedWordListDto.BannedWordList == null)
                 {
-                    return BadRequest("object not found");
+                    return BadRequest("Parameters cannot be null and/or id cannot be zero");
                 }
 
-               var result = await _bannedWordService.UpdateBannedWord(updateBannedWordListDto);
+               var result = await _bannedWordService.UpdateBannedWordList(updateBannedWordListDto);
 
                 if (result)
                     return NoContent();

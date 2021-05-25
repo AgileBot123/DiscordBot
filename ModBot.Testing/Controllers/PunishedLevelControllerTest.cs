@@ -114,7 +114,7 @@ namespace ModBot.Testing.Controllers
         public void CreatePunishedLevel_ShouldReturnNoContent()
         {
             //Arrange
-            var createPunishment = new CreatePunishmentDto()
+            var createPunishment = new PunishmentDto()
             {
                 TimeOutLevel = 1,
                 KickLevel = 1,
@@ -123,7 +123,7 @@ namespace ModBot.Testing.Controllers
                 StrikeMuteTime = DateTime.Now
             };
 
-            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<CreatePunishmentDto>())).Returns(true);
+            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<PunishmentDto>())).Returns(true);
 
             //Act
             var response =  punishedLevelsController.CreatePunishedLevel(createPunishment);
@@ -136,11 +136,11 @@ namespace ModBot.Testing.Controllers
         public void CreatePunishedLevel_ShouldReturnBadRequestIfLevelIsNotCreated()
         {
             //Arrange
-            var createdPunishment = new CreatePunishmentDto()
+            var createdPunishment = new PunishmentDto()
             {
                 TimeOutLevel = 1
             };
-            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<CreatePunishmentDto>())).Returns(false);
+            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<PunishmentDto>())).Returns(false);
 
             //Act
             var response = punishedLevelsController.CreatePunishedLevel(createdPunishment);
@@ -154,7 +154,7 @@ namespace ModBot.Testing.Controllers
         public void CreatePunishedLevel_ShouldReturnBadRequestWhenParameterIsNull()
         {
             //Arrange
-            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<CreatePunishmentDto>()));
+            _mockPunish.Setup(x => x.CreatePunishmentLevel(It.IsAny<PunishmentDto>()));
 
             //Act
             var response =  punishedLevelsController.CreatePunishedLevel(null);
@@ -168,11 +168,11 @@ namespace ModBot.Testing.Controllers
         public async Task UpdatePunishedLevel_ShouldReturnNoContent()
         {
             //Arrange
-            var updatePunishment = new UpdatePunishmentLevelDto()
+            var updatePunishment = new PunishmentDto()
             {
                 TimeOutLevel = 1
             };
-            _mockPunish.Setup(x => x.UpdatePunishmentLevel(It.IsAny<UpdatePunishmentLevelDto>(), It.IsAny<int>())).ReturnsAsync(true);
+            _mockPunish.Setup(x => x.UpdatePunishmentLevel(It.IsAny<PunishmentDto>(), It.IsAny<int>())).ReturnsAsync(true);
             //Act
             var response = await punishedLevelsController.UpdatePunishedLevel(1, updatePunishment);
             //Assert
@@ -195,11 +195,11 @@ namespace ModBot.Testing.Controllers
         public async Task UpdatePunishedLevel_ShouldReturnBadRequest()
         {
             //Arrange
-            var updatePunishment = new UpdatePunishmentLevelDto()
+            var updatePunishment = new PunishmentDto()
             {
                 TimeOutLevel = 1
             };
-            _mockPunish.Setup(x => x.UpdatePunishmentLevel(It.IsAny<UpdatePunishmentLevelDto>(), It.IsAny<int>())).ReturnsAsync(false);
+            _mockPunish.Setup(x => x.UpdatePunishmentLevel(It.IsAny<PunishmentDto>(), It.IsAny<int>())).ReturnsAsync(false);
             //Act
             var response = await punishedLevelsController.UpdatePunishedLevel(1, updatePunishment);
             //Assert

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModBot.API.Controllers;
+using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
@@ -98,19 +99,28 @@ namespace ModBot.Testing.Controllers
         public async Task GetBannedWord_ShouldReturnBadRequest()
         {
             //Arrange
-
+            var word = string.Empty;
             //Act
-
+            var response = await _bannedWordsController.GetBannedWord(word);
             //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("word is null or empty");
         }
         [TestMethod]
-        public async Task CreateBannedWord_ShouldReturnNoContent()
+        public void CreateBannedWord_ShouldReturnNoContent()
         {
             //Arrange
-
+            var createBannedWord = new BannedWordDto
+            {
+                Punishment = "Timeout",
+                Strikes = 3,
+                Word = "Fuck"
+            };
+            _mockBannedWord.Setup(x => x.CreateBannedWord(It.IsAny<BannedWordDto>())).Returns(true);
             //Act
-
+            var response = _bannedWordsController.CreateBannedWord(createBannedWord);
             //Assert
+            response.Should().BeOfType<NoContentResult>();
         }
 
         [TestMethod]
@@ -119,18 +129,39 @@ namespace ModBot.Testing.Controllers
             //Arrange
 
             //Act
-
+            var response = _bannedWordsController.CreateBannedWord(null);
             //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Parameters cannot be null");
         }
+
+        [TestMethod]
+        public async Task CreateBannedWord_ShouldReturnBadRequestIfServiceReturnsFalse()
+        {
+            //Arrange
+            var bannedWord = new BannedWordDto();
+            _mockBannedWord.Setup(x => x.CreateBannedWord(It.IsAny<BannedWordDto>())).Returns(false);
+            //Act
+            var response = _bannedWordsController.CreateBannedWord(bannedWord);
+            //Assert
+            //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Banned word was not created");
+        }
+
 
         [TestMethod]
         public async Task UpdateBannedWord_ShouldReturnNoContent()
         {
             //Arrange
 
-            //Act
+            var bannedWord = new BannedWordListDto();
+            _mockBannedWord.Setup(x => x.UpdateBannedWordList(It.IsAny<BannedWordListDto>())).ReturnsAsync(true);
 
+            //Act
+            var response = await _bannedWordsController.UpdateBannedWordList(bannedWord);
             //Assert
+            response.Should().BeOfType<NoContentResult>();
         }
 
         [TestMethod]
@@ -143,5 +174,58 @@ namespace ModBot.Testing.Controllers
             //Assert
         }
 
+        [TestMethod]
+        public async Task UpdateBannedWord_ShouldReturnBadRequestWhenDtoIsNull()
+        {
+            //Arrange
+
+            //Act
+            var response = await _bannedWordsController.UpdateBannedWordList(null);
+            //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Parameters cannot be null and/or id cannot be zero");
+        }
+
+        [TestMethod]
+        public async Task UpdateBannedWord_ShouldReturnBadRequestWhenIdIsZero()
+        {
+            //Arrange
+            var bannedWord = new BannedWordListDto();
+            //Act
+            var response = await _bannedWordsController.UpdateBannedWordList(bannedWord);
+            //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Parameters cannot be null and/or id cannot be zero");
+        }
+
+        [TestMethod]
+        public async Task DeleteBannedWord_ShouldReturnNoContent()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+        }
+
+        [TestMethod]
+        public async Task DeleteBannedWord_ShouldReturnBadRequestIfWordWasNotDeleted()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+        }
+
+        [TestMethod]
+        public async Task DeleteBannedWord_ShouldReturnBadRequestIfParametersIsNullOrEmpty()
+        {
+            //Arrange
+
+            //Act
+
+            //Assert
+        }
     }
 }
