@@ -62,32 +62,49 @@ namespace ModBot.Business.Services
 
         public async Task<bool> UpdateBannedWordList(BannedWordListDto updatedBannedWordListDto)
         {
-            var bannedWordList = await _databaseRepository.GetAllBannedWords();
-            var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
-            var newBannedWordList = new List<IBannedWord>();
-            foreach (var bannedWord in bannedWordList)
+            try
             {
-                foreach(var updatedBannedWord in updatedBannedWordList)
+                var bannedWordList = await _databaseRepository.GetAllBannedWords();
+                var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
+                BannedWord changedBannedWord = null;
+
+                foreach (var updatedBannedWord in updatedBannedWordList)
                 {
-                   
-                    if(bannedWord.Word == updatedBannedWord.Word)
+                    if (bannedWordList.Any(b => b.Word.Equals(updatedBannedWord.Word)))
                     {
-                        var changedBannedWord = new BannedWord(updatedBannedWord.Word,
+                        changedBannedWord = new BannedWord(updatedBannedWord.Word,
                                                      updatedBannedWord.Strikes,
                                                      updatedBannedWord.Punishment);
 
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
-
-                        continue;
                     }
-                    
+                    else
+                    {
+                        changedBannedWord = new BannedWord(updatedBannedWord.Word,
+                                                     updatedBannedWord.Strikes,
+                                                     updatedBannedWord.Punishment);
+
+                        _databaseRepository.CreateBannedWord(changedBannedWord);
+                    }
                 }
 
-                _databaseRepository.DeleteBannedWord(bannedWord);
+                foreach (var bannedWord in bannedWordList)
+                {
+                    if (!updatedBannedWordList.Any(b => b.Word.Equals(bannedWord.Word)))
+                    {
+                        changedBannedWord = new BannedWord(bannedWord.Word,
+                                                     bannedWord.Strikes,
+                                                     bannedWord.Punishment);
+
+                        _databaseRepository.DeleteBannedWord(changedBannedWord);
+                    }
+                }
+                return true;
             }
-
-            return false;
-
+            catch
+            {
+                return false;
+            }
         }
     }
 }
