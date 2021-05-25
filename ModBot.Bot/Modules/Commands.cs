@@ -42,7 +42,7 @@ namespace ModBot.Bot.Modules
         public async Task Strike(SocketMessage arg)
         {
             var response = _commandLogic.GetUserStrikes(arg.Author.Id);
-            await ReplyAsync(response);
+            await ReplyAsync(response.Id.ToString());
         }
 
         [Command("RemoveStrike")]

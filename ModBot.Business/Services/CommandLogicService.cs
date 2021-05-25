@@ -4,6 +4,7 @@ using Discord.WebSocket;
 using ModBot.DAL.Repository;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -17,16 +18,15 @@ namespace ModBot.Business.Services
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
 
-        private readonly ICommandLogicRepository _commandRepo;
-        public CommandLogicService(ICommandLogicRepository commandRepo)
+        private readonly DatabaseRepository _databaseRepository;
+        public CommandLogicService(DatabaseRepository databaseRepository)
         {
-            _commandRepo = commandRepo;
+            _databaseRepository = databaseRepository;
         }
 
-        public string GetUserStrikes(ulong UserID)
-        {
-            throw new NotImplementedException();
-        }
+        public Member GetUserStrikes(ulong UserID) => _databaseRepository.GetUser(UserID);
+          
+        
 
         public string BotResponseCooldown(SocketCommandContext context)
         {

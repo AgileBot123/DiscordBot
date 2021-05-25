@@ -1,6 +1,12 @@
-﻿namespace ModBot.Domain.Interfaces.ServiceInterface
+﻿using ModBot.Domain.interfaces;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace ModBot.Domain.Interfaces.ServiceInterface
 {
-    public class IMemberService
+    public interface IMemberService
     {
+        Task<IMember> GetMemberById(ulong id);
+        Task<IEnumerable<IMember>> GetAllMembers();
     }
 }

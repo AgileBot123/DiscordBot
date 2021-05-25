@@ -36,7 +36,6 @@ namespace ChatFilterBot
             _services = new ServiceCollection()
                 .AddSingleton(_client)
                 .AddSingleton<ICommandLogic, CommandLogicService>()
-                .AddSingleton<ICommandLogicRepository, DatabaseRepository>()
                 .AddSingleton(_client)
                 .BuildServiceProvider();
 

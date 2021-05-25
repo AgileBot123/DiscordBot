@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Testing.Mocks
+namespace ModBot.Domain.DTO.BannedWordDto
 {
-   public class CommandLogicMock
+    public class UpdateBannedWordDto
     {
     }
 }

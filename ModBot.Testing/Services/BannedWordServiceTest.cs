@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Domain.DTO
+namespace ModBot.Testing.Services
 {
-    public class CreateBannedWordDto
+    class BannedWordServiceTest
     {
-
     }
 }
