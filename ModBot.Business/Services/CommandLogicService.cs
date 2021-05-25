@@ -18,8 +18,8 @@ namespace ModBot.Business.Services
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
 
-        private readonly ICommandLogicRepository _databaseRepository;
-        public CommandLogicService(ICommandLogicRepository databaseRepository)
+        private readonly DatabaseRepository _databaseRepository;
+        public CommandLogicService(DatabaseRepository databaseRepository)
         {
             _databaseRepository = databaseRepository;
         }

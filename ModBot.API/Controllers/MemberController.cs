@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,10 @@ namespace ModBot.API.Controllers
         {
             this._memberService = memberService;
         }
+
+
+        [HttpGet]
+        [Route(Routes.Members.GetMember)]
         public async Task<IActionResult> GetMember(ulong id)
         {
             try
@@ -41,6 +46,9 @@ namespace ModBot.API.Controllers
                 return StatusCode(500, "internal serve error");
             }
         }
+
+        [HttpGet]
+        [Route(Routes.Members.GetMembers)]
         public async Task<IActionResult> GetAllMembers()
         {
             try

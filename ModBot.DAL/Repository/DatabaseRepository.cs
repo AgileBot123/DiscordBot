@@ -1,4 +1,5 @@
-﻿using ModBot.DAL.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ModBot.DAL.Data;
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository : ICommandLogicRepository, IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository
+   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository
     {
 
         private readonly ModBotContext _context;
@@ -23,7 +24,8 @@ namespace ModBot.DAL.Repository
 
         public bool CreateBannedWord(IBannedWord createBannedWord)
         {
-            throw new NotImplementedException();
+            _context.Add(createBannedWord);
+            return _context.SaveChanges() > 0; 
         }
 
         public bool CreateChangelog(IChangelog createLog)
@@ -66,15 +68,14 @@ namespace ModBot.DAL.Repository
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
         {
             throw new NotImplementedException();
         }
 
-        public Task<IBannedWord> GetBannedWord(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<IBannedWord> GetBannedWord(string word) => 
+            await _context.BannedWords.Where(x => x.Word == word).SingleAsync();
+        
 
         public Task<IChangelog> GetChangelog(int id)
         {

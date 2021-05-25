@@ -10,8 +10,8 @@ using ModBot.DAL.Data;
 namespace ModBot.DAL.Migrations
 {
     [DbContext(typeof(ModBotContext))]
-    [Migration("20210521092648_Initial migration")]
-    partial class Initialmigration
+    [Migration("20210525085254_initial commit")]
+    partial class initialcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,10 +23,8 @@ namespace ModBot.DAL.Migrations
 
             modelBuilder.Entity("ModBot.Domain.Models.BannedWord", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Word")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Punishment")
                         .HasColumnType("nvarchar(max)");
@@ -34,12 +32,9 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("Strikes")
                         .HasColumnType("int");
 
-                    b.Property<string>("Word")
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Word");
 
-                    b.HasKey("Id");
-
-                    b.ToTable("BannedWords");
+                    b.ToTable("BannedWord");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.Changelog", b =>
@@ -57,7 +52,7 @@ namespace ModBot.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Changelogs");
+                    b.ToTable("Changelog");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.Member", b =>
@@ -72,7 +67,7 @@ namespace ModBot.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Members");
+                    b.ToTable("Member");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevels", b =>

@@ -1,7 +1,5 @@
 ﻿using Discord.Commands;
-using Discord.WebSocket;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using ModBot.Bot.Helper;
 using ModBot.Business.Services;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using Moq;
@@ -17,8 +15,8 @@ namespace ModBot.Testing.Services
 
         public CommandLogicServiceTest()
         {
-            _mockCommand = new Mock<ICommandLogicRepository>();
-            _commandService = new CommandLogicService(_mockCommand.Object);
+            //_mockCommand = new Mock<ICommandLogicRepository>();
+            //_commandService = new CommandLogicService(_mockCommand.Object);
         }
 
 

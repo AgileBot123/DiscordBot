@@ -23,6 +23,7 @@ namespace ModBot.Domain.Extensions.Routes
             public const string GetLog = Base + "GetLog/{id}";
             public const string GetAllLogs = Base + "GetAllLogs";
             public const string CreateLog = Base + "CreateLog";
+            public const string UpdateLog = Base + "Updatelog";
             public const string DeleteLog = Base + "DeleteLog";
           
         }
@@ -34,6 +35,10 @@ namespace ModBot.Domain.Extensions.Routes
             public const string DeletePunishedLevel = Base + "DeletePunishedLevel";
             public const string UpdatePunishedLevel = Base + "UpdatePunishedLevel";
         }
-
+        public class Members
+        {
+            public const string GetMember = Base + "GetMember";
+            public const string GetMembers = Base + "GetMembers";
+        }
     }
 }
