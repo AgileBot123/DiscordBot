@@ -24,92 +24,254 @@ namespace ModBot.DAL.Repository
 
         public bool CreateBannedWord(IBannedWord createBannedWord)
         {
-            _context.Add(createBannedWord);
-            return _context.SaveChanges() > 0; 
+            try
+            {
+                _context.Add(createBannedWord);
+                return _context.SaveChanges() > 0;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+            
         }
 
         public bool CreateChangelog(IChangelog createLog)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Add(createLog);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool CreateGetPunishment(IPunishmentsLevels createPunished)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Add(createPunished);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool DeleteBannedWord(IBannedWord bannedWord)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Remove(bannedWord);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool DeleteChangelog(IChangelog changelog)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Remove(changelog);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public bool DeleteGetPunishment(IPunishmentsLevels punishmentLevel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Remove(punishmentLevel);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
         public async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var bannedWords = new List<IBannedWord>();
+                foreach(var word in await _context.BannedWords.ToListAsync())
+                {
+                    var bannedword = new BannedWord(word.Word,
+                                                      word.Strikes,
+                                                       word.Punishment);
+                    bannedWords.Add(bannedword);
+                   
+                }
+                return bannedWords;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
         }
 
-        public Task<IEnumerable<IChangelog>> GetAllChangelogs()
+        public async Task<IEnumerable<IChangelog>> GetAllChangelogs()
+        {
+
+            try
+            {
+                var changeLogs = new List<IChangelog>();
+                foreach (var log in await _context.Changelogs.ToListAsync())
+                {
+                    var changelog = new Changelog(log.Id,
+                                                   log.ChangedDate,
+                                                   log.Changed
+                                                   );
+                    changeLogs.Add(changelog);
+                }
+                return changeLogs;
+            }
+            catch(Exception)
+            {
+                return null;
+            }
+        }
+        public Member GetUser(ulong id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<IMember>> GetAllMembers()
+        public async Task<IEnumerable<IMember>> GetAllMembers()
         {
-            throw new NotImplementedException();
+            try
+            {
+                var members = new List<IMember>();
+                foreach (var _member in await _context.Members.ToListAsync())
+                {
+                    var member = new Member(_member.Id,
+                                              _member.Strikes);
+                    members.Add(member);
+
+                }
+                return members;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                var punishments = new List<IPunishmentsLevels>();
+                foreach (var punishemntLevel in await _context.PunishmentsLevels.ToListAsync())
+                {
+                    var punishment = new PunishmentsLevels(punishemntLevel.Id,
+                                                            punishemntLevel.TimeOutLevel,
+                                                            punishemntLevel.KickLevel,
+                                                            punishemntLevel.BanLevel,
+                                                            punishemntLevel.SpamMuteTime,
+                                                            punishemntLevel.StrikeMuteTime);
+                    punishments.Add(punishment);
+                   
+
+                }
+                return punishments;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         public async Task<IBannedWord> GetBannedWord(string word) => 
             await _context.BannedWords.Where(x => x.Word == word).SingleAsync();
         
 
-        public Task<IChangelog> GetChangelog(int id)
+        public async Task<IChangelog> GetChangelog(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+               return await _context.Changelogs.Where(x => x.Id == id).SingleAsync();
+            }
+            catch(Exception)
+            {
+                return null;
+            }
         }
 
-        public Task<IMember> GetMember(ulong id)
+        public async Task<IMember> GetMember(ulong id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.Members.Where(x => x.Id == id).SingleAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public Task<IPunishmentsLevels> GetPunishment(int id)
+        public async Task<IPunishmentsLevels> GetPunishment(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return await _context.PunishmentsLevels.Where(x => x.Id == id).SingleAsync();
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
-        public Member GetUser(ulong id)
+        public  bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
-            throw new NotImplementedException();
-        }
-
-        public bool UpdateBannedWord(IBannedWord updateBannedWord, int id)
-        {
-            throw new NotImplementedException();
+           try
+            {
+                _context.Update(updateBannedWord);
+                return _context.SaveChanges() > 0;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
 
         public bool UpdateChangelog(int id, IChangelog changelog)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Update(changelog);
+                return _context.SaveChanges() > 0;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
+            
         }
 
         public bool UpdateGetPunishment(IPunishmentsLevels updatePunished, int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context.Update(updatePunished);
+                return _context.SaveChanges() > 0 ;
+            }
+            catch(Exception)
+            {
+                return false;
+            }
         }
     }
 }

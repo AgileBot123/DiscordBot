@@ -20,7 +20,7 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public bool CreateChangelog(CreateChangeLogDto createChangelog)
+        public bool CreateChangelog(ChangeLogDto createChangelog)
         {
             var createdLog = new Changelog(
                 changeDate: createChangelog.ChangeDate,
@@ -62,9 +62,21 @@ namespace ModBot.Business.Services
             return log;
         }
 
-        public Task<bool> UpdateChangelog(UpdateChangelogDto updateChangelog, int id)
+        public async Task<bool> UpdateChangelog(ChangeLogDto updateChangelog, int id)
         {
-            throw new NotImplementedException();
+            var selectlog = await _databaseRepository.GetChangelog(id);
+
+            if( selectlog != null)
+            {
+                var newlog = new Changelog(updateChangelog.ChangeDate,
+                                            updateChangelog.Changed);
+
+                _databaseRepository.UpdateChangelog(id,newlog);
+
+                return true;
+            }
+            return false;
+
         }
     }
 }

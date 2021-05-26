@@ -5,6 +5,7 @@ using System.Text;
 
 namespace ModBot.Domain.Models
 {
+   
     public class PunishmentsLevels : IPunishmentsLevels
     {
         private int id;
@@ -24,10 +25,6 @@ namespace ModBot.Domain.Models
 
         private PunishmentsLevels(){}
 
-        public PunishmentsLevels(int id)
-        {
-            this.id = id;
-        }
 
         public PunishmentsLevels(int timeoutLevel, int kickLevel, int banLevel, DateTime spamMuteLevel, DateTime strikeMuteLevel)
         {

@@ -15,6 +15,7 @@ using ModBot.Business.Services;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.DAL.Repository;
+using ModBot.DAL.Data;
 
 namespace ChatFilterBot
 {
@@ -34,12 +35,14 @@ namespace ChatFilterBot
             _commandsServices = new CommandService();
 
             _services = new ServiceCollection()
-                .AddSingleton(_client)
-                .AddSingleton<ICommandLogic, CommandLogicService>()
-                .AddSingleton(_client)
-                .BuildServiceProvider();
+                 .AddSingleton(_client)
+                 .AddDbContext<ModBotContext>()
+                 .AddSingleton<ICommandLogic, CommandLogicService>()
+                 .AddTransient<DatabaseRepository>()
+                 .AddSingleton(_commandsServices)
+                 .BuildServiceProvider();
 
-           // _BotCommands = new Commands(new CommandLogic());
+            // _BotCommands = new Commands(new CommandLogic());
 
             string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.YFxf6PAcFRZws3hbx8YYE8KuLWs";
 

@@ -32,7 +32,7 @@ namespace ModBot.API.Controllers
             {
                 if(string.IsNullOrEmpty(word))
                 {
-                    return BadRequest("id is null");
+                    return BadRequest("word is null or empty");
                 }
 
                 var bannedWord = await _bannedWordService.GetBannedWord(word);
@@ -75,12 +75,12 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.BannedWords.CreateBannedWord)]
-        public IActionResult CreateBannedWord(CreateBannedWordDto createBannedWord)
+        public IActionResult CreateBannedWord(BannedWordDto createBannedWord)
         {
             try
-            {              
+            {             
                 if(createBannedWord == null)               
-                    return BadRequest();
+                    return BadRequest("Parameters cannot be null");
                 
                var result =  _bannedWordService.CreateBannedWord(createBannedWord);
 
@@ -103,14 +103,14 @@ namespace ModBot.API.Controllers
             try
             {
                 if (string.IsNullOrEmpty(word))
-                    return BadRequest("id cannot be empty");
+                    return BadRequest("word cannot be empty or null");
 
               var result = await  _bannedWordService.DeleteBannedWord(word);
 
                 if (result)
                     return NoContent();
 
-                return BadRequest("No banned word found");
+                return BadRequest("Banned word was not deleted");
             }
             catch (Exception)
             {
@@ -121,17 +121,16 @@ namespace ModBot.API.Controllers
 
         [HttpPut]
         [Route(Routes.BannedWords.UpdateBannedWord)]
-        public async Task<IActionResult> UpdateBannedWord(UpdateBannedWordDto updateBannedWord,int id)
+        public async Task<IActionResult> UpdateBannedWordList(BannedWordListDto updateBannedWordListDto)
         {
             try
             {
-
-                if(updateBannedWord == null)
+                if(updateBannedWordListDto.BannedWordList == null)
                 {
-                    return BadRequest("object not found");
+                    return BadRequest("Parameters cannot be null and/or id cannot be zero");
                 }
 
-               var result = await _bannedWordService.UpdateBannedWord(updateBannedWord, id);
+               var result = await _bannedWordService.UpdateBannedWordList(updateBannedWordListDto);
 
                 if (result)
                     return NoContent();
