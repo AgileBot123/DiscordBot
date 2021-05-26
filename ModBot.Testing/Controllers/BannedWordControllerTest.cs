@@ -154,8 +154,13 @@ namespace ModBot.Testing.Controllers
         public async Task UpdateBannedWord_ShouldReturnNoContent()
         {
             //Arrange
+            List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
+            {
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+            };
 
             var bannedWord = new BannedWordListDto();
+            bannedWord.BannedWordList = BannedWordList;
             _mockBannedWord.Setup(x => x.UpdateBannedWordList(It.IsAny<BannedWordListDto>())).ReturnsAsync(true);
 
             //Act
@@ -168,29 +173,13 @@ namespace ModBot.Testing.Controllers
         public async Task UpdateBannedWord_ShouldReturnBadRequest()
         {
             //Arrange
-
-            //Act
-
-            //Assert
-        }
-
-        [TestMethod]
-        public async Task UpdateBannedWord_ShouldReturnBadRequestWhenDtoIsNull()
-        {
-            //Arrange
-
-            //Act
-            var response = await _bannedWordsController.UpdateBannedWordList(null);
-            //Assert
-            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be("Parameters cannot be null and/or id cannot be zero");
-        }
-
-        [TestMethod]
-        public async Task UpdateBannedWord_ShouldReturnBadRequestWhenIdIsZero()
-        {
-            //Arrange
+            List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
+            {
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+            };
             var bannedWord = new BannedWordListDto();
+            bannedWord.BannedWordList = BannedWordList;
+            _mockBannedWord.Setup(x => x.UpdateBannedWordList(It.IsAny<BannedWordListDto>())).ReturnsAsync(false);
             //Act
             var response = await _bannedWordsController.UpdateBannedWordList(bannedWord);
             //Assert
@@ -199,23 +188,43 @@ namespace ModBot.Testing.Controllers
         }
 
         [TestMethod]
+        public async Task UpdateBannedWord_ShouldReturnBadRequestWhenDtoIsNull()
+        {
+            //Arrange
+            List<BannedWordDto> BannedWordList = null;
+            var bannedWord = new BannedWordListDto();
+            bannedWord.BannedWordList = BannedWordList;
+            //Act
+            var response = await _bannedWordsController.UpdateBannedWordList(bannedWord);
+            //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Parameters cannot be null and/or id cannot be zero");
+        }
+
+  
+        [TestMethod]
         public async Task DeleteBannedWord_ShouldReturnNoContent()
         {
             //Arrange
-
+            string word = "Fuck";
+            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<string>())).ReturnsAsync(true);
             //Act
-
+            var response = await _bannedWordsController.DeleteBannedWord(word);
             //Assert
+            response.Should().BeOfType<NoContentResult>();
         }
 
         [TestMethod]
         public async Task DeleteBannedWord_ShouldReturnBadRequestIfWordWasNotDeleted()
         {
             //Arrange
-
+            string word = "Fuck";
+            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<string>())).ReturnsAsync(false);
             //Act
-
+            var response = await _bannedWordsController.DeleteBannedWord(word);
             //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("Banned word was not deleted");
         }
 
         [TestMethod]
@@ -224,8 +233,10 @@ namespace ModBot.Testing.Controllers
             //Arrange
 
             //Act
-
+            var response = await _bannedWordsController.DeleteBannedWord(null);
             //Assert
+            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
+            result.Value.Should().Be("word cannot be empty or null");
         }
     }
 }
