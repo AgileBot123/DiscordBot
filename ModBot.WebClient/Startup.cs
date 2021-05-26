@@ -120,7 +120,7 @@ namespace ModBot.WebClient
             {
                 endpoints.MapControllerRoute(
                    name: "default",
-                   pattern: "{controller=Start}/{action=Start}/{id?}");
+                   pattern: "{controller=Home}/{action=Start}/{id?}");
             });
         }
     }

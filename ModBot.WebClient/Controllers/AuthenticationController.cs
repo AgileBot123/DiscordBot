@@ -28,10 +28,11 @@ namespace ModBot.WebClient.Controllers
         [Authorize(AuthenticationSchemes = "Discord")]
         public IActionResult Authentication()
         {
+
             ViewBag.Test = HttpContext.User.Identity.Name;
             var servers = _logic.GetUserServerAsync().Result;
             ViewBag.Server1 = servers[0].Name;
-            return View();
+            return View(servers);
         }
             
     }
