@@ -10,6 +10,6 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IEnumerable<IStatistics>> GetAllStatistics();
         Task<IStatistics> GetSpecificStats(int id);
-        Task<bool> CreateDataToStatistics();
+        Task<bool> RefreshStatisticsInfo();
     }
 }

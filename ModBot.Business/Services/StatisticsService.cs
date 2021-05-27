@@ -19,25 +19,25 @@ namespace ModBot.Business.Services
             _dataRepo = dataRepo;
         }
 
-        public async Task<bool> CreateDataToStatistics()
+        public async Task<bool> RefreshStatisticsInfo()
         {
 
             //Siffrorna och strängen ska bytas ut mot fungerande metoder 
             var createStats = new Statistics
                 (
-                    await numberOfMembersInNumber(),
-                    await numberOfBannedWords(),
+                    await NumberOfMembersInNumber(),
+                    await NumberOfBannedWords(),
                     1,
                     3,
                     3,
-                    await totalNumberofStrikes(),
-                    await averageNumberOfStrikes(),
+                    await TotalNumberofStrikes(),
+                    await AverageNumberOfStrikes(),
                     "!Ping"
                 );
 
             var result = _dataRepo.AddToStatistics(createStats);
 
-            if (true)
+            if (result)
                 return true;
 
             return false;
@@ -55,13 +55,13 @@ namespace ModBot.Business.Services
 
 
        #region private Methods
-        private async Task<int> numberOfMembersInNumber()
+        private async Task<int> NumberOfMembersInNumber()
         {
             var members = await _dataRepo.GetAllMembers();
             return members.Count();
         }
 
-        private async Task<int> numberOfBannedWords()
+        private async Task<int> NumberOfBannedWords()
         {
             var BannedWords = await _dataRepo.GetAllBannedWords();
             List<string> newList = new List<String>();
@@ -72,7 +72,7 @@ namespace ModBot.Business.Services
             return newList.Count();
         }
 
-        private async Task<int> totalNumberofStrikes()
+        private async Task<int> TotalNumberofStrikes()
         {
             var members = await _dataRepo.GetAllMembers();
             List<int> newList = new List<int>();
@@ -84,7 +84,7 @@ namespace ModBot.Business.Services
         }
 
 
-        private async Task<double> averageNumberOfStrikes()
+        private async Task<double> AverageNumberOfStrikes()
         {
             var members = await _dataRepo.GetAllMembers();
             var statistiscs = new Statistics();

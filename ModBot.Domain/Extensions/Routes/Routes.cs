@@ -45,7 +45,7 @@ namespace ModBot.Domain.Extensions.Routes
         {
             public const string GetAllStats = Base + "GetAllStats";
             public const string GetSpecificStats = Base + "GetStat/{id}";
-            public const string CreateStatistic = Base + "CreateStats";
+            public const string RefreshStats = Base + "RefreshStats";
         }
     }
 }
