@@ -13,7 +13,6 @@ namespace ModBot.DAL.Data
 
         public ModBotContext(DbContextOptions<ModBotContext> options) : base(options){}
 
-
         public DbSet<Member> Members { get; set; }
         public DbSet<BannedWord> BannedWords { get; set; }
         public DbSet<Changelog> Changelogs { get; set; }

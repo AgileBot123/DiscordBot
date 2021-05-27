@@ -3,6 +3,7 @@ using ModBot.Domain.DTO;
 using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -25,16 +26,14 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
         [HttpGet]
-        public IActionResult Get_AllBannedWords()
+        public IActionResult GetAllBannedWords()
         {   
             var banned = new List<ListBannedWords>();
             using (HttpClient client = new HttpClient())
             {
-            
-            var response = client.GetAsync("BLÄÄÄ").Result;
-            if(response != null)
-            {   
-                
+               
+            var response = client.GetAsync(endpoints.GetAllBannedWords).Result;
+
                 var jsonstring = response.Content.ReadAsStringAsync().Result;
                 var res = JsonConvert.DeserializeObject<ListOfBannedWordsDTO>(jsonstring);
                 foreach (var item in res.BWords)
@@ -48,8 +47,7 @@ namespace ModBot.WebClient.Controllers
                         banned.Add(result);
                 }
                     ViewBag.Message = banned;
-                }
-            }
+                }       
             
             return View(banned);
         }
@@ -62,6 +60,13 @@ namespace ModBot.WebClient.Controllers
         [HttpPost]
         public IActionResult Create_BannedWord(BannedWordModel bannedWordModel)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                var createword = new List<ListOfBannedWordsDTO>()
+                {
+                   
+                };
+            }
 
             return View();
         }
