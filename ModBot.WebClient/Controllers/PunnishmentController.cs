@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModBot.WebClient.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,19 @@ namespace ModBot.WebClient.Controllers
 {
     public class PunnishmentController : Controller
     {
-       public IActionResult Get_PunishLevel(int id)
+        public PunnishmentController()
+        {
+
+        }
+        public IActionResult CreatePunishemnt()
+        {
+            return View();
+        }
+        public IActionResult CreatePunishemnt(PunishmentModel punishmentModel)
+        {
+            return View();
+        }
+        public IActionResult Get_PunishLevel(int id)
         {
             return View();
         }
@@ -16,7 +29,15 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
-       
+        public IActionResult DeletePunishment(int id)
+        {
+            return View();
+        }
+        public IActionResult UpdatePunishment(int id)
+        {
+            return View();
+        }
+
         public IActionResult Settings(int id)
         {
             return View();

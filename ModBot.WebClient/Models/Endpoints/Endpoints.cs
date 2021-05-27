@@ -8,38 +8,41 @@ namespace ModBot.WebClient.Models.Endpoints
     public class Endpoints : IEndpoints
     {
         
-        public string CreateBannedWord => "http://localhost:63583/api/createbannedword";
+        public string CreateBannedWord => Base+"createbannedword";
 
-        public string GetBannedWord => "http://localhost:63583/api/getbannedword";
+        public string GetBannedWord => Base+"getbannedword";
 
-        public string GetAllBannedWords => "http://localhost:63583/api/getallbannedwords";
+        public string GetAllBannedWords => Base + "getallbannedwords";
 
-        public string DeleteBannedWord => "http://localhost:63583/api/deletebannedword";
+        public string DeleteBannedWord => Base + "deletebannedword";
 
-        public string UpdateBannedWordList => "http://localhost:63583/api/updatebannedwordlist";
+        public string UpdateBannedWordList => Base + "updatebannedwordlist";
 
-        public string CreateLog => "http://localhost:63583/api/createlog";
+        public string CreateLog => Base + "/createlog";
 
-        public string GetChangeLog => "http://localhost:63583/api/getchangelog";
+        public string GetChangeLog => Base + "getchangelog";
 
-        public string GetAllLogs => "http://localhost:63583/api/getalllogs";
+        public string GetAllLogs => Base + "getalllogs";
 
-        public string DeleteLog => "http://localhost:63583/api/deletelog";
+        public string DeleteLog => Base + "deletelog";
 
-        public string UpdateLog => "http://localhost:63583/api/udpatelog";
+        public string UpdateLog => Base + "udpatelog";
 
-        public string CreatePunishedLevel => "http://localhost:63583/api/createpunishmentlevel";
+        public string CreatePunishedLevel => Base + "createpunishmentlevel";
 
-        public string GetPunishedLevel => "http://localhost:63583/api/getpunishedlevel";
+        public string GetPunishedLevel => Base + "getpunishedlevel";
 
-        public string GetPunishedLevels => "http://localhost:63583/api/getpunishedlevels";
+        public string GetPunishedLevels => Base + "getpunishedlevels";
 
-        public string DeletePunishedLevel => "http://localhost:63583/api/deletepunishedlevel";
+        public string DeletePunishedLevel => Base + "deletepunishedlevel";
 
-        public string UpdatePunishedLevel => "http://localhost:63583/api/updatepunishedlevel";
+        public string UpdatePunishedLevel => Base + "updatepunishedlevel";
 
-        public string GetMember => "http://localhost:63583/api/getmember";
+        public string GetMember => Base + "getmember";
 
-        public string GetAllMembers => "http://localhost:63583/api/getallmembers";
+        public string GetAllMembers => Base + "getallmembers";
+
+        public string Host => "http://localhost:44396/";
+        public string Base => Host + "api/";
     }
 }

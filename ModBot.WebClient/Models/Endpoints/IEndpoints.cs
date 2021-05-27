@@ -33,6 +33,7 @@
         string UpdatePunishedLevel { get; }
         string GetMember { get; }
         string GetAllMembers { get; }
+        string  Host { get; }
 
     }
 }
