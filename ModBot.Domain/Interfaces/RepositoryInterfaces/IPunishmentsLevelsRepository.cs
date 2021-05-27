@@ -9,8 +9,8 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     {
         Task<IPunishmentsLevels> GetPunishment(int id);
         Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
-        bool CreateGetPunishment(IPunishmentsLevels createPunished);
-        bool DeleteGetPunishment(IPunishmentsLevels deletePunsihedLevel);
-        bool UpdateGetPunishment(IPunishmentsLevels updatePunished, int id);
+        bool CreatePunishment(IPunishmentsLevels createPunished);
+        bool DeletePunishment(IPunishmentsLevels deletePunsihedLevel);
+        bool UpdatePunishment(IPunishmentsLevels updatePunished, int id);
     }
 }

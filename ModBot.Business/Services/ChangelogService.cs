@@ -71,9 +71,11 @@ namespace ModBot.Business.Services
                 var newlog = new Changelog(updateChangelog.ChangeDate,
                                             updateChangelog.Changed);
 
-                _databaseRepository.UpdateChangelog(id,newlog);
+                var result = _databaseRepository.UpdateChangelog(id,newlog);
 
-                return true;
+                if (result)
+                    return true;
+              
             }
             return false;
 

@@ -29,7 +29,7 @@ namespace ModBot.Testing.Controllers
 
         private List<IPunishmentsLevels> _punishmentsList = new List<IPunishmentsLevels>
         {
-            new PunishmentsLevels(1, 1, 2, 3, default(DateTime), default(DateTime))
+            new PunishmentsLevel(1, 1, 2, 3, default(DateTime), default(DateTime))
         };
 
 
@@ -78,12 +78,12 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             var id = 1;
-            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(new PunishmentsLevels(1, 2, 3, 1, default(DateTime), default(DateTime)));
+            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(new PunishmentsLevel(1, 2, 3, 1, default(DateTime), default(DateTime)));
             //Act
             var response = await punishedLevelsController.GetPunishedLevel(id);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
-            var okValue = result.Value.Should().BeOfType<PunishmentsLevels>().Subject;
+            var okValue = result.Value.Should().BeOfType<PunishmentsLevel>().Subject;
             okValue.Id.Should().Be(1);
         }
 

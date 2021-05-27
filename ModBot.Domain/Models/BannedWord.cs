@@ -7,36 +7,39 @@ namespace ModBot.Domain.Models
 {
     public class BannedWord : IBannedWord
     {
-        private readonly string word;
-        private readonly int strikes;
-        private readonly string punishment;
+        private  string _word;
+        private  int _strikes;
+        private  string _punishment;
 
-        public string Word => word;
-        public int Strikes => strikes;
-        public string Punishment => punishment;
-
-        /// <summary>
-        /// Ifall man vill ha konstruktorer med parametrar måste man ha en 
-        /// private konstruktor för Entity framework
-        /// </summary>
-        private BannedWord()
+        public string Word
         {
+            get { return _word; }
+            private set { }
         }
+        public int Strikes
+        {
+            get { return _strikes; }
+            private set { }
+        }
+        public string Punishment
+        {
+            get { return _punishment; }
+            private set { }
+        }
+
+        public BannedWord(){}
+
         public BannedWord(int strikes, string punishment)
         {
             
-            this.strikes = strikes;
-            this.punishment = punishment;
-
-
+            this._strikes = strikes;
+            this._punishment = punishment;
         }
         public BannedWord(string word, int strikes, string punishment)
         {
-            this.word = word;
-            this.strikes = strikes;
-            this.punishment = punishment;
-
-
+            this._word = word;
+            this._strikes = strikes;
+            this._punishment = punishment;
         }
     }
 }

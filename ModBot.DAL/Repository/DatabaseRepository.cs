@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using ModBot.DAL.Data;
+﻿using ModBot.DAL.Data;
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
@@ -22,7 +21,20 @@ namespace ModBot.DAL.Repository
             _context = context;
         }
 
-        public bool CreateBannedWord(IBannedWord createBannedWord)
+        public bool AddMember(IMember member)
+        {
+            try
+            {
+                _context.Add(member);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public virtual bool CreateBannedWord(IBannedWord createBannedWord)
         {
             try
             {
@@ -36,7 +48,7 @@ namespace ModBot.DAL.Repository
             
         }
 
-        public bool CreateChangelog(IChangelog createLog)
+        public virtual bool CreateChangelog(IChangelog createLog)
         {
             try
             {
@@ -49,7 +61,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public bool CreateGetPunishment(IPunishmentsLevels createPunished)
+        public virtual bool CreatePunishment(IPunishmentsLevels createPunished)
         {
             try
             {
@@ -62,7 +74,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public bool DeleteBannedWord(IBannedWord bannedWord)
+        public virtual bool DeleteBannedWord(IBannedWord bannedWord)
         {
             try
             {
@@ -75,7 +87,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public bool DeleteChangelog(IChangelog changelog)
+        public virtual bool DeleteChangelog(IChangelog changelog)
         {
             try
             {
@@ -88,7 +100,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public bool DeleteGetPunishment(IPunishmentsLevels punishmentLevel)
+        public virtual bool DeletePunishment(IPunishmentsLevels punishmentLevel)
         {
             try
             {
@@ -101,7 +113,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
+        public virtual async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
         {
             try
             {
@@ -122,7 +134,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public async Task<IEnumerable<IChangelog>> GetAllChangelogs()
+        public virtual async Task<IEnumerable<IChangelog>> GetAllChangelogs()
         {
 
             try
@@ -143,32 +155,27 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
-        public Member GetUser(ulong id)
-        {
-            throw new NotImplementedException();
-        }
 
-        public async Task<IEnumerable<IMember>> GetAllMembers()
+        public virtual async Task<IEnumerable<IMember>> GetAllMembers()
         {
             try
             {
-                var members = new List<IMember>();
+                var members = new List<IMember>();                
                 foreach (var _member in await _context.Members.ToListAsync())
                 {
                     var member = new Member(_member.Id,
                                               _member.Strikes);
                     members.Add(member);
-
                 }
                 return members;
             }
             catch (Exception)
             {
-                return null;
+                return new List<IMember>();
             }
         }
 
-        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
         {
 
             try
@@ -176,7 +183,7 @@ namespace ModBot.DAL.Repository
                 var punishments = new List<IPunishmentsLevels>();
                 foreach (var punishemntLevel in await _context.PunishmentsLevels.ToListAsync())
                 {
-                    var punishment = new PunishmentsLevels(punishemntLevel.Id,
+                    var punishment = new PunishmentsLevel(punishemntLevel.Id,
                                                             punishemntLevel.TimeOutLevel,
                                                             punishemntLevel.KickLevel,
                                                             punishemntLevel.BanLevel,
@@ -194,15 +201,16 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public async Task<IBannedWord> GetBannedWord(string word) => 
-            await _context.BannedWords.Where(x => x.Word == word).SingleAsync();
-        
+        public virtual async Task<IBannedWord> GetBannedWord(string word) =>
+            await _context.BannedWords.SingleAsync(x => x.Word == word);
 
-        public async Task<IChangelog> GetChangelog(int id)
+
+
+        public virtual async Task<IChangelog> GetChangelog(int id)
         {
             try
             {
-               return await _context.Changelogs.Where(x => x.Id == id).SingleAsync();
+                return await _context.Changelogs.SingleAsync(x => x.Id == id);
             }
             catch(Exception)
             {
@@ -210,11 +218,11 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public async Task<IMember> GetMember(ulong id)
+        public virtual async Task<IMember> GetMember(ulong id)
         {
             try
             {
-                return await _context.Members.Where(x => x.Id == id).SingleAsync();
+                return await _context.Members.SingleAsync(x => x.Id == id);
             }
             catch (Exception)
             {
@@ -222,11 +230,11 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public async Task<IPunishmentsLevels> GetPunishment(int id)
+        public virtual async Task<IPunishmentsLevels> GetPunishment(int id)
         {
             try
             {
-                return await _context.PunishmentsLevels.Where(x => x.Id == id).SingleAsync();
+                return await _context.PunishmentsLevels.SingleAsync(x => x.Id == id);
             }
             catch (Exception)
             {
@@ -234,7 +242,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public  bool UpdateBannedWord(IBannedWord updateBannedWord)
+        public virtual bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
            try
             {
@@ -247,7 +255,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public bool UpdateChangelog(int id, IChangelog changelog)
+        public virtual bool UpdateChangelog(int id, IChangelog changelog)
         {
             try
             {
@@ -261,7 +269,7 @@ namespace ModBot.DAL.Repository
             
         }
 
-        public bool UpdateGetPunishment(IPunishmentsLevels updatePunished, int id)
+        public virtual bool UpdatePunishment(IPunishmentsLevels updatePunished, int id)
         {
             try
             {

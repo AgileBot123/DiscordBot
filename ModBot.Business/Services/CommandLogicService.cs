@@ -2,11 +2,13 @@
 using Discord.Commands;
 using Discord.WebSocket;
 using ModBot.DAL.Repository;
+using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,9 +26,22 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public Member GetUserStrikes(ulong UserID) => _databaseRepository.GetUser(UserID);
+        public async Task<IMember> GetUserStrikes(ulong UserID) => await _databaseRepository.GetMember(UserID);
           
-        
+        public async Task<bool> AddMemberToDatabase(ulong UserId)
+        {
+            var allMembers = await _databaseRepository.GetAllMembers();
+
+            if (!allMembers.Any(x => x.Id == UserId) || allMembers.Count() == 0)
+            {
+               var createMember = new Member(UserId, 0);
+               var result =  _databaseRepository.AddMember(createMember);
+
+                if (result)
+                    return true; 
+            }
+            return false;
+        }
 
         public string BotResponseCooldown(SocketCommandContext context)
         {

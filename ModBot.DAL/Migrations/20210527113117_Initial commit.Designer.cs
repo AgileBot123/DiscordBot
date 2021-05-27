@@ -10,8 +10,8 @@ using ModBot.DAL.Data;
 namespace ModBot.DAL.Migrations
 {
     [DbContext(typeof(ModBotContext))]
-    [Migration("20210525085254_initial commit")]
-    partial class initialcommit
+    [Migration("20210527113117_Initial commit")]
+    partial class Initialcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -70,7 +70,7 @@ namespace ModBot.DAL.Migrations
                     b.ToTable("Member");
                 });
 
-            modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevels", b =>
+            modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +94,7 @@ namespace ModBot.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PunishmentsLevels");
+                    b.ToTable("PunishmentsLevel");
                 });
 #pragma warning restore 612, 618
         }

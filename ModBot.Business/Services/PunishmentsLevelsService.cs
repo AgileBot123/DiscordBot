@@ -22,7 +22,7 @@ namespace ModBot.Business.Services
 
         public bool CreatePunishmentLevel(PunishmentDto createPunished)
         {
-            var createdPunishment = new PunishmentsLevels(
+            var createdPunishment = new PunishmentsLevel(
                         timeoutLevel: createPunished.TimeOutLevel,
                         kickLevel: createPunished.KickLevel,
                         banLevel: createPunished.BanLevel,
@@ -30,7 +30,7 @@ namespace ModBot.Business.Services
                         strikeMuteLevel: createPunished.StrikeMuteTime
                      );
 
-            return _databaseRepository.CreateGetPunishment(createdPunishment);
+            return _databaseRepository.CreatePunishment(createdPunishment);
         }
 
         public async Task<bool> DeletePunishemntLevel(int id)
@@ -39,8 +39,7 @@ namespace ModBot.Business.Services
 
             if (getPunishedLevel != null)
             {
-                _databaseRepository.DeleteGetPunishment(getPunishedLevel);
-                return true;
+                return _databaseRepository.DeletePunishment(getPunishedLevel);
             }
 
             return false;
@@ -74,18 +73,18 @@ namespace ModBot.Business.Services
 
             if(selectPunishment != null)
             {
-                var punishment = new PunishmentsLevels(updatePunishment.TimeOutLevel,
+                var punishment = new PunishmentsLevel(updatePunishment.TimeOutLevel,
                                                        updatePunishment.KickLevel,
                                                        updatePunishment.BanLevel,
                                                        updatePunishment.SpamMuteTime,
                                                        updatePunishment.StrikeMuteTime);
 
-                _databaseRepository.UpdateGetPunishment(punishment,id);
+                var result = _databaseRepository.UpdatePunishment(punishment,id);
 
-                return true;                            
+                if (result)
+                    return true;
             }
-            return false;
-            
+            return false;     
         }
     }
 }

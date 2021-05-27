@@ -6,8 +6,8 @@ namespace ModBot.Domain.interfaces
 {
     public interface IMember
     {
-        ulong Id { get; }
-        int Strikes { get;}
+        ulong Id { get;}
+        int Strikes { get; }
         void AddStrikes(int strikes);
         void RemoveStrikes(int strikes);
     }
