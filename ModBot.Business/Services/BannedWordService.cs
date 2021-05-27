@@ -41,15 +41,9 @@ namespace ModBot.Business.Services
             return false;
         }
 
-        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
-        {
-            var bannedWords = await _databaseRepository.GetAllBannedWords();
+        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords() => await _databaseRepository.GetAllBannedWords();
 
-            if (bannedWords.Count() == 0)
-                return null;
-
-            return bannedWords;
-        }
+        
 
         public async Task<IBannedWord> GetBannedWord(string word)
         {
