@@ -42,7 +42,7 @@ namespace ModBot.WebClient.Models.Endpoints
 
         public string GetAllMembers => Base + "getallmembers";
 
-        public string Host => "http://localhost:44396/";
+        public string Host => "https://localhost:44396/";
         public string Base => Host + "api/";
     }
 }
