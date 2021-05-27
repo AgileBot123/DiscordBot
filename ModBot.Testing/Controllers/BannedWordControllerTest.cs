@@ -184,7 +184,7 @@ namespace ModBot.Testing.Controllers
             var response = await _bannedWordsController.UpdateBannedWordList(bannedWord);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be("Parameters cannot be null and/or id cannot be zero");
+            result.Value.Should().Be("banned word was not update");
         }
 
         [TestMethod]

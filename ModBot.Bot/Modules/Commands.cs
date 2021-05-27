@@ -23,11 +23,16 @@ namespace ModBot.Bot.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            var response = _commandLogic.BotResponseCooldown(Context);
+            var added = await _commandLogic.AddMemberToDatabase(Context.User.Id);
+
+            if (added)
+            {
+               var response = _commandLogic.BotResponseCooldown(Context);
             if (response != null)
                 await ReplyAsync(response);
             else
                 await ReplyAsync("pong");
+            }
         }
 
         [Command("UserStrike")]
@@ -40,9 +45,9 @@ namespace ModBot.Bot.Modules
         [Command("Strike")] //checkar själva användares egna strikes
 
         public async Task Strike(SocketMessage arg)
-        {
-            var response = _commandLogic.GetUserStrikes(arg.Author.Id);
-            await ReplyAsync(response.Id.ToString());
+        {     
+                var response = _commandLogic.GetUserStrikes(arg.Author.Id);
+                await ReplyAsync(response.Id.ToString());    
         }
 
         [Command("RemoveStrike")]

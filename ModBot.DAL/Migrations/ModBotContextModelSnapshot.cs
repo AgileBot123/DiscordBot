@@ -68,7 +68,7 @@ namespace ModBot.DAL.Migrations
                     b.ToTable("Member");
                 });
 
-            modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevels", b =>
+            modelBuilder.Entity("ModBot.Domain.Models.PunishmentsLevel", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,7 +92,7 @@ namespace ModBot.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PunishmentsLevels");
+                    b.ToTable("PunishmentsLevel");
                 });
 #pragma warning restore 612, 618
         }
