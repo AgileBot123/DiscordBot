@@ -20,8 +20,6 @@ namespace ModBot.WebClient.ClientLogic
         private string Token;
 
         private readonly HttpContext _context;
-        
-
         public GuildLogic()
         {
             _context = new HttpContextAccessor().HttpContext;
@@ -51,7 +49,5 @@ namespace ModBot.WebClient.ClientLogic
             return servers;
 
         }
-
-        public async Task<IList<BotInServer>> GetUserServerAsync()
     }
 }
