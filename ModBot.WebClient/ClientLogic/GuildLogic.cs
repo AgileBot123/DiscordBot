@@ -42,7 +42,7 @@ namespace ModBot.WebClient.ClientLogic
             {
                 foreach (var guild in guildsummery.Where(g => g.Permissions.Administrator))
                 {
-                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl) );
+                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl));
                 }
             }
 
