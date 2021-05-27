@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.WebClient.ClientLogic;
+using System.Threading.Tasks;
 
 namespace ModBot.WebClient.Controllers
 {
@@ -32,8 +35,14 @@ namespace ModBot.WebClient.Controllers
             ViewBag.Test = HttpContext.User.Identity.Name;
             var servers = _logic.GetUserServerAsync().Result;
             ViewBag.Server1 = servers[0].Name;
-            return View(servers);
+            return View("ServerList", servers);
         }
-            
+
+        public async Task<IActionResult> Logout()
+        {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+               // await HttpContext.SignOutAsync("Discord");
+            return RedirectToAction("Start", "Home");
+        }
     }
 }

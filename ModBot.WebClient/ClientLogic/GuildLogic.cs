@@ -34,6 +34,7 @@ namespace ModBot.WebClient.ClientLogic
             Token = (authenticateResult.Properties ?? throw new UnauthorizedAccessException()).GetTokenValue("access_token");
 
             await _discordRestClient.LoginAsync(TokenType.Bearer, Token);
+            
 
             var guildSummeries = _discordRestClient.GetGuildSummariesAsync();
 
@@ -50,5 +51,7 @@ namespace ModBot.WebClient.ClientLogic
             return servers;
 
         }
+
+        public async Task<IList<BotInServer>> GetUserServerAsync()
     }
 }

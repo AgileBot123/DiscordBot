@@ -39,10 +39,20 @@
                 <i class="fa fa-home w3-xxlarge"></i>
                 <p>HOME</p>
             </a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="Authentication">
-                <i class="fa fa-eye w3-xxlarge"></i>
-                <p>LOGIN</p>
-            </a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="Logout">
+                    <i class="fa fa-eye w3-xxlarge"></i>
+                    <p>LOGOUT</p>
+                </a>
+            }
+            else
+            {
+                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="Authentication">
+                    <i class="fa fa-eye w3-xxlarge"></i>
+                    <p>LOGIN</p>
+                </a>
+            }
             <a href="#settings" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
                 <i class="fa fa-user w3-xxlarge"></i>
                 <p>SETTINGS</p>
