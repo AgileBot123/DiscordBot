@@ -1,28 +1,29 @@
 ﻿
-<h1>@ViewBag.Test </h1>
+<h1>Logged in Discord user: @ViewBag.Test </h1>
 @model IEnumerable<DiscordServer>
 @{
-    var AddDiscordBot = "https://discord.com/api/oauth2/authorize?client_id=844535789882834955&permissions=0&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2FAuthentication%2FLoggin&scope=bot";
+    var AddDiscordBot = "https://discord.com/oauth2/authorize?response_type=code&client_id=844535789882834955&scope=bot%20applications.commands&permissions=2952801470&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2F&guild_id=";
 }
 <div class="p-5 text-center bg-light">
-    <h1 class="mb-3">Please select server</h1> 
+    <h1 class="mb-3">Please select server</h1>
 </div>
 <style>
     img {
-        float:          left;
-        width:          60px;
-        height:         60px;
-        margin-right:   5px;
+        float: left;
+        width: 60px;
+        height: 60px;
+        margin-right: 5px;
     }
 
     #Text {
-        width:          300px;
-        height:         10px;
-        float:          right;
+        width: 300px;
+        height: 10px;
+        float: right;
     }
+
     #meta {
-        display:        flex;
-        align-items:    center;
+        display: flex;
+        align-items: center;
     }
 
     #Button {
@@ -50,7 +51,7 @@
                             @item.Name
                         </p>
                         <div id="Button">
-                            <a href=@AddDiscordBot target=@AddDiscordBot class="btn btn-dark">Add bot</a>
+                            <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
                         </div>
                     </div>
                 </td>
@@ -59,3 +60,5 @@
     </tbody>
 </table>
 <p> FGC COMMUNITY IS NOT PART OF THE ESPORTS</p>
+
+@*onclick="window.opener('@AddDiscordBot@item.Id', 'popup', 'width=480,height=780,scrollbars=no,resizable=no'); return false;"*@
