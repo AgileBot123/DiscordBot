@@ -57,6 +57,7 @@ namespace ModBot.WebClient
                         //options.UserInformationEndpoint = "https://discord.com/api/users/@me/guilds"; might want to remove this later on
                         options.Scope.Add("guilds");
                         options.Scope.Add("guilds.join");
+                        //options.CallbackPath = 
 
                         options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
                         options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");

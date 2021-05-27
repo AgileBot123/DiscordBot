@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.WebClient.Models;
+using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -11,6 +12,13 @@ namespace ModBot.WebClient.Controllers
 {
     public class BannedWordController : Controller
     {
+        private readonly IEndpoints endpoints;
+
+        public BannedWordController()
+        {
+            endpoints = new Endpoints();
+        }
+
         [HttpGet]
         public IActionResult Get_BannedWords(int id)
         {
@@ -45,9 +53,14 @@ namespace ModBot.WebClient.Controllers
             
             return View(banned);
         }
+        public IActionResult Create_BannedWord()
+        {
+
+            return View("CreateBannedWord");
+        }
 
         [HttpPost]
-        public IActionResult Create_BannedWord()
+        public IActionResult Create_BannedWord(BannedWordModel bannedWordModel)
         {
 
             return View();
