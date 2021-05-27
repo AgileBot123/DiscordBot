@@ -53,9 +53,14 @@ namespace ModBot.WebClient.Controllers
             
             return View(banned);
         }
+        public IActionResult Create_BannedWord()
+        {
+
+            return View("CreateBannedWord");
+        }
 
         [HttpPost]
-        public IActionResult Create_BannedWord()
+        public IActionResult Create_BannedWord(BannedWordModel bannedWordModel)
         {
 
             return View();
