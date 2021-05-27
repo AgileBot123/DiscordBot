@@ -79,16 +79,5 @@ namespace ChatFilterBot
             }
 
         }
-
-        public async Task IninitializeAsync(DiscordSocketClient client)
-        {
-            _client = client;
-            _client.JoinedGuild += JoinedServer;
-            _client.LeftGuild += LeftServer;
-        }
-
-
-
-   
     }
 }

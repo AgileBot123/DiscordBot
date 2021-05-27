@@ -20,8 +20,6 @@ namespace ModBot.WebClient.ClientLogic
         private string Token;
 
         private readonly HttpContext _context;
-        
-
         public GuildLogic()
         {
             _context = new HttpContextAccessor().HttpContext;
@@ -44,14 +42,12 @@ namespace ModBot.WebClient.ClientLogic
             {
                 foreach (var guild in guildsummery.Where(g => g.Permissions.Administrator))
                 {
-                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl));
+                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl) );
                 }
             }
 
             return servers;
 
         }
-
-        public async Task<IList<BotInServer>> GetUserServerAsync()
     }
 }
