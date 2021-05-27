@@ -57,14 +57,7 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                var bannedWordList = await _bannedWordService.GetAllBannedWords();
-
-                if (bannedWordList.Count() == 0)
-                {
-                    return NotFound(" Banned words is empty");
-                }
-
-                return Ok(bannedWordList);
+                return Ok(await _bannedWordService.GetAllBannedWords());
             }
             catch (Exception)
             {
