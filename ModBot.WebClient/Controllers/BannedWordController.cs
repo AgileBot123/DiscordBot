@@ -31,8 +31,8 @@ namespace ModBot.WebClient.Controllers
             var banned = new List<ListBannedWords>();
             using (HttpClient client = new HttpClient())
             {
-            
-            var response = client.GetAsync(new Uri(endpoints.GetAllBannedWords)).Result;
+               
+            var response = client.GetAsync(endpoints.GetAllBannedWords).Result;
 
                 var jsonstring = response.Content.ReadAsStringAsync().Result;
                 var res = JsonConvert.DeserializeObject<ListOfBannedWordsDTO>(jsonstring);
@@ -60,6 +60,13 @@ namespace ModBot.WebClient.Controllers
         [HttpPost]
         public IActionResult Create_BannedWord(BannedWordModel bannedWordModel)
         {
+            using (HttpClient client = new HttpClient())
+            {
+                var createword = new List<ListOfBannedWordsDTO>()
+                {
+                   
+                };
+            }
 
             return View();
         }
