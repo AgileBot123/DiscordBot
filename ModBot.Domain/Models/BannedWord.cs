@@ -7,9 +7,9 @@ namespace ModBot.Domain.Models
 {
     public class BannedWord : IBannedWord
     {
-        private  string _word;
-        private  int _strikes;
-        private  string _punishment;
+        private readonly string _word;
+        private readonly int _strikes;
+        private readonly string _punishment;
 
         public string Word
         {

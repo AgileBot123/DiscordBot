@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using ModBot.API.Extensions.Service;
 using ModBot.Business.Services;
 using ModBot.DAL.Data;
 using ModBot.DAL.Repository;
@@ -30,19 +31,9 @@ namespace ModBot.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddDbContext<ModBotContext>(o => o.UseSqlServer(Configuration.GetConnectionString("ModBotDatabase")));
 
-            services.AddScoped<DatabaseRepository>();
-
-            services.AddScoped<IPunishmentsLevelsService, PunishmentsLevelsService>();
-            services.AddScoped<IChangelogService, ChangelogService>();
-            services.AddScoped<IBannedWordService, BannedWordService>();
-            services.AddScoped<IMemberService, MemberService>();
-
-            services.AddScoped<IBannedWordRepository, DatabaseRepository>();
-            services.AddScoped<IChangeLogRepository, DatabaseRepository>();
-            services.AddScoped<IMemberRepository, DatabaseRepository>();
-            services.AddScoped<IPunishmentsLevelsRepository, DatabaseRepository>();
+            services.DependencyInjectionConfig();
+            services.DatabaseConfiguration(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

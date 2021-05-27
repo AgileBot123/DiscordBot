@@ -14,7 +14,6 @@ using System.Threading.Tasks;
 namespace ModBot.Testing.Services
 {
     [TestClass]
-    [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
     public class PunishedLevelServiceTest
     {
         private readonly Mock<DatabaseRepository> _mockRepo;
@@ -26,7 +25,7 @@ namespace ModBot.Testing.Services
             _punishedLevelService = new PunishmentsLevelsService(_mockRepo.Object);
         }
 
-        private PunishmentDto punishmentDto = new PunishmentDto()
+        private readonly PunishmentDto punishmentDto = new PunishmentDto()
         {
             BanLevel = 1,
             KickLevel = 2,
@@ -34,7 +33,7 @@ namespace ModBot.Testing.Services
             SpamMuteTime = DateTime.Now,
             StrikeMuteTime = DateTime.Now
         };
-        private IPunishmentsLevels punishmentLevls = new PunishmentsLevel(1,2, 3, default(DateTime), default(DateTime));
+        private readonly IPunishmentsLevels punishmentLevls = new PunishmentsLevel(1,2, 3, default, default);
 
         private List<PunishmentDto> PunishmentLevelsList = new List<PunishmentDto>();
 
@@ -118,7 +117,7 @@ namespace ModBot.Testing.Services
             //Arrange
             _mockRepo.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(new List<IPunishmentsLevels>()
             {
-                new PunishmentsLevel(1,2,3, default(DateTime), default(DateTime))
+                new PunishmentsLevel(1,2,3, default, default)
             });
             //Act
             var response = await _punishedLevelService.GetAllPunishmentLevels();
@@ -145,7 +144,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };      
-            var punishments = new PunishmentsLevel(1, 2, 3, default(DateTime), default(DateTime));
+            var punishments = new PunishmentsLevel(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
             //Act
@@ -160,7 +159,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };
-            var punishments = new PunishmentsLevel(1, 2, 3, default(DateTime), default(DateTime));
+            var punishments = new PunishmentsLevel(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
             //Act

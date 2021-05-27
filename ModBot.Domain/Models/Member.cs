@@ -9,7 +9,7 @@ namespace ModBot.Domain.Models
 {
     public class Member : IMember
     {
-        private ulong _id;
+        private readonly ulong _id;
         private int _strikes;
 
         public ulong Id 

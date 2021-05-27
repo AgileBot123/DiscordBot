@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository
+   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository
     {
 
         private readonly ModBotContext _context;
@@ -31,6 +31,19 @@ namespace ModBot.DAL.Repository
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public bool AddToStatistics(IStatistics stats)
+        {
+            try
+            {
+                _context.Add(stats);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
             }
         }
 
@@ -73,6 +86,7 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
+
 
         public virtual bool DeleteBannedWord(IBannedWord bannedWord)
         {
@@ -242,6 +256,38 @@ namespace ModBot.DAL.Repository
             }
         }
 
+        public async Task<IEnumerable<IStatistics>> GetAllStatistics()
+        {
+            try
+            {
+                var newList = new List<IStatistics>();
+                foreach (var item in await _context.Statistics.ToListAsync())
+                {
+                    newList.Add(new Statistics(
+                        item.Id,
+                        item.NumberOfMembers,
+                        item.NumberOfBannedWords,
+                        item.NumberOfMembersBeenTimedOut,
+                        item.NumberOfMembersBeingBanned,
+                        item.TotalStrikesInDatabase,
+                        item.AverageNumberOfStrikes,
+                        item.MedianNumberOfStrikes,
+                        item.MostUsedCommand));
+                }
+                return newList;
+            }
+            catch (Exception)
+            {
+
+                return null;
+            }
+        }
+
+        public async Task<IStatistics> GetStatistics(int id)
+        {
+            return await _context.Statistics.SingleAsync(x => x.Id == id);
+        }
+
         public virtual bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
            try
@@ -281,5 +327,6 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
+
     }
 }
