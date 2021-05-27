@@ -1,6 +1,7 @@
 ﻿using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using ModBot.Domain.interfaces;
 using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
@@ -11,9 +12,11 @@ namespace ModBot.Domain.Interfaces
 {
     public interface ICommandLogic
     {
-        Member GetUserStrikes(ulong UserID);
+        Task<IMember> GetUserStrikes(ulong UserID);
 
         string BotResponseCooldown(SocketCommandContext context);
-        
+        Task<bool> AddMemberToDatabase(ulong UserId);
+
+
     }
 }

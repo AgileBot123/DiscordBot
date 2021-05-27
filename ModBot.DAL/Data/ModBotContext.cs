@@ -14,39 +14,31 @@ namespace ModBot.DAL.Data
         public ModBotContext(DbContextOptions<ModBotContext> options) : base(options){}
 
 
-
-        public IQueryable<Member> Members { get; set; }
-        public IQueryable<BannedWord> BannedWords { get; set; }
-        public IQueryable<Changelog> Changelogs { get; set; }
-        public IQueryable<PunishmentsLevels> PunishmentsLevels { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<BannedWord> BannedWords { get; set; }
+        public DbSet<Changelog> Changelogs { get; set; }
+        public DbSet<PunishmentsLevel> PunishmentsLevels { get; set; }
 
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //Members
-            modelBuilder.Entity<Member>().HasKey(p => new { p.Id });          
-            modelBuilder.Entity<Member>().Property(b => b.Id).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<Member>().Property(b => b.Strikes).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
 
-            //BannedWord
+            ////Members
+            modelBuilder.Entity<Member>().ToTable("Member");
+            modelBuilder.Entity<Member>().HasKey(p => new { p.Id });
+
+            ////BannedWord
+            modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
             modelBuilder.Entity<BannedWord>().HasKey(p => new { p.Word });
-            modelBuilder.Entity<BannedWord>().Property(b => b.Word).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<BannedWord>().Property(b => b.Strikes).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<BannedWord>().Property(b => b.Punishment).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
 
-            //ChangedLogs
-            modelBuilder.Entity<Changelog>().Property(b => b.Id).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<Changelog>().Property(b => b.Changed).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<Changelog>().Property(b => b.ChangedDate).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
+            ////ChangedLogs
+            modelBuilder.Entity<Changelog>().ToTable("Changelog");
+            modelBuilder.Entity<Changelog>().HasKey(p => new { p.Id });
 
-            //PunishmentLevels
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.Id).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.TimeOutLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.KickLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.BanLevel).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.SpamMuteTime).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
-            modelBuilder.Entity<PunishmentsLevels>().Property(b => b.StrikeMuteTime).UsePropertyAccessMode(PropertyAccessMode.FieldDuringConstruction);
+            ////PunishmentLevels
+            modelBuilder.Entity<PunishmentsLevel>().HasKey(p => new { p.Id });
+            modelBuilder.Entity<PunishmentsLevel>().ToTable("PunishmentsLevel");
         }
     }
 }

@@ -6,8 +6,8 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
 {
     public interface IChangelog
     {
-        int Id { get;  }
-        DateTime ChangedDate { get; }
+        int Id { get; }
+        DateTime ChangedDate { get;  }
         string Changed { get; }
     }
 }

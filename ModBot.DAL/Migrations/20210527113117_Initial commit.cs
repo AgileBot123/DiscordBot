@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModBot.DAL.Migrations
 {
-    public partial class initialcommit : Migration
+    public partial class Initialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -47,7 +47,7 @@ namespace ModBot.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PunishmentsLevels",
+                name: "PunishmentsLevel",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -60,7 +60,7 @@ namespace ModBot.DAL.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PunishmentsLevels", x => x.Id);
+                    table.PrimaryKey("PK_PunishmentsLevel", x => x.Id);
                 });
         }
 
@@ -76,7 +76,7 @@ namespace ModBot.DAL.Migrations
                 name: "Member");
 
             migrationBuilder.DropTable(
-                name: "PunishmentsLevels");
+                name: "PunishmentsLevel");
         }
     }
 }

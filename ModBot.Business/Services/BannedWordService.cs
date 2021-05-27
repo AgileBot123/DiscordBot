@@ -3,6 +3,7 @@ using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -96,12 +97,13 @@ namespace ModBot.Business.Services
                                                      bannedWord.Strikes,
                                                      bannedWord.Punishment);
 
-                        _databaseRepository.DeleteBannedWord(changedBannedWord);
+                       _databaseRepository.DeleteBannedWord(changedBannedWord);
                     }
                 }
+
                 return true;
             }
-            catch
+            catch(Exception)
             {
                 return false;
             }

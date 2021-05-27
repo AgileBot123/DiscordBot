@@ -1,21 +1,15 @@
 using System;
-using System.Text;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Discord;
-using Discord.Net;
-using Discord.API;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
-using ModBot.Bot.Modules;
 using ModBot.Business.Services;
 using ModBot.Domain.Interfaces;
-using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.DAL.Repository;
 using ModBot.DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ChatFilterBot
 {
@@ -36,7 +30,7 @@ namespace ChatFilterBot
 
             _services = new ServiceCollection()
                  .AddSingleton(_client)
-                 .AddDbContext<ModBotContext>()
+                 .AddDbContext<ModBotContext>(o => o.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True"))
                  .AddSingleton<ICommandLogic, CommandLogicService>()
                  .AddTransient<DatabaseRepository>()
                  .AddSingleton(_commandsServices)
