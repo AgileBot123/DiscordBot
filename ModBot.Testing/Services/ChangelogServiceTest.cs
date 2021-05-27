@@ -30,7 +30,7 @@ namespace ModBot.Testing.Services
             ChangeDate = DateTime.Now,
             Changed = "Timeout"
         };
-        private IChangelog changeLog = new Changelog(default(DateTime), "Timeout");
+        private IChangelog changeLog = new Changelog(default, "Timeout");
 
         private List<ChangeLogDto> PunishmentLevelsList = new List<ChangeLogDto>();
 

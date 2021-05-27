@@ -29,7 +29,7 @@ namespace ModBot.Testing.Controllers
 
         private List<IPunishmentsLevels> _punishmentsList = new List<IPunishmentsLevels>
         {
-            new PunishmentsLevel(1, 1, 2, 3, default(DateTime), default(DateTime))
+            new PunishmentsLevel(1, 1, 2, 3, default, default)
         };
 
 
@@ -78,7 +78,7 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             var id = 1;
-            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(new PunishmentsLevel(1, 2, 3, 1, default(DateTime), default(DateTime)));
+            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(new PunishmentsLevel(1, 2, 3, 1, default, default));
             //Act
             var response = await punishedLevelsController.GetPunishedLevel(id);
             //Assert

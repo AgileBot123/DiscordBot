@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 namespace ModBot.Testing.Services
 {
     [TestClass]
-    [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
     public class BannedWordServiceTest
     {
         private readonly Mock<DatabaseRepository> _mockRepo;

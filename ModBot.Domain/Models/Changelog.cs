@@ -7,9 +7,9 @@ namespace ModBot.Domain.Models
 {
     public class Changelog : IChangelog
     {
-        private int _id;
-        private DateTime _changedDate;
-        private string _changed;
+        private readonly int _id;
+        private readonly DateTime _changedDate;
+        private readonly string _changed;
 
 
         public int Id

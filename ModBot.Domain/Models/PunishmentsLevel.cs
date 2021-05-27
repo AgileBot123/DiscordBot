@@ -8,12 +8,12 @@ namespace ModBot.Domain.Models
    
     public class PunishmentsLevel : IPunishmentsLevels
     {
-        private int _id;
-        private  int _timeOutLevel;
-        private  int _kickLevel;
-        private  int _banLevel;
-        private  DateTime _spamMuteTime;
-        private  DateTime _strikeMuteTime;
+        private readonly int _id;
+        private readonly int _timeOutLevel;
+        private readonly int _kickLevel;
+        private readonly int _banLevel;
+        private readonly DateTime _spamMuteTime;
+        private readonly DateTime _strikeMuteTime;
 
 
         public int Id

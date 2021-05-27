@@ -17,9 +17,15 @@ namespace ModBot.DAL.Data
         public DbSet<BannedWord> BannedWords { get; set; }
         public DbSet<Changelog> Changelogs { get; set; }
         public DbSet<PunishmentsLevel> PunishmentsLevels { get; set; }
+        public DbSet<Statistics> Statistics { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
+            //Statistics 
+            modelBuilder.Entity<Statistics>().ToTable("Statistics");
+            modelBuilder.Entity<Statistics>().HasKey(p => new { p.Id });
 
             ////Members
             modelBuilder.Entity<Member>().ToTable("Member");
