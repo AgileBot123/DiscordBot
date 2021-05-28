@@ -120,7 +120,7 @@ namespace ModBot.Testing.Services
             //Arrange
             _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(new List<IBannedWord>()
             {
-                new BannedWord(1, "Timeout")
+                new BannedWord(1, "Timeout", 1)
             });
             //Act
             var response = await _bannedWordService.GetAllBannedWords();

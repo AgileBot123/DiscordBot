@@ -116,12 +116,12 @@ namespace ModBot.Domain.Models
             return AverageNumberOfStrikes = members.Count() / totalStrikesInDatabase;
         }
 
-        //Correct or not
         public double MedianStrikePerMember(List<IMember> members)
         {
-            var sum = members.OrderBy(x => x.Strikes).ToList();
-            return sum.Count() / 2;
+            throw new NotImplementedException();
         }
+
+
         #endregion
     }
 }

@@ -27,14 +27,14 @@ namespace ModBot.Business.Services
         }
 
         public async Task<IMember> GetUserStrikes(ulong UserID) => await _databaseRepository.GetMember(UserID);
-          
-        public async Task<bool> AddMemberToDatabase(ulong UserId)
+
+        public async Task<bool> AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot)
         {
             var allMembers = await _databaseRepository.GetAllMembers();
 
             if (!allMembers.Any(x => x.Id == UserId) || allMembers.Count() == 0)
             {
-               var createMember = new Member(UserId, 0);
+               var createMember = new Member(UserId,username,avatar,email,isBot);
                var result =  _databaseRepository.AddMember(createMember);
 
                 if (result)

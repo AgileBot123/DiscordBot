@@ -27,11 +27,11 @@ namespace ModBot.Testing.Controllers
 
         private List<IMember> listOfMember = new List<IMember>() 
         { 
-            new Member(1, 1) 
+            new Member(1,"Nahd","avatar", "nahd@gmail.com",false) 
         };
 
         private List<IMember> emptyList = new List<IMember>();
-        private IMember member = new Member(1, 2);
+        private IMember member = new Member(1, "Nahd", "avatar", "nahd@gmail.com", false);
 
         [TestMethod]
         public async Task GetAllMembers_ShouldReturnOkWithAlistOfMembers()

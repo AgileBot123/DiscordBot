@@ -15,7 +15,7 @@ namespace ModBot.Domain.Interfaces
         Task<IMember> GetUserStrikes(ulong UserID);
 
         string BotResponseCooldown(SocketCommandContext context);
-        Task<bool> AddMemberToDatabase(ulong UserId);
+        Task<bool> AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot);
 
 
     }

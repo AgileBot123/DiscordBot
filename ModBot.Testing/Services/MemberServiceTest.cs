@@ -26,7 +26,7 @@ namespace ModBot.Testing.Services
         }
 
 
-        private IMember member = new Member(1, 2);
+        private IMember member = new Member(1, "Nahd", "avatar", "nahd@gmail.com", false);
 
         private List<GetMemberDto> memberList = new List<GetMemberDto>();
 
@@ -62,8 +62,8 @@ namespace ModBot.Testing.Services
             //Arrange
             _mockRepo.Setup(x => x.GetAllMembers()).ReturnsAsync(new List<IMember>()
             {
-                new Member(1, 1)
-            });
+               new Member(1, "Nahd", "avatar", "nahd@gmail.com", false)
+             });
             //Act
             var response = await _membersService.GetAllMembers();
             //Assert

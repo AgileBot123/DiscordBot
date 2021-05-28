@@ -6,15 +6,16 @@ using System.Text;
 namespace ModBot.Domain.Models
 {
    
-    public class PunishmentsLevel : IPunishmentsLevels
+    public class PunishmentSettings : IPunishmentsLevels
     {
+        #region Properties
         private readonly int _id;
         private readonly int _timeOutLevel;
         private readonly int _kickLevel;
         private readonly int _banLevel;
-        private readonly DateTime _spamMuteTime;
-        private readonly DateTime _strikeMuteTime;
-
+        private readonly int _spamMuteTime;
+        private readonly int _strikeMuteTime;
+        private readonly ulong _guildId; 
 
         public int Id
         {
@@ -36,21 +37,33 @@ namespace ModBot.Domain.Models
             get { return _banLevel; }
             private set { }
         }
-        public DateTime SpamMuteTime
-        {
-            get { return _spamMuteTime; }
-            private set { }
-        }
-        public DateTime StrikeMuteTime
+ 
+        public int SpamMuteTime
         {
             get { return _strikeMuteTime; }
             private set { }
         }
 
-        private PunishmentsLevel(){}
+        public int StrikeMuteTime
+        {
+            get { return _strikeMuteTime; }
+            private set { }
+        }
+        public ulong GuildId
+        {
+            get { return _guildId; }
+            private set { }
+        }
+
+        public Guild Guild { get; private set; }
+        #endregion
 
 
-        public PunishmentsLevel(int timeoutLevel, int kickLevel, int banLevel, DateTime spamMuteLevel, DateTime strikeMuteLevel)
+
+        #region Constructors
+        private PunishmentSettings() { }
+
+        public PunishmentSettings(int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel)
         {
             this._timeOutLevel = timeoutLevel;
             this._kickLevel = kickLevel;
@@ -60,14 +73,16 @@ namespace ModBot.Domain.Models
         }
 
 
-        public PunishmentsLevel(int id, int timeoutLevel, int kickLevel, int banLevel, DateTime spamMuteLevel, DateTime strikeMuteLevel)
+        public PunishmentSettings(int id, int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel)
         {
             this._id = id;
             this._timeOutLevel = timeoutLevel;
             this._kickLevel = kickLevel;
             this._banLevel = banLevel;
             this._spamMuteTime = spamMuteLevel;
-            this._strikeMuteTime = strikeMuteLevel;          
+            this._strikeMuteTime = strikeMuteLevel;
         }
+        #endregion
+
     }
 }

@@ -134,9 +134,10 @@ namespace ModBot.DAL.Repository
                 var bannedWords = new List<IBannedWord>();
                 foreach(var word in await _context.BannedWords.ToListAsync())
                 {
-                    var bannedword = new BannedWord(word.Word,
-                                                      word.Strikes,
-                                                       word.Punishment);
+                    var bannedword = new BannedWord(
+                                        word.Word,                                         word.Strikes,
+                                        word.Punishment,
+                                        word.BannedWordUsedCount);
                     bannedWords.Add(bannedword);
                    
                 }
@@ -178,7 +179,10 @@ namespace ModBot.DAL.Repository
                 foreach (var _member in await _context.Members.ToListAsync())
                 {
                     var member = new Member(_member.Id,
-                                              _member.Strikes);
+                                              _member.Username,
+                                              _member.Avatar,
+                                              _member.Email,
+                                              _member.IsBot);
                     members.Add(member);
                 }
                 return members;
@@ -197,7 +201,7 @@ namespace ModBot.DAL.Repository
                 var punishments = new List<IPunishmentsLevels>();
                 foreach (var punishemntLevel in await _context.PunishmentsLevels.ToListAsync())
                 {
-                    var punishment = new PunishmentsLevel(punishemntLevel.Id,
+                    var punishment = new PunishmentSettings(punishemntLevel.Id,
                                                             punishemntLevel.TimeOutLevel,
                                                             punishemntLevel.KickLevel,
                                                             punishemntLevel.BanLevel,

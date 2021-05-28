@@ -7,8 +7,9 @@ namespace ModBot.Domain.interfaces
     public interface IMember
     {
         ulong Id { get;}
-        int Strikes { get; }
-        void AddStrikes(int strikes);
-        void RemoveStrikes(int strikes);
+        string Avatar { get; }
+        string Email { get;  }
+        string Username { get; }
+        bool IsBot { get; }
     }
 }

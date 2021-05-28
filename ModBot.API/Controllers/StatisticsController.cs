@@ -54,12 +54,12 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
-        [Route(Routes.Statistisc.CreateStatistic)]
-        public async Task<IActionResult> CreateStats()
+        [Route(Routes.Statistisc.RefreshStats)]
+        public async Task<IActionResult> RefreshStats()
         {
             try
             {
-                var created = await _statsService.CreateDataToStatistics();
+                var created = await _statsService.RefreshStatisticsInfo();
 
                 if (created)
                 {

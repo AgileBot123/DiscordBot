@@ -22,7 +22,7 @@ namespace ModBot.Business.Services
 
         public bool CreatePunishmentLevel(PunishmentDto createPunished)
         {
-            var createdPunishment = new PunishmentsLevel(
+            var createdPunishment = new PunishmentSettings(
                         timeoutLevel: createPunished.TimeOutLevel,
                         kickLevel: createPunished.KickLevel,
                         banLevel: createPunished.BanLevel,
@@ -73,7 +73,7 @@ namespace ModBot.Business.Services
 
             if(selectPunishment != null)
             {
-                var punishment = new PunishmentsLevel(updatePunishment.TimeOutLevel,
+                var punishment = new PunishmentSettings(updatePunishment.TimeOutLevel,
                                                        updatePunishment.KickLevel,
                                                        updatePunishment.BanLevel,
                                                        updatePunishment.SpamMuteTime,
