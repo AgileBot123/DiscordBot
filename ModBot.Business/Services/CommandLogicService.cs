@@ -28,14 +28,24 @@ namespace ModBot.Business.Services
 
         public async Task<int> GetUserStrikes(ulong memberID, ulong guildId)
         {
+            var Punishment = await GetPunishment(memberID, guildId);
+            return Punishment.StrikesAmount;
+        }
+
+        private async Task<Punishment> GetPunishment(ulong memberID, ulong guildId)
+        {
             var Allmemberpunishment = await _databaseRepository.GetAllMemberPunishments();
-            var specificMemberPunishmentList = Allmemberpunishment.Where(x => x.MemberId == memberID).ToList();
+            var memberPunishmentIdList = Allmemberpunishment.Where(x => x.MemberId == memberID)
+                                                        .Select(mp => mp.PunishmentId).ToList();
 
             var AllguildPunishments = await _databaseRepository.GetAllGuildPunishments();
-            var specificGuildpunishmentList = AllguildPunishments.Where(x => x.GuildId == guildId).ToList();
+            var guildPunishmentIdList = AllguildPunishments.Where(x => x.GuildId == guildId)
+                                                       .Select(gp => gp.PunishmentId).ToList();
 
-            return 0;
-
+            var AllPunishments = await _databaseRepository.GetAllPunishments();
+            var PunishmentID = guildPunishmentIdList.Intersect(memberPunishmentIdList).FirstOrDefault();
+            var Punishment = AllPunishments.Where(p => p.Id == PunishmentID).Single();
+            return Punishment;
         }
 
         public async Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId)

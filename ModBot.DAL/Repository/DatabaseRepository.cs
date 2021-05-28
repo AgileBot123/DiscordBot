@@ -409,5 +409,18 @@ namespace ModBot.DAL.Repository
                 throw;
             }
         }
+
+        public async Task<List<Punishment>> GetAllPunishments()
+        {
+            try
+            {
+                return await _context.Punishments.ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
