@@ -74,30 +74,13 @@ namespace ModBot.Business.Services
 
         private async Task<int> TotalNumberofStrikes()
         {
-            var members = await _dataRepo.GetAllMembers();
-            List<int> newList = new List<int>();
-            foreach (var strikes in members.Select(x => x.Strikes))
-            {
-                newList.Add(strikes);
-            }
-            return newList.Count();
+            return 0;
         }
 
 
         private async Task<double> AverageNumberOfStrikes()
         {
-            var members = await _dataRepo.GetAllMembers();
-            var statistiscs = new Statistics();
-
-            List<int> newList = new List<int>();
-            foreach (var strikes in members.Select(x => x.Strikes))
-            {
-                newList.Add(strikes);
-            }
-            var totalStrikes = newList.Count();
-
-
-           return statistiscs.AverageStrikesPerMember(members.ToList(), totalStrikes);         
+            return 0;
         }
        #endregion
 

@@ -30,10 +30,10 @@ namespace ModBot.Testing.Services
             BanLevel = 1,
             KickLevel = 2,
             TimeOutLevel = 3,
-            SpamMuteTime = DateTime.Now,
-            StrikeMuteTime = DateTime.Now
+            SpamMuteTime = 1,
+            StrikeMuteTime = 2
         };
-        private readonly IPunishmentsLevels punishmentLevls = new PunishmentsLevel(1,2, 3, default, default);
+        private readonly IPunishmentsLevels punishmentLevls = new PunishmentSettings(1,2, 3, default, default);
 
         private List<PunishmentDto> PunishmentLevelsList = new List<PunishmentDto>();
 
@@ -117,7 +117,7 @@ namespace ModBot.Testing.Services
             //Arrange
             _mockRepo.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(new List<IPunishmentsLevels>()
             {
-                new PunishmentsLevel(1,2,3, default, default)
+                new PunishmentSettings(1,2,3, default, default)
             });
             //Act
             var response = await _punishedLevelService.GetAllPunishmentLevels();
@@ -144,7 +144,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };      
-            var punishments = new PunishmentsLevel(1, 2, 3, default, default);
+            var punishments = new PunishmentSettings(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
             //Act
@@ -159,7 +159,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };
-            var punishments = new PunishmentsLevel(1, 2, 3, default, default);
+            var punishments = new PunishmentSettings(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
             //Act

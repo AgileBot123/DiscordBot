@@ -9,5 +9,6 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
         string Word { get;  }
         int Strikes { get; }
         string Punishment { get;  }
+        int BannedWordUsedCount { get; }
     }
 }

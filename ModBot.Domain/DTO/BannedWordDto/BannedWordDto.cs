@@ -9,7 +9,7 @@ namespace ModBot.Domain.DTO.BannedWordDto
         public string Word { get; set; }
         public int Strikes { get; set; }
         public string Punishment { get; set; }
-        
+       public int BannedWordUsedCount { get; set; }
     }
     
 }

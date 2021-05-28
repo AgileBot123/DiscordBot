@@ -9,36 +9,59 @@ namespace ModBot.Domain.Models
 {
     public class Member : IMember
     {
-        private readonly ulong _id;
-        private int _strikes;
 
-        public ulong Id 
-        { 
+        #region Properties
+        private readonly ulong _id;
+        private string _username;
+        private string _avatar;
+        private string _email;
+        private bool _isBot;
+
+        public ulong Id
+        {
             get { return _id; }
             private set { }
         }
-        public int Strikes
+
+        public string Avatar
         {
-            get { return _strikes; }
+            get { return _avatar; }
             private set { }
         }
-        private Member() {}
 
-        public Member(ulong id, int strikes)
+        public string Email
+        {
+            get { return _email; }
+            private set { }
+        }
+
+        public string Username
+        {
+            get { return _username; }
+            private set { }
+        }
+
+        public bool IsBot
+        {
+            get { return _isBot; }
+            private set { }
+        }
+        #endregion
+
+
+        #region Constructors
+        private Member() { }
+
+        public Member(ulong id, string username, string avatar, string email, bool isBot)
         {
             this._id = id;
-            this._strikes = strikes;
+            _username = username;
+            _avatar = avatar;
+            _email = email;
+            _isBot = isBot;
         }
+        #endregion
 
 
-        public void AddStrikes(int strikes)
-        {
-            this._strikes += strikes;
-        }
-
-        public void RemoveStrikes(int strikes)
-        {
-            this._strikes -= strikes;
-        }
     }
 }
