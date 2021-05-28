@@ -23,7 +23,7 @@ namespace ModBot.Bot.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            AddMemberToDatabase();
+            await AddMemberToDatabase(Context.User);
 
             var response = _commandLogic.BotResponseCooldown(Context);
             if (response != null)
@@ -32,31 +32,35 @@ namespace ModBot.Bot.Modules
                 await ReplyAsync("pong");          
         }
 
-        private void AddMemberToDatabase()
+        private async Task AddMemberToDatabase(IUser user)
         {
-            _commandLogic.AddMemberToDatabase(Context.User.Id, Context.User.Username, Context.User.GetAvatarUrl(), "test@.gmail.com", Context.User.IsBot, Context.Guild.Id);
+            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), "test@gmail.com", user.IsBot, Context.Guild.Id);
         }
 
-        [Command("UserStrike")]
-        
-        public async Task UserStrike()
+        [Command("UserStrike")]      
+        public async Task UserStrike(SocketGuildUser inputedUser = default)
         {
-      
+       
+           var user = inputedUser == null ? Context.User : inputedUser;
+
+            await AddMemberToDatabase(user);
+
+            var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
+            await ReplyAsync(response.ToString());
         }
 
         [Command("Strike")] //checkar själva användares egna strikes
 
         public async Task Strike(SocketMessage arg)
-        {     
-                var response = _commandLogic.GetUserStrikes(arg.Author.Id);
-                await ReplyAsync(response.Id.ToString());    
+        {
+            await AddMemberToDatabase(Context.User);
         }
 
         [Command("RemoveStrike")]
 
         public async Task RemoveStrike()
         {
-        
+            await AddMemberToDatabase(Context.User);
         }
 
         [Command("AddStrike")]
