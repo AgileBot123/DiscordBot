@@ -40,7 +40,7 @@ namespace ModBot.WebClient.Controllers
                 {
                     var result = new ListBannedWords
                     {
-                        Banned_Words = item.Word,
+                        Banned_Words = item.Profanity,
                         Penaltylevel = item.Punishment,
                         
                     };  

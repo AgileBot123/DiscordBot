@@ -7,11 +7,12 @@ namespace ModBot.Domain.Models
 {
     public class Punishment : IPunishment
     {
-        private ulong _id;
+        #region Properties
+        private int _id;
         private int _strikesAmount;
         private int _timeOutUntil;
 
-        public ulong Id
+        public int Id
         {
             get { return _id; }
             private set { }
@@ -28,14 +29,24 @@ namespace ModBot.Domain.Models
             get { return _timeOutUntil; }
             private set { }
         }
+        #endregion
 
-        private Punishment(){}
-        
-        public Punishment(ulong id, int strikesAmount, int timeOutUntil)
+        #region COnstructors
+        private Punishment() { }
+
+        public Punishment(int id, int strikesAmount, int timeOutUntil)
         {
             this._id = id;
             this._strikesAmount = strikesAmount;
             this._timeOutUntil = timeOutUntil;
         }
+
+        public Punishment(int strikesAmount = 0, int timeOutUntil = 0)
+        {
+            this._strikesAmount = strikesAmount;
+            this._timeOutUntil = timeOutUntil;
+        }
+        #endregion
+
     }
 }

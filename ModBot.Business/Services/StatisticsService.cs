@@ -65,7 +65,7 @@ namespace ModBot.Business.Services
         {
             var BannedWords = await _dataRepo.GetAllBannedWords();
             List<string> newList = new List<String>();
-            foreach (var item in BannedWords.Select(x => x.Word))
+            foreach (var item in BannedWords.Select(x => x.Profanity))
             {
                 newList.Add(item);
             }

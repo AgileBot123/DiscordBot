@@ -14,8 +14,9 @@ namespace ModBot.Domain.Interfaces
     {
         Task<IMember> GetUserStrikes(ulong UserID);
 
+        void AddStrikeToUser(int amount, ulong UserId, ulong GuildId);
         string BotResponseCooldown(SocketCommandContext context);
-        Task<bool> AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot);
+        Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId);
 
 
     }

@@ -6,7 +6,7 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
 {
     public interface IBannedWord
     {
-        string Word { get;  }
+        string Profanity { get;  }
         int Strikes { get; }
         string Punishment { get;  }
         int BannedWordUsedCount { get; }

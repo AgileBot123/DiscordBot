@@ -10,7 +10,7 @@ namespace ModBot.Domain.Models
 
         #region Properties
         private readonly ulong _guildId;
-        private readonly ulong _punishmentId;
+        private readonly int _punishmentId;
         public ulong GuildId
         {
             get { return _guildId; }
@@ -19,7 +19,7 @@ namespace ModBot.Domain.Models
 
         public Guild Guild { get; private set; }
 
-        public ulong PunishmentId
+        public int PunishmentId
         {
             get { return _punishmentId; }
             private set { }
@@ -33,7 +33,7 @@ namespace ModBot.Domain.Models
 
         private GuildPunishment(){ }
 
-        public GuildPunishment(ulong guildId, ulong punishmentId)
+        public GuildPunishment(ulong guildId, int punishmentId)
         {
             _guildId = guildId;
             _punishmentId = punishmentId;

@@ -73,7 +73,7 @@ namespace ModBot.Testing.Services
             var response = await _bannedWordService.GetBannedWord("Fuck");
 
             //Assert
-            response.Word.Should().BeEquivalentTo(bannedWord.Word);
+            response.Profanity.Should().BeEquivalentTo(bannedWord.Profanity);
         }
 
         [TestMethod]

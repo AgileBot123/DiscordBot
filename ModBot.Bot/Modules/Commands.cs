@@ -23,16 +23,18 @@ namespace ModBot.Bot.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            var added = await _commandLogic.AddMemberToDatabase(Context.User.Id, Context.User.Username, Context.User.AvatarId, "nelly@discord.com", Context.User.IsBot);
+            AddMemberToDatabase();
 
-            if (added)
-            {
-               var response = _commandLogic.BotResponseCooldown(Context);
+            var response = _commandLogic.BotResponseCooldown(Context);
             if (response != null)
                 await ReplyAsync(response);
             else
-                await ReplyAsync("pong");
-            }
+                await ReplyAsync("pong");          
+        }
+
+        private void AddMemberToDatabase()
+        {
+            _commandLogic.AddMemberToDatabase(Context.User.Id, Context.User.Username, Context.User.GetAvatarUrl(), "test@.gmail.com", Context.User.IsBot, Context.Guild.Id);
         }
 
         [Command("UserStrike")]

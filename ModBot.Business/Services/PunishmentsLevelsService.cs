@@ -30,16 +30,16 @@ namespace ModBot.Business.Services
                         strikeMuteLevel: createPunished.StrikeMuteTime
                      );
 
-            return _databaseRepository.CreatePunishment(createdPunishment);
+            return _databaseRepository.CreatePunishmentSetting(createdPunishment);
         }
 
         public async Task<bool> DeletePunishemntLevel(int id)
         {
-            var getPunishedLevel = await _databaseRepository.GetPunishment(id);
+            var getPunishedLevel = await _databaseRepository.GetPunishmentSetting(id);
 
             if (getPunishedLevel != null)
             {
-                return _databaseRepository.DeletePunishment(getPunishedLevel);
+                return _databaseRepository.DeletePunishmentSetting(getPunishedLevel);
             }
 
             return false;
@@ -59,7 +59,7 @@ namespace ModBot.Business.Services
         public async Task<IPunishmentsLevels> GetPunishmentLevel(int id)
         {
 
-            var punishment = await _databaseRepository.GetPunishment(id);
+            var punishment = await _databaseRepository.GetPunishmentSetting(id);
 
             if (punishment is null)
                 return null;
@@ -69,7 +69,7 @@ namespace ModBot.Business.Services
 
         public async Task<bool> UpdatePunishmentLevel(PunishmentDto updatePunishment, int id)
         {
-            var selectPunishment = await _databaseRepository.GetPunishment(id);
+            var selectPunishment = await _databaseRepository.GetPunishmentSetting(id);
 
             if(selectPunishment != null)
             {
@@ -79,7 +79,7 @@ namespace ModBot.Business.Services
                                                        updatePunishment.SpamMuteTime,
                                                        updatePunishment.StrikeMuteTime);
 
-                var result = _databaseRepository.UpdatePunishment(punishment,id);
+                var result = _databaseRepository.UpdatePunishmentSetting(punishment,id);
 
                 if (result)
                     return true;

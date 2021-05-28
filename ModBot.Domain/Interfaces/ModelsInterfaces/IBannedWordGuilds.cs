@@ -9,7 +9,7 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
     {
          ulong GuildId { get;  }
          Guild Guild { get; }
-         string BannedWordWord { get; }
+         string BannedWordProfanity { get; }
          BannedWord BannedWord { get;}
     }
 }

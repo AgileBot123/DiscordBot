@@ -65,7 +65,7 @@ namespace ModBot.Business.Services
 
                 foreach (var updatedBannedWord in updatedBannedWordList)
                 {
-                    if (bannedWordList.Any(b => b.Word.Equals(updatedBannedWord.Word)))
+                    if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Word)))
                     {
                         changedBannedWord = new BannedWord(updatedBannedWord.Word,
                                                      updatedBannedWord.Strikes,
@@ -85,9 +85,9 @@ namespace ModBot.Business.Services
 
                 foreach (var bannedWord in bannedWordList)
                 {
-                    if (!updatedBannedWordList.Any(b => b.Word.Equals(bannedWord.Word)))
+                    if (!updatedBannedWordList.Any(b => b.Word.Equals(bannedWord.Profanity)))
                     {
-                        changedBannedWord = new BannedWord(bannedWord.Word,
+                        changedBannedWord = new BannedWord(bannedWord.Profanity,
                                                      bannedWord.Strikes,
                                                      bannedWord.Punishment);
 
