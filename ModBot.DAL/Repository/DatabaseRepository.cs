@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository
+   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository, IPunishmentRepository, IMemberPunishment, IGuildPunishmentRepository
     {
         public DatabaseRepository()
         {
@@ -23,7 +23,7 @@ namespace ModBot.DAL.Repository
         {
             _context = context;
         }
-
+        #region Finished
         public bool AddMember(IMember member)
         {
             try
@@ -54,14 +54,13 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                _context.Add(createBannedWord);
                 return _context.SaveChanges() > 0;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
-            
+
         }
 
         public virtual bool CreateChangelog(IChangelog createLog)
@@ -77,7 +76,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public virtual bool CreatePunishment(IPunishmentsLevels createPunished)
+        public virtual bool CreatePunishmentSetting(IPunishmentsLevels createPunished)
         {
             try
             {
@@ -117,7 +116,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public virtual bool DeletePunishment(IPunishmentsLevels punishmentLevel)
+        public virtual bool DeletePunishmentSetting(IPunishmentsLevels punishmentLevel)
         {
             try
             {
@@ -135,18 +134,18 @@ namespace ModBot.DAL.Repository
             try
             {
                 var bannedWords = new List<IBannedWord>();
-                foreach(var word in await _context.BannedWords.ToListAsync())
+                foreach (var word in await _context.BannedWords.ToListAsync())
                 {
                     var bannedword = new BannedWord(
-                                        word.Word,                                         word.Strikes,
+                                        word.Profanity, word.Strikes,
                                         word.Punishment,
                                         word.BannedWordUsedCount);
                     bannedWords.Add(bannedword);
-                   
+
                 }
                 return bannedWords;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -168,7 +167,7 @@ namespace ModBot.DAL.Repository
                 }
                 return changeLogs;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -178,7 +177,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                var members = new List<IMember>();                
+                var members = new List<IMember>();
                 foreach (var _member in await _context.Members.ToListAsync())
                 {
                     var member = new Member(_member.Id,
@@ -211,7 +210,7 @@ namespace ModBot.DAL.Repository
                                                             punishemntLevel.SpamMuteTime,
                                                             punishemntLevel.StrikeMuteTime);
                     punishments.Add(punishment);
-                   
+
 
                 }
                 return punishments;
@@ -223,7 +222,7 @@ namespace ModBot.DAL.Repository
         }
 
         public virtual async Task<IBannedWord> GetBannedWord(string word) =>
-            await _context.BannedWords.SingleAsync(x => x.Word == word);
+            await _context.BannedWords.SingleAsync(x => x.Profanity == word);
 
 
 
@@ -233,7 +232,7 @@ namespace ModBot.DAL.Repository
             {
                 return await _context.Changelogs.SingleAsync(x => x.Id == id);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return null;
             }
@@ -251,7 +250,7 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public virtual async Task<IPunishmentsLevels> GetPunishment(int id)
+        public virtual async Task<IPunishmentsLevels> GetPunishmentSetting(int id)
         {
             try
             {
@@ -297,12 +296,12 @@ namespace ModBot.DAL.Repository
 
         public virtual bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
-           try
+            try
             {
                 _context.Update(updateBannedWord);
                 return _context.SaveChanges() > 0;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -315,25 +314,69 @@ namespace ModBot.DAL.Repository
                 _context.Update(changelog);
                 return _context.SaveChanges() > 0;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
-            
+
         }
 
-        public virtual bool UpdatePunishment(IPunishmentsLevels updatePunished, int id)
+        public virtual bool UpdatePunishmentSetting(IPunishmentsLevels updatePunished, int id)
         {
             try
             {
                 _context.Update(updatePunished);
-                return _context.SaveChanges() > 0 ;
+                return _context.SaveChanges() > 0;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return false;
             }
         }
 
+        #endregion
+
+        public async Task<Punishment> CreatePunishment()
+        {
+            try
+            {
+                var punishment = new Punishment();
+                var result = _context.Add(punishment);
+                await _context.SaveChangesAsync();
+                return result.Entity;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> AddToMemberPunishment(ulong memberId, int punishedId)
+        {
+            try
+            {
+                var newMemberPunished = new MemberPunishment(memberId, punishedId);
+                _context.Add(newMemberPunished);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public async Task<bool> CreateGuildPunishment(int punishmentId, ulong guildId)
+        {
+            try
+            {
+                var createNewGuildPunishment = new GuildPunishment(guildId, punishmentId);
+                _context.Add(createNewGuildPunishment);
+                return await _context.SaveChangesAsync() > 0;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

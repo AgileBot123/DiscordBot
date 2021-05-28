@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModBot.DAL.Migrations
 {
-    public partial class InitialCommit : Migration
+    public partial class Initialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,14 +11,14 @@ namespace ModBot.DAL.Migrations
                 name: "BannedWord",
                 columns: table => new
                 {
-                    Word = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Profanity = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Strikes = table.Column<int>(type: "int", nullable: false),
                     Punishment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     BannedWordUsedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BannedWord", x => x.Word);
+                    table.PrimaryKey("PK_BannedWord", x => x.Profanity);
                 });
 
             migrationBuilder.CreateTable(
@@ -68,7 +68,8 @@ namespace ModBot.DAL.Migrations
                 name: "Punishment",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     StrikesAmount = table.Column<int>(type: "int", nullable: false),
                     TimeOutUntil = table.Column<int>(type: "int", nullable: false)
                 },
@@ -102,16 +103,17 @@ namespace ModBot.DAL.Migrations
                 columns: table => new
                 {
                     GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    BannedWordWord = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    BannedWordProfanity = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_BannedWordGuilds", x => new { x.GuildId, x.BannedWordProfanity });
                     table.ForeignKey(
-                        name: "FK_BannedWordGuilds_BannedWord_BannedWordWord",
-                        column: x => x.BannedWordWord,
+                        name: "FK_BannedWordGuilds_BannedWord_BannedWordProfanity",
+                        column: x => x.BannedWordProfanity,
                         principalTable: "BannedWord",
-                        principalColumn: "Word",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "Profanity",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_BannedWordGuilds_Guild_GuildId",
                         column: x => x.GuildId,
@@ -149,10 +151,11 @@ namespace ModBot.DAL.Migrations
                 columns: table => new
                 {
                     GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    PunishmentId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    PunishmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_GuildPunishment", x => new { x.GuildId, x.PunishmentId });
                     table.ForeignKey(
                         name: "FK_GuildPunishment_Guild_GuildId",
                         column: x => x.GuildId,
@@ -172,10 +175,11 @@ namespace ModBot.DAL.Migrations
                 columns: table => new
                 {
                     MemberId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    PunishmentId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    PunishmentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_MemberPunishment", x => new { x.MemberId, x.PunishmentId });
                     table.ForeignKey(
                         name: "FK_MemberPunishment_Member_MemberId",
                         column: x => x.MemberId,
@@ -199,6 +203,7 @@ namespace ModBot.DAL.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_GuildStatistics", x => new { x.GuildId, x.StatisticsId });
                     table.ForeignKey(
                         name: "FK_GuildStatistics_Guild_GuildId",
                         column: x => x.GuildId,
@@ -214,19 +219,9 @@ namespace ModBot.DAL.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_BannedWordGuilds_BannedWordWord",
+                name: "IX_BannedWordGuilds_BannedWordProfanity",
                 table: "BannedWordGuilds",
-                column: "BannedWordWord");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_BannedWordGuilds_GuildId",
-                table: "BannedWordGuilds",
-                column: "GuildId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_GuildPunishment_GuildId",
-                table: "GuildPunishment",
-                column: "GuildId");
+                column: "BannedWordProfanity");
 
             migrationBuilder.CreateIndex(
                 name: "IX_GuildPunishment_PunishmentId",
@@ -234,19 +229,9 @@ namespace ModBot.DAL.Migrations
                 column: "PunishmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GuildStatistics_GuildId",
-                table: "GuildStatistics",
-                column: "GuildId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GuildStatistics_StatisticsId",
                 table: "GuildStatistics",
                 column: "StatisticsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_MemberPunishment_MemberId",
-                table: "MemberPunishment",
-                column: "MemberId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_MemberPunishment_PunishmentId",

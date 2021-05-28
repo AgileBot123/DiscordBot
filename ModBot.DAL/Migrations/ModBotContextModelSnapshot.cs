@@ -21,7 +21,7 @@ namespace ModBot.DAL.Migrations
 
             modelBuilder.Entity("ModBot.Domain.Models.BannedWord", b =>
                 {
-                    b.Property<string>("Word")
+                    b.Property<string>("Profanity")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("BannedWordUsedCount")
@@ -33,22 +33,22 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("Strikes")
                         .HasColumnType("int");
 
-                    b.HasKey("Word");
+                    b.HasKey("Profanity");
 
                     b.ToTable("BannedWord");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.BannedWordGuilds", b =>
                 {
-                    b.Property<string>("BannedWordWord")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<decimal>("GuildId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.HasIndex("BannedWordWord");
+                    b.Property<string>("BannedWordProfanity")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("GuildId");
+                    b.HasKey("GuildId", "BannedWordProfanity");
+
+                    b.HasIndex("BannedWordProfanity");
 
                     b.ToTable("BannedWordGuilds");
                 });
@@ -97,10 +97,10 @@ namespace ModBot.DAL.Migrations
                     b.Property<decimal>("GuildId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("PunishmentId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<int>("PunishmentId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("GuildId");
+                    b.HasKey("GuildId", "PunishmentId");
 
                     b.HasIndex("PunishmentId");
 
@@ -115,7 +115,7 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("StatisticsId")
                         .HasColumnType("int");
 
-                    b.HasIndex("GuildId");
+                    b.HasKey("GuildId", "StatisticsId");
 
                     b.HasIndex("StatisticsId");
 
@@ -151,10 +151,10 @@ namespace ModBot.DAL.Migrations
                     b.Property<decimal>("MemberId")
                         .HasColumnType("decimal(20,0)");
 
-                    b.Property<decimal>("PunishmentId")
-                        .HasColumnType("decimal(20,0)");
+                    b.Property<int>("PunishmentId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MemberId");
+                    b.HasKey("MemberId", "PunishmentId");
 
                     b.HasIndex("PunishmentId");
 
@@ -163,10 +163,10 @@ namespace ModBot.DAL.Migrations
 
             modelBuilder.Entity("ModBot.Domain.Models.Punishment", b =>
                 {
-                    b.Property<decimal>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("StrikesAmount")
                         .HasColumnType("int");
@@ -251,7 +251,9 @@ namespace ModBot.DAL.Migrations
                 {
                     b.HasOne("ModBot.Domain.Models.BannedWord", "BannedWord")
                         .WithMany()
-                        .HasForeignKey("BannedWordWord");
+                        .HasForeignKey("BannedWordProfanity")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("ModBot.Domain.Models.Guild", "Guild")
                         .WithMany()

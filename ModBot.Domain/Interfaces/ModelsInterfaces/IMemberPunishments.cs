@@ -5,7 +5,7 @@
         ulong MemberId { get;   }
          Member Member { get; }
 
-        ulong PunishmentId { get;  }
+        int PunishmentId { get;  }
          Punishment Punishment { get; }
     }
 }

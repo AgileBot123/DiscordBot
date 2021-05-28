@@ -9,7 +9,7 @@ namespace ModBot.Domain.Models
     {
         #region Properties
         private ulong _guildId;
-        private string _bannedWordWord;
+        private string _profanity;
 
         public ulong GuildId
         {
@@ -19,9 +19,9 @@ namespace ModBot.Domain.Models
 
         public Guild Guild { get; private set; }
 
-        public string BannedWordWord
+        public string BannedWordProfanity
         {
-            get { return _bannedWordWord; }
+            get { return _profanity; }
             private set { }
         }
         public BannedWord BannedWord { get; private set; }
@@ -34,7 +34,7 @@ namespace ModBot.Domain.Models
         public BannedWordGuilds(ulong guildId, string bannedWordWord)
         {
             _guildId = guildId;
-            _bannedWordWord = bannedWordWord;
+            _profanity = bannedWordWord;
         }
         #endregion
 

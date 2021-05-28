@@ -28,20 +28,37 @@ namespace ModBot.Business.Services
 
         public async Task<IMember> GetUserStrikes(ulong UserID) => await _databaseRepository.GetMember(UserID);
 
-        public async Task<bool> AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot)
+        public async Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId)
         {
             var allMembers = await _databaseRepository.GetAllMembers();
 
-            if (!allMembers.Any(x => x.Id == UserId) || allMembers.Count() == 0)
+            if (!allMembers.Any(x => x.Id == UserId))
             {
                var createMember = new Member(UserId,username,avatar,email,isBot);
                var result =  _databaseRepository.AddMember(createMember);
 
                 if (result)
-                    return true; 
+                {                                       
+                    var punishment = await _databaseRepository.CreatePunishment();
+
+                    if (punishment != null)
+                    {
+                        var ok = await _databaseRepository.AddToMemberPunishment(createMember.Id, punishment.Id);
+
+                        if (ok)
+                        {
+                            await _databaseRepository.CreateGuildPunishment(punishment.Id, guildId);
+                        }
+                    }               
+                }                    
             }
-            return false;
         }
+
+        public void AddStrikeToUser(int amount, ulong UserId, ulong GuildId)
+        {
+            throw new NotImplementedException();
+        }
+
 
         public string BotResponseCooldown(SocketCommandContext context)
         {
@@ -70,5 +87,7 @@ namespace ModBot.Business.Services
                    return null;
                }
         }
+
+ 
     }
 }

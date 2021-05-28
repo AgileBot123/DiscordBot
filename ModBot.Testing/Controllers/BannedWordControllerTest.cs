@@ -70,7 +70,7 @@ namespace ModBot.Testing.Controllers
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var okValue = result.Value.Should().BeOfType<BannedWord>().Subject;
-            okValue.Word.Should().Be("Fuck");
+            okValue.Profanity.Should().Be("Fuck");
 
         }
         [TestMethod]

@@ -41,7 +41,7 @@ namespace ModBot.Testing.Services
         public void CreatePunishMent_ShouldReturnTrue()
         {
             //Arrange
-            _mockRepo.Setup(x => x.CreatePunishment(It.IsAny<IPunishmentsLevels>())).Returns(true);
+            _mockRepo.Setup(x => x.CreatePunishmentSetting(It.IsAny<IPunishmentsLevels>())).Returns(true);
             //Act
             var response = _punishedLevelService.CreatePunishmentLevel(punishmentDto);
 
@@ -53,7 +53,7 @@ namespace ModBot.Testing.Services
         public void CreatePunishmentLevel_ShouldReturnFalse()
         {
             //Arrange
-            _mockRepo.Setup(x => x.CreatePunishment(It.IsAny<IPunishmentsLevels>())).Returns(false);
+            _mockRepo.Setup(x => x.CreatePunishmentSetting(It.IsAny<IPunishmentsLevels>())).Returns(false);
             //Act
             var response = _punishedLevelService.CreatePunishmentLevel(punishmentDto);
 
@@ -65,7 +65,7 @@ namespace ModBot.Testing.Services
         public async Task GetPunishmentLevel_shouldReturnABannedWordWithCOrrectWord()
         {
             //Arrange
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishmentLevls);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishmentLevls);
             //Act
             var response = await _punishedLevelService.GetPunishmentLevel(1);
 
@@ -78,7 +78,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             IPunishmentsLevels punishmentLevels = null;
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishmentLevels);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishmentLevels);
             //Act
             var response = await _punishedLevelService.GetPunishmentLevel(1);
 
@@ -90,12 +90,12 @@ namespace ModBot.Testing.Services
         public async Task DeletePunishmentLevel_ShouldReturnTrue()
         {
             //Arrange
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishmentLevls);
-            _mockRepo.Setup(x => x.DeletePunishment(It.IsAny<IPunishmentsLevels>())).Returns(true);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishmentLevls);
+            _mockRepo.Setup(x => x.DeletePunishmentSetting(It.IsAny<IPunishmentsLevels>())).Returns(true);
             //Act
             var response = await _punishedLevelService.DeletePunishemntLevel(1);
             //Assert
-            _mockRepo.Verify(x => x.GetPunishment(It.IsAny<int>()), Times.Once);
+            _mockRepo.Verify(x => x.GetPunishmentSetting(It.IsAny<int>()), Times.Once);
             response.Should().BeTrue();
         }
 
@@ -104,7 +104,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             IPunishmentsLevels punishments = null;
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishments);
             //Act
             var response = await _punishedLevelService.DeletePunishemntLevel(1);
             //Assert
@@ -145,8 +145,8 @@ namespace ModBot.Testing.Services
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };      
             var punishments = new PunishmentSettings(1, 2, 3, default, default);
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
-            _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishments);
+            _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
             //Act
             var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
 
@@ -160,8 +160,8 @@ namespace ModBot.Testing.Services
             //Arrange
             var punishmentDto = new PunishmentDto() { BanLevel = 1 };
             var punishments = new PunishmentSettings(1, 2, 3, default, default);
-            _mockRepo.Setup(x => x.GetPunishment(It.IsAny<int>())).ReturnsAsync(punishments);
-            _mockRepo.Setup(x => x.UpdatePunishment(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
+            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishments);
+            _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
             //Act
             var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
 

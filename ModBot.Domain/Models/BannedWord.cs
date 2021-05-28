@@ -7,14 +7,14 @@ namespace ModBot.Domain.Models
 {
     public class BannedWord : IBannedWord
     {
-        private readonly string _word;
+        private readonly string _profanity;
         private readonly int _strikes;
         private readonly string _punishment;
         private int _bannedWordUsedCount;
 
-        public string Word
+        public string Profanity
         {
-            get { return _word; }
+            get { return _profanity; }
             private set { }
         }
         public int Strikes
@@ -37,7 +37,7 @@ namespace ModBot.Domain.Models
         public BannedWord(){}
         public BannedWord(string word, int strikes, string punishment)
         {
-            this._word = word;
+            this._profanity = word;
             this._strikes = strikes;
             this._punishment = punishment;
         }
@@ -51,7 +51,7 @@ namespace ModBot.Domain.Models
         }
         public BannedWord(string word, int strikes, string punishment, int bannedWordUsedCount)
         {
-            this._word = word;
+            this._profanity = word;
             this._strikes = strikes;
             this._punishment = punishment;
             _bannedWordUsedCount = bannedWordUsedCount;

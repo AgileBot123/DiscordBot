@@ -35,7 +35,7 @@ namespace ModBot.DAL.Data
 
             //GuildPunishment
             modelBuilder.Entity<GuildPunishment>().ToTable("GuildPunishment");
-            modelBuilder.Entity<GuildPunishment>().HasNoKey();
+            modelBuilder.Entity<GuildPunishment>().HasKey(o => new { o.GuildId, o.PunishmentId});
 
             //Punishment
             modelBuilder.Entity<Punishment>().ToTable("Punishment");
@@ -44,13 +44,14 @@ namespace ModBot.DAL.Data
 
             //MemberPunishment
             modelBuilder.Entity<MemberPunishment>().ToTable("MemberPunishment");
-            modelBuilder.Entity<MemberPunishment>().HasNoKey();
+            modelBuilder.Entity<MemberPunishment>().HasKey(o => new { o.MemberId, o.PunishmentId });
+
             //GuildStatistics
             modelBuilder.Entity<GuildStatistics>().ToTable("GuildStatistics");
-            modelBuilder.Entity<GuildStatistics>().HasNoKey();
+            modelBuilder.Entity<GuildStatistics>().HasKey(o => new { o.GuildId, o.StatisticsId });
             //BannedWordGuilds
             modelBuilder.Entity<BannedWordGuilds>().ToTable("BannedWordGuilds");
-            modelBuilder.Entity<BannedWordGuilds>().HasNoKey();
+            modelBuilder.Entity<BannedWordGuilds>().HasKey(o => new { o.GuildId, o.BannedWordProfanity });
 
             //Statistics 
             modelBuilder.Entity<Statistics>().ToTable("Statistics");
@@ -62,7 +63,7 @@ namespace ModBot.DAL.Data
 
             ////BannedWord
             modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
-            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.Word });
+            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.Profanity });
 
             ////ChangedLogs
             modelBuilder.Entity<Changelog>().ToTable("Changelog");

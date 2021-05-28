@@ -7,10 +7,10 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IPunishmentsLevelsRepository
     {
-        Task<IPunishmentsLevels> GetPunishment(int id);
+        Task<IPunishmentsLevels> GetPunishmentSetting(int id);
         Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
-        bool CreatePunishment(IPunishmentsLevels createPunished);
-        bool DeletePunishment(IPunishmentsLevels deletePunsihedLevel);
-        bool UpdatePunishment(IPunishmentsLevels updatePunished, int id);
+        bool CreatePunishmentSetting(IPunishmentsLevels createPunished);
+        bool DeletePunishmentSetting(IPunishmentsLevels deletePunsihedLevel);
+        bool UpdatePunishmentSetting(IPunishmentsLevels updatePunished, int id);
     }
 }

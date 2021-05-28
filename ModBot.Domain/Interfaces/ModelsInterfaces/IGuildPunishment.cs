@@ -9,7 +9,7 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
     {
         ulong GuildId { get; }
         Guild Guild { get; }
-        ulong PunishmentId { get; }
+        int PunishmentId { get; }
         Punishment Punishment { get; }
     }
 }
