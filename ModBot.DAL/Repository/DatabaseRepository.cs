@@ -14,7 +14,10 @@ namespace ModBot.DAL.Repository
 {
    public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository
     {
+        public DatabaseRepository()
+        {
 
+        }
         private readonly ModBotContext _context;
         public DatabaseRepository(ModBotContext context)
         {

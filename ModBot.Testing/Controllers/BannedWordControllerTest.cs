@@ -45,18 +45,7 @@ namespace ModBot.Testing.Controllers
             var vehicle = result.Value.Should().BeOfType<List<IBannedWord>>().Subject;
             vehicle.Count().Should().Be(2);
         }
-        [TestMethod]
-        public async Task GetAllBannedWords_ShouldReturnNotFoundWhenNoBannedWordsExists()
-        {
-            //Arrange
-            List<IBannedWord> noBannedWordsInList = new List<IBannedWord>();
-            _mockBannedWord.Setup(x => x.GetAllBannedWords()).ReturnsAsync(noBannedWordsInList);
-            //Act
-            var response = await _bannedWordsController.GetAllBannedWords();
-            //Assert
-            response.Should().BeOfType<NotFoundObjectResult>();
-        }
-
+   
         [TestMethod]
         public async Task GetAllBannedWords_ShouldReturnStatusCode500IfListIsNull()
         {
@@ -66,8 +55,8 @@ namespace ModBot.Testing.Controllers
             //Act
             var response = await _bannedWordsController.GetAllBannedWords();
             //Assert
-            var result = response.Should().BeOfType<ObjectResult>().Subject;
-            result.Value.Should().Be("internal server error");
+            var result = response.Should().BeOfType<OkObjectResult>().Subject;
+            result.Value.Should().BeNull();
         }
 
 
