@@ -26,7 +26,17 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public async Task<IMember> GetUserStrikes(ulong UserID) => await _databaseRepository.GetMember(UserID);
+        public async Task<int> GetUserStrikes(ulong memberID, ulong guildId)
+        {
+            var Allmemberpunishment = await _databaseRepository.GetAllMemberPunishments();
+            var specificMemberPunishmentList = Allmemberpunishment.Where(x => x.MemberId == memberID).ToList();
+
+            var AllguildPunishments = await _databaseRepository.GetAllGuildPunishments();
+            var specificGuildpunishmentList = AllguildPunishments.Where(x => x.GuildId == guildId).ToList();
+
+            return 0;
+
+        }
 
         public async Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId)
         {
@@ -88,6 +98,5 @@ namespace ModBot.Business.Services
                }
         }
 
- 
     }
 }

@@ -12,7 +12,7 @@ namespace ModBot.Domain.Interfaces
 {
     public interface ICommandLogic
     {
-        Task<IMember> GetUserStrikes(ulong UserID);
+        Task<int> GetUserStrikes(ulong memberID, ulong guildId);
 
         void AddStrikeToUser(int amount, ulong UserId, ulong GuildId);
         string BotResponseCooldown(SocketCommandContext context);
