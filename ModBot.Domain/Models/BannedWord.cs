@@ -37,7 +37,7 @@ namespace ModBot.Domain.Models
         public BannedWord(){}
         public BannedWord(string word, int strikes, string punishment)
         {
-            this.Word = word;
+            this._word = word;
             this._strikes = strikes;
             this._punishment = punishment;
         }

@@ -138,10 +138,9 @@ namespace ModBot.Testing.Services
             //Act
             var response = await _bannedWordService.GetAllBannedWords();
             //Assert
-            response.Should().BeNull();
+            response.Should().BeEmpty();
         }
 
-        [TestMethod]
         public async Task UpdateBannedWord_ShouldReturnTrue()
         {
             //Arrange
