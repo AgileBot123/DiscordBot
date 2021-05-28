@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository, IPunishmentRepository, IMemberPunishment, IGuildPunishmentRepository
+   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository, IPunishmentRepository, IMemberPunishmentRepository, IGuildPunishmentRepository
     {
         public DatabaseRepository()
         {
@@ -376,6 +376,37 @@ namespace ModBot.DAL.Repository
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        public Task GetMemberPunishment(ulong memberId, ulong guildId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<MemberPunishment>> GetAllMemberPunishments()
+        {
+            try
+            {
+                return await _context.MemberPunishments.ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public async Task<List<GuildPunishment>> GetAllGuildPunishments()
+        {
+            try
+            {
+                return await _context.GuildPunishment.ToListAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
     }
