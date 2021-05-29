@@ -40,13 +40,22 @@ namespace ModBot.Bot.Modules
         [Command("UserStrike")]      
         public async Task UserStrike(SocketGuildUser inputedUser = default)
         {
-       
-           var user = inputedUser == null ? Context.User : inputedUser;
+            var user = inputedUser == null ? (SocketGuildUser)Context.User : inputedUser;
 
-            await AddMemberToDatabase(user);
+            if (inputedUser == null || (inputedUser != null && user.GuildPermissions.Administrator))
+            {
+                await AddMemberToDatabase(user);
 
-            var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
-            await ReplyAsync(response.ToString());
+                var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
+                await ReplyAsync(response.ToString());
+            }
+
+            //var user = inputedUser == null ? Context.User : inputedUser;
+
+            //await AddMemberToDatabase(user);
+
+            //var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
+            //await ReplyAsync(response.ToString());
         }
 
         [Command("Strike")] //checkar själva användares egna strikes

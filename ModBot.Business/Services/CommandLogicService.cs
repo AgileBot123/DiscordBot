@@ -32,6 +32,7 @@ namespace ModBot.Business.Services
             return Punishment.StrikesAmount;
         }
 
+        // Ska vi flytta nedan metod till datalageret. Den uppfyller CRUD.
         private async Task<Punishment> GetPunishment(ulong memberID, ulong guildId)
         {
             var Allmemberpunishment = await _databaseRepository.GetAllMemberPunishments();
@@ -48,30 +49,31 @@ namespace ModBot.Business.Services
             return Punishment;
         }
 
-        public async Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId)
+        public async Task AddMemberToDatabase(ulong memberId, string username, string avatar, string email, bool isBot, ulong guildId)
         {
             var allMembers = await _databaseRepository.GetAllMembers();
 
-            if (!allMembers.Any(x => x.Id == UserId))
+            if (!allMembers.Any(x => x.Id == memberId))
             {
-               var createMember = new Member(UserId,username,avatar,email,isBot);
-               var result =  _databaseRepository.AddMember(createMember);
-
-                if (result)
-                {                                       
-                    var punishment = await _databaseRepository.CreatePunishment();
-
-                    if (punishment != null)
-                    {
-                        var ok = await _databaseRepository.AddToMemberPunishment(createMember.Id, punishment.Id);
-
-                        if (ok)
-                        {
-                            await _databaseRepository.CreateGuildPunishment(punishment.Id, guildId);
-                        }
-                    }               
-                }                    
+                var createMember = new Member(memberId, username, avatar, email, isBot);
+                _databaseRepository.AddMember(createMember);
             }
+
+            bool MissingPunishment = await GetPunishment(memberId, guildId) == null;
+
+            if (MissingPunishment)
+            {
+                var punishment = await _databaseRepository.CreatePunishment();
+
+                if (punishment != null)
+                {
+                    await _databaseRepository.AddToMemberPunishment(memberId, punishment.Id);
+
+                    await _databaseRepository.CreateGuildPunishment(punishment.Id, guildId);
+                }
+            }
+                            
+
         }
 
         public void AddStrikeToUser(int amount, ulong UserId, ulong GuildId)
