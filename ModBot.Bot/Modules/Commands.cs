@@ -23,13 +23,12 @@ namespace ModBot.Bot.Modules
         [Command("ping")]
         public async Task Ping()
         {
-            await AddMemberToDatabase(Context.User);
 
             var response = _commandLogic.BotResponseCooldown(Context);
-            if (response != null)
-                await ReplyAsync(response);
+            if (response == null)
+                await ReplyAsync("pong");
             else
-                await ReplyAsync("pong");          
+                await ReplyAsync(response);          
         }
 
         private async Task AddMemberToDatabase(IUser user)
@@ -40,22 +39,26 @@ namespace ModBot.Bot.Modules
         [Command("UserStrike")]      
         public async Task UserStrike(SocketGuildUser inputedUser = default)
         {
-            var user = inputedUser == null ? (SocketGuildUser)Context.User : inputedUser;
-
-            if (inputedUser == null || (inputedUser != null && user.GuildPermissions.Administrator))
+            var response = _commandLogic.BotResponseCooldown(Context);
+            if (response == null)
             {
-                await AddMemberToDatabase(user);
+                var commandUser = Context.User as SocketGuildUser;
+                var userToCheck = inputedUser == null ? Context.User : inputedUser;
 
-                var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
-                await ReplyAsync(response.ToString());
+                if (inputedUser == null || (inputedUser != null && commandUser.GuildPermissions.Administrator))
+                {
+                    await AddMemberToDatabase(userToCheck);
+
+                    var strikes = await _commandLogic.GetUserStrikes(userToCheck.Id, Context.Guild.Id);
+                    await ReplyAsync(strikes.ToString());
+                }
+                else
+                {
+                    await ReplyAsync("You don't have premission to check other members strikes");
+                }
             }
-
-            //var user = inputedUser == null ? Context.User : inputedUser;
-
-            //await AddMemberToDatabase(user);
-
-            //var response = await _commandLogic.GetUserStrikes(user.Id, Context.Guild.Id);
-            //await ReplyAsync(response.ToString());
+            else
+                await ReplyAsync(response);
         }
 
         [Command("Strike")] //checkar själva användares egna strikes

@@ -44,5 +44,11 @@ namespace ModBot.WebClient.Controllers
                // await HttpContext.SignOutAsync("Discord");
             return RedirectToAction("Start", "Home");
         }
+
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+                    
     }
 }
