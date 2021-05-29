@@ -45,7 +45,7 @@ namespace ModBot.Business.Services
 
             var AllPunishments = await _databaseRepository.GetAllPunishments();
             var PunishmentID = guildPunishmentIdList.Intersect(memberPunishmentIdList).FirstOrDefault();
-            var Punishment = AllPunishments.Where(p => p.Id == PunishmentID).Single();
+            var Punishment = AllPunishments.Where(p => p.Id == PunishmentID).FirstOrDefault();
             return Punishment;
         }
 
