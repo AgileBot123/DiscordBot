@@ -1,11 +1,14 @@
-﻿using System;
+﻿using ModBot.Domain.Interfaces.ModelsInterfaces;
+using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IGuildRepository
     {
-      
+        Task<IGuild> GetGuild(ulong GuildId);
+        Task<IEnumerable<IGuild>> GetAllGuilds();
     }
 }

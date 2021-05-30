@@ -25,12 +25,14 @@ namespace ModBot.API.Extensions.Service
             services.AddScoped<IBannedWordService, BannedWordService>();
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IStatisticsService, StatisticsService>();
+            services.AddScoped<IGuildService, GuildService>();
 
             services.AddScoped<IStatisticsRepository, DatabaseRepository>();
             services.AddScoped<IBannedWordRepository, DatabaseRepository>();
             services.AddScoped<IChangeLogRepository, DatabaseRepository>();
             services.AddScoped<IMemberRepository, DatabaseRepository>();
             services.AddScoped<IPunishmentsLevelsRepository, DatabaseRepository>();
+            services.AddScoped<IGuildRepository, DatabaseRepository>();
         }
 
 

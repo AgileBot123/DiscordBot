@@ -9,6 +9,8 @@
         string GetAllBannedWords { get; }
 
         string DeleteBannedWord { get; }
+        
+        string GetGuild { get; }
 
         string UpdateBannedWordList { get; }
 

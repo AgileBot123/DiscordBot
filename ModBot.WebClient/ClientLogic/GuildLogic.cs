@@ -12,17 +12,23 @@ using Discord.Rest;
 using ModBot.WebClient.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Authentication;
+using ModBot.WebClient.Controllers;
+using Newtonsoft.Json;
 
 namespace ModBot.WebClient.ClientLogic
 {
     public class GuildLogic
+
     {
         private string Token;
 
+        private readonly AuthenticationController controller;
+
         private readonly HttpContext _context;
-        public GuildLogic()
+        public GuildLogic(AuthenticationController controller)
         {
             _context = new HttpContextAccessor().HttpContext;
+            this.controller = controller;
         }
 
         private DiscordRestClient _discordRestClient = new DiscordRestClient();
@@ -42,7 +48,9 @@ namespace ModBot.WebClient.ClientLogic
             {
                 foreach (var guild in guildsummery.Where(g => g.Permissions.Administrator))
                 {
-                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl));
+                    //var JsonString = controller.hasbot(guild.Id).ToString();
+                    //var hasbot = JsonConvert.DeserializeObject<bool>(JsonString);
+                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl, controller.hasbot(guild.Id)));
                 }
             }
 
