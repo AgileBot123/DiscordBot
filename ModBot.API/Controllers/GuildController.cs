@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using System;
@@ -20,13 +21,13 @@ namespace ModBot.API.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [Route(Routes.Guilds.GetGuild)]
-        public async Task<IActionResult> GetGuild(ulong guildId)
+        public async Task<IActionResult> GetGuild(GuildDto guildDto)
         {
             try
             {
-                var guild = await _guildService.GetGuildById(guildId);
+                var guild = await _guildService.GetGuildById(guildDto.Id);
 
                 if(guild == null)
                 {

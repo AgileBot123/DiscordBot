@@ -32,7 +32,7 @@ namespace ModBot.WebClient.ClientLogic
         }
 
         private DiscordRestClient _discordRestClient = new DiscordRestClient();
-        public async Task<IList<DiscordServer>> GetUserServerAsync()
+        public async Task<IList<GuildModel>> GetUserServerAsync()
         {
             var authenticateResult = await _context.AuthenticateAsync("Discord");
             Token = (authenticateResult.Properties ?? throw new UnauthorizedAccessException()).GetTokenValue("access_token");
@@ -42,7 +42,7 @@ namespace ModBot.WebClient.ClientLogic
 
             var guildSummeries = _discordRestClient.GetGuildSummariesAsync();
 
-            var servers = new List<DiscordServer>();
+            var servers = new List<GuildModel>();
 
             await foreach (var guildsummery in guildSummeries)
             {
@@ -50,7 +50,7 @@ namespace ModBot.WebClient.ClientLogic
                 {
                     //var JsonString = controller.hasbot(guild.Id).ToString();
                     //var hasbot = JsonConvert.DeserializeObject<bool>(JsonString);
-                    servers.Add(new DiscordServer(guild.Id, guild.Name, guild.IconUrl, controller.hasbot(guild.Id)));
+                    servers.Add(new GuildModel(guild.Id, guild.Name, guild.IconUrl, controller.hasbot(guild.Id)));
                 }
             }
 

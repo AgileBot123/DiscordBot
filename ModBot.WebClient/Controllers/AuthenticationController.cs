@@ -35,14 +35,15 @@ namespace ModBot.WebClient.Controllers
             {
                 using (var client = new HttpClient())
                 {
-                    var JsonString = JsonConvert.SerializeObject(guildId);
+                    var guildDto = new GuildDto() { Id = guildId };
+                    var JsonString = JsonConvert.SerializeObject(guildDto);
                     var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
                     var response = client.PostAsync(endpoints.GetGuild, stringContent).Result;
                     if (response.StatusCode == HttpStatusCode.NotFound)
                         return false;
 
-                    JsonString = response.Content.ReadAsStringAsync().Result;
-                    var guild = JsonConvert.DeserializeObject<DiscordServer>(JsonString);
+                    var JsonResultString = response.Content.ReadAsStringAsync().Result;
+                    var guild = JsonConvert.DeserializeObject<GuildModel>(JsonResultString);
                     return guild.HasBot;
                 }
             }
