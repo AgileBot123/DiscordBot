@@ -10,6 +10,8 @@ namespace ModBot.WebClient.Models.Endpoints
         
         public string CreateBannedWord => Base+"createbannedword";
 
+        public string GetGuild => Base + "getguild";
+
         public string GetBannedWord => Base+"getbannedword";
 
         public string GetAllBannedWords => Base + "getallbannedwords";

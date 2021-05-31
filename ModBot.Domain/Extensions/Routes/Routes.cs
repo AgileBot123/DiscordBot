@@ -9,6 +9,12 @@ namespace ModBot.Domain.Extensions.Routes
         public const string Root = "api";
         private const string Base = Root + "/";
 
+        public class Guilds
+        {
+            public const string GetGuild = Base + "getguild";
+            public const string GetGuilds = Base + "getguilds";
+        }
+
         public class BannedWords
         {
             public const string GetBannedWord = Base + "GetBannedWord/{id}";

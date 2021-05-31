@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository, IPunishmentRepository, IMemberPunishmentRepository, IGuildPunishmentRepository
+   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, IMemberRepository, IStatisticsRepository, IPunishmentRepository, IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
     {
         public DatabaseRepository()
         {
@@ -24,6 +24,42 @@ namespace ModBot.DAL.Repository
             _context = context;
         }
         #region Finished
+
+        #region Guild
+        public virtual async Task<IGuild> GetGuild(ulong guildID)
+        {
+            try
+            {
+                return await _context.Guilds.SingleAsync(x => x.Id == guildID);
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+
+        public virtual async Task<IEnumerable<IGuild>> GetAllGuilds()
+        {
+            try
+            {
+                var test = await _context.Guilds.ToListAsync();
+                return test;
+                //var guilds = new List<IGuild>();
+                //foreach (var _guild in await _context.Guilds.ToListAsync())
+                //{
+                //    var guild = new Guild(_guild.Id, _guild.HasBot, _guild.Avatar, _guild.GuildName);
+                //    guilds.Add(guild);
+                //}
+                //return guilds;
+            }
+            catch (Exception)
+            {
+                return new List<IGuild>();
+            }
+        }
+
+        #endregion
+
         public bool AddMember(IMember member)
         {
             try
