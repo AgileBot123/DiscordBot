@@ -16,7 +16,7 @@ namespace ModBot.API.Controllers
     public class BannedWordsController : ControllerBase
     {
         public readonly IBannedWordService _bannedWordService;
-        
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         public BannedWordsController(IBannedWordService bannedWordService)
         {
             this._bannedWordService = bannedWordService;
@@ -32,6 +32,7 @@ namespace ModBot.API.Controllers
             {
                 if(string.IsNullOrEmpty(word))
                 {
+                    _log.Info("Parameter is null");
                     return BadRequest("word is null or empty");
                 }
 
@@ -39,13 +40,15 @@ namespace ModBot.API.Controllers
 
                 if(bannedWord == null)
                 {
+                    _log.Info("No Banned word was found with that id");
                     return NotFound("banned word not found");
                 }
                 
                 return Ok(bannedWord);
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                _log.Error(ex);
                 return StatusCode(500,"internal server error");
 
             }    
@@ -57,12 +60,16 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                return Ok(await _bannedWordService.GetAllBannedWords());
-            }
-            catch (Exception)
-            {
-                return StatusCode(500, "internal server error");
+                _log.Info("Trying to get all banned words");
+                var result = await _bannedWordService.GetAllBannedWords();
 
+                _log.Info($" {result.Count()} Number of bannedwords was returned");
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                _log.Error(ex);
+                return StatusCode(500, "internal server error");
             }
         }
 
@@ -72,20 +79,29 @@ namespace ModBot.API.Controllers
         {
             try
             {             
-                if(createBannedWord == null)               
+                if(createBannedWord == null)
+                {
+                    _log.Info("Parameter is null");
                     return BadRequest("Parameters cannot be null");
+                }            
+                    
                 
                var result =  _bannedWordService.CreateBannedWord(createBannedWord);
 
                 if(result)
-                return NoContent();
+                {
+                    _log.Info($"{createBannedWord} was succesfully created and returns NoContent");
+                    return NoContent();
+                }
 
+
+                _log.Info($"No bannedWord was created");
                 return BadRequest("Banned word was not created");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _log.Error(ex);
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -96,17 +112,26 @@ namespace ModBot.API.Controllers
             try
             {
                 if (string.IsNullOrEmpty(word))
+                {
+                    _log.Info($"Parameter was null");
                     return BadRequest("word cannot be empty or null");
+                }
 
-              var result = await  _bannedWordService.DeleteBannedWord(word);
+     
+                var result = await  _bannedWordService.DeleteBannedWord(word);
 
                 if (result)
+                {
+                    _log.Info($"Word: {word} was deleted from database");
                     return NoContent();
+                }
 
+                _log.Info($"No banned word was deleted, _bannedWordService.DeleteBannedWord returned false");
                 return BadRequest("Banned word was not deleted");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _log.Error(ex);
                 return StatusCode(500, "internal server error");
 
             }
@@ -120,20 +145,24 @@ namespace ModBot.API.Controllers
             {
                 if(updateBannedWordListDto.BannedWordList == null)
                 {
+                    _log.Info("Parameter was null");
                     return BadRequest("Parameters cannot be null and/or id cannot be zero");
                 }
 
-               var result = await _bannedWordService.UpdateBannedWordList(updateBannedWordListDto);
+                _log.Info($"Trying to Updated {updateBannedWordListDto.BannedWordList}");
+                var result = await _bannedWordService.UpdateBannedWordList(updateBannedWordListDto);
 
                 if (result)
                     return NoContent();
 
+
+                _log.Info("Result return false, no word was updated");
                 return BadRequest("banned word was not update");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                _log.Error(ex);
                 return StatusCode(500, "internal server error");
-
             }
         }
     }
