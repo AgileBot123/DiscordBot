@@ -82,7 +82,8 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
-           
+
+        [HttpPost]
         public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
         {
             try
@@ -105,16 +106,18 @@ namespace ModBot.WebClient.Controllers
                 {
                     using (var client = new HttpClient())
                     {
-                        var guildDto = new GuildDto() { Id = guildId };
+                        var guildDto = new GuildDto()
+                        {
+                            Id = guildModel.Id,
+                            Icon = guildModel.Icon,
+                            HasBot = guildModel.HasBot,
+                            Name = guildModel.Name
+                        };
                         var JsonString = JsonConvert.SerializeObject(guildDto);
                         var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
-                        var response = client.PostAsync(endpoints.GetGuild, stringContent).Result;
-  
-                        var JsonResultString = response.Content.ReadAsStringAsync().Result;
-                        var guild = JsonConvert.DeserializeObject<GuildModel>(JsonResultString);
+                        var response = client.PostAsync(endpoints.CreateGuild, stringContent).Result;
                     }
                 }
-
                 return RedirectToAction("Dashboard");
             }
             catch(Exception ex)

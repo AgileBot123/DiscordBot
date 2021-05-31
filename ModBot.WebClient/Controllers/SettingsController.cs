@@ -49,7 +49,7 @@ namespace ModBot.WebClient.Controllers
 
                 using (HttpClient client = new HttpClient())
                 {
-                    var response = client.PostAsync(new Uri(endpoints.CreatePunishedLevel), httpContet).Result;
+                    var response = client.PostAsync(new Uri(endpoints.CreatePunishmentLevel), httpContet).Result;
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                         return View("Error");
                 }
@@ -65,7 +65,7 @@ namespace ModBot.WebClient.Controllers
             var punishmentList = new List<PunishmentModel>();
             using (HttpClient client = new HttpClient())
             {
-                var response = client.GetAsync(endpoints.GetPunishedLevels).Result;
+                var response = client.GetAsync(endpoints.GetPunishmentLevels).Result;
                 if (response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
@@ -97,7 +97,7 @@ namespace ModBot.WebClient.Controllers
         {
             using(HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.GetPunishedLevel + id;
+                var requestUrl = endpoints.GetPunishmentLevel + id;
                 var response = client.GetAsync(requestUrl).Result;
                 if(response.IsSuccessStatusCode)
                 {
@@ -113,7 +113,7 @@ namespace ModBot.WebClient.Controllers
         {
             using(HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.DeletePunishedLevel + id;
+                var requestUrl = endpoints.DeletePunishmentLevel + id;
                 var response = client.DeleteAsync(requestUrl).Result;
                 if(response.IsSuccessStatusCode)
                 {
@@ -127,7 +127,7 @@ namespace ModBot.WebClient.Controllers
         {
             using(HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.GetPunishedLevel + id;
+                var requestUrl = endpoints.GetPunishmentLevel + id;
                 var response = client.GetAsync(requestUrl).Result;
                 if(response.IsSuccessStatusCode)
                 {
@@ -146,7 +146,7 @@ namespace ModBot.WebClient.Controllers
                 {
                     var updatePunishment = JsonConvert.SerializeObject(update);
                     var content = new StringContent(updatePunishment, Encoding.UTF8, "Application/json");
-                    var requestUrl = endpoints.UpdatePunishedLevel;
+                    var requestUrl = endpoints.UpdatePunishmentLevel;
                     var response = client.PutAsync(requestUrl, content).Result;
                     if(response.IsSuccessStatusCode)
                     {

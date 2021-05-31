@@ -2,6 +2,7 @@
 {
     public interface IEndpoints
     {
+        string CreateGuild { get; }
         string CreateBannedWord { get; }
 
         string GetBannedWord { get; }
@@ -24,15 +25,15 @@
 
         string UpdateLog { get; }
 
-        string CreatePunishedLevel { get; }
+        string CreatePunishmentLevel { get; }
 
-        string GetPunishedLevel { get; }
+        string GetPunishmentLevel { get; }
 
-        string GetPunishedLevels { get; }
+        string GetPunishmentLevels { get; }
 
-        string DeletePunishedLevel { get; }
+        string DeletePunishmentLevel { get; }
 
-        string UpdatePunishedLevel { get; }
+        string UpdatePunishmentLevel { get; }
         string GetMember { get; }
         string GetAllMembers { get; }
         string  Host { get; }

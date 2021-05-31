@@ -11,6 +11,7 @@ namespace ModBot.Domain.Extensions.Routes
 
         public class Guilds
         {
+            public const string CreateGuild = Base + "createguild";
             public const string GetGuild = Base + "getguild";
             public const string GetGuilds = Base + "getguilds";
         }

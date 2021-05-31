@@ -30,5 +30,10 @@ namespace ModBot.Business.Services
 
             return guild;
         }
+
+        public async Task<bool> CreateGuild(IGuild guild)
+        {
+            return await _databaseRepository.CreateGuild(guild);
+        }
     }
 }
