@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.Domain.Extensions.Routes;
+using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +41,25 @@ namespace ModBot.API.Controllers
 
                 logger.Info($"Guild with id: {guild.Id} sent to client", this.GetType().Name);
                 return Ok(guild);            
+            }
+            catch(Exception ex)
+            {
+                logger.Error(ex, this.GetType().Name);
+                return StatusCode(500, "internal server error");
+            }
+        }
+
+        [HttpPost]
+        [Route(Routes.Guilds.CreateGuild)]
+        public async Task<IActionResult> CreateGuild(GuildDto guildDto)
+        {
+            try
+            {
+                IGuild guild = new Guild(guildDto.Id, guildDto.HasBot, guildDto.Icon, guildDto.Name);
+
+                bool succeded = await _guildService.CreateGuild(guild);
+
+                logger.Info($"Guild was added to the database: {succeded}", this.GetType().Name);
             }
             catch(Exception ex)
             {
