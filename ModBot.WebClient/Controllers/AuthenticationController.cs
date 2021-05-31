@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Discord;
+using Discord.Rest;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.WebClient.ClientLogic;
+using ModBot.WebClient.Extention;
 using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
@@ -58,12 +61,12 @@ namespace ModBot.WebClient.Controllers
         }
 
         [Authorize(AuthenticationSchemes = "Discord")]
-        public IActionResult Authentication()
+        public async Task<IActionResult> Authentication()
         {
-
+            var token = await _logic.DiscordGetToken();
+            Session.Set<string>(HttpContext.Session, "token", token);
             ViewBag.Test = HttpContext.User.Identity.Name;
-            var servers = _logic.GetUserServerAsync().Result;
-            ViewBag.Server1 = servers[0].Name;
+            var servers = _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token")).Result;
             return View("ServerList", servers);
         }
 
@@ -74,10 +77,24 @@ namespace ModBot.WebClient.Controllers
             return RedirectToAction("Start", "Home");
         }
 
-        public IActionResult Dashboard()
+        public IActionResult Dashboard(ulong guildId)
         {
             return View();
         }
-                    
+           
+        public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
+        {
+            try
+            {
+                DiscordRestClient discordRestClient = new DiscordRestClient();
+                await discordRestClient.LoginAsync(TokenType.Bearer, Session.Get<string>(HttpContext.Session, "token"));
+                var GuildInformation = discordRestClient;
+                return RedirectToAction("Dashboard");
+            }
+            catch(Exception ex)
+            {
+                throw new Exception("internal error");
+            }
+        }
     }
 }
