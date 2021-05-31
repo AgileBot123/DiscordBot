@@ -73,8 +73,8 @@ namespace ModBot.WebClient.Controllers
 
         public async Task<IActionResult> Logout()
         {
-                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-               // await HttpContext.SignOutAsync("Discord");
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            //await HttpContext.SignOutAsync("Discord");
             return RedirectToAction("Start", "Home");
         }
 

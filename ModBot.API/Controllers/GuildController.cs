@@ -55,11 +55,12 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                IGuild guild = new Guild(guildDto.Id, guildDto.HasBot, guildDto.Icon, guildDto.Name);
+                Guild guild = new Guild(guildDto.Id, guildDto.HasBot, guildDto.Icon, guildDto.Name);
 
                 bool succeded = await _guildService.CreateGuild(guild);
 
                 logger.Info($"Guild was added to the database: {succeded}", this.GetType().Name);
+                return Ok();
             }
             catch(Exception ex)
             {

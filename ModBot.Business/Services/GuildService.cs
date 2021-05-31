@@ -2,6 +2,7 @@
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +32,9 @@ namespace ModBot.Business.Services
             return guild;
         }
 
-        public async Task<bool> CreateGuild(IGuild guild)
+        public async Task<bool> CreateGuild(Guild guild)
         {
-            return await _databaseRepository.CreateGuild(guild);
+            return _databaseRepository.CreateGuild(guild);
         }
     }
 }
