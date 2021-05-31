@@ -16,12 +16,11 @@ namespace ModBot.API.Controllers
     public class BannedWordsController : ControllerBase
     {
         public readonly IBannedWordService _bannedWordService;
-        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
-        public BannedWordsController(IBannedWordService bannedWordService)
+        private readonly ILoggerManager logger;
+        public BannedWordsController(IBannedWordService bannedWordService, ILoggerManager logger)
         {
             this._bannedWordService = bannedWordService;
-         
-
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -32,7 +31,7 @@ namespace ModBot.API.Controllers
             {
                 if(string.IsNullOrEmpty(word))
                 {
-                    _log.Info("Parameter is null");
+                    logger.Info("Parameter is null", this.GetType().Name);
                     return BadRequest("word is null or empty");
                 }
 
@@ -40,7 +39,7 @@ namespace ModBot.API.Controllers
 
                 if(bannedWord == null)
                 {
-                    _log.Info("No Banned word was found with that id");
+                    logger.Info("No Banned word was found with that id", this.GetType().Name);
                     return NotFound("banned word not found");
                 }
                 
@@ -48,7 +47,7 @@ namespace ModBot.API.Controllers
             }
             catch(Exception ex)
             {
-                _log.Error(ex);
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500,"internal server error");
 
             }    
@@ -60,15 +59,15 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                _log.Info("Trying to get all banned words");
+                logger.Info("Trying to get all banned words", this.GetType().Name);
                 var result = await _bannedWordService.GetAllBannedWords();
 
-                _log.Info($" {result.Count()} Number of bannedwords was returned");
+                logger.Info($" {result.Count()} Number of bannedwords was returned", this.GetType().Name);
                 return Ok(result);
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -81,7 +80,7 @@ namespace ModBot.API.Controllers
             {             
                 if(createBannedWord == null)
                 {
-                    _log.Info("Parameter is null");
+                    logger.Info("Parameter is null", this.GetType().Name);
                     return BadRequest("Parameters cannot be null");
                 }            
                     
@@ -90,17 +89,17 @@ namespace ModBot.API.Controllers
 
                 if(result)
                 {
-                    _log.Info($"{createBannedWord} was succesfully created and returns NoContent");
+                    logger.Info($"{createBannedWord} was succesfully created and returns NoContent", this.GetType().Name);
                     return NoContent();
                 }
 
 
-                _log.Info($"No bannedWord was created");
+                logger.Info($"No bannedWord was created", this.GetType().Name);
                 return BadRequest("Banned word was not created");
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -113,7 +112,7 @@ namespace ModBot.API.Controllers
             {
                 if (string.IsNullOrEmpty(word))
                 {
-                    _log.Info($"Parameter was null");
+                    logger.Info($"Parameter was null", this.GetType().Name);
                     return BadRequest("word cannot be empty or null");
                 }
 
@@ -122,16 +121,16 @@ namespace ModBot.API.Controllers
 
                 if (result)
                 {
-                    _log.Info($"Word: {word} was deleted from database");
+                    logger.Info($"Word: {word} was deleted from database", this.GetType().Name);
                     return NoContent();
                 }
 
-                _log.Info($"No banned word was deleted, _bannedWordService.DeleteBannedWord returned false");
+                logger.Info($"No banned word was deleted, _bannedWordService.DeleteBannedWord returned false", this.GetType().Name);
                 return BadRequest("Banned word was not deleted");
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
 
             }
@@ -145,23 +144,23 @@ namespace ModBot.API.Controllers
             {
                 if(updateBannedWordListDto.BannedWordList == null)
                 {
-                    _log.Info("Parameter was null");
+                    logger.Info("Parameter was null", this.GetType().Name);
                     return BadRequest("Parameters cannot be null and/or id cannot be zero");
                 }
 
-                _log.Info($"Trying to Updated {updateBannedWordListDto.BannedWordList}");
+                logger.Info($"Trying to Updated {updateBannedWordListDto.BannedWordList}", this.GetType().Name);
                 var result = await _bannedWordService.UpdateBannedWordList(updateBannedWordListDto);
 
                 if (result)
                     return NoContent();
 
 
-                _log.Info("Result return false, no word was updated");
+                logger.Info("Result return false, no word was updated", this.GetType().Name);
                 return BadRequest("banned word was not update");
             }
             catch (Exception ex)
             {
-                _log.Error(ex);
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }

@@ -12,22 +12,26 @@ namespace ModBot.API.Controllers
     public class StatisticsController : ControllerBase
     {
         private readonly IStatisticsService _statsService;
-        public StatisticsController(IStatisticsService statsService)
+        private readonly ILoggerManager logger;
+        public StatisticsController(IStatisticsService statsService, ILoggerManager logger)
         {
             _statsService = statsService;
+            this.logger = logger;
         }
 
-        
+
         [HttpGet]
         [Route(Routes.Statistisc.GetAllStats)]
         public async Task<IActionResult> GetAllStats()
         {
             try
             {
+                logger.Info("Getting all the statistics", this.GetType().Name);
                 return Ok(await _statsService.GetAllStatistics());
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -42,13 +46,16 @@ namespace ModBot.API.Controllers
 
                 if (stats != null)
                 {
+                    logger.Info("returning stats to Client", this.GetType().Name);
                     return Ok(stats);
                 }
 
+                logger.Info("No stats was found with that id", this.GetType().Name);
                 return NotFound("No Stats with that ID was found");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -63,13 +70,16 @@ namespace ModBot.API.Controllers
 
                 if (created)
                 {
+                    logger.Info("RefreshStats was refreshed", this.GetType().Name);
                     return NoContent();
                 }
 
+                logger.Info("Stats was not refreshed", this.GetType().Name);
                 return BadRequest();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }

@@ -15,11 +15,11 @@ namespace ModBot.API.Controllers
     {
 
         private readonly IPunishmentsLevelsService _punishedLevelService;
-     
-        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService)
+        private readonly ILoggerManager logger;
+        public PunishedLevelsController(IPunishmentsLevelsService punishedLevelService, ILoggerManager logger)
         {
             this._punishedLevelService = punishedLevelService;
-    
+            this.logger = logger;
         }
 
         [HttpGet]
@@ -30,6 +30,7 @@ namespace ModBot.API.Controllers
             {
                 if (id == 0)
                 {
+                    logger.Info("Id is zero.", this.GetType().Name);
                     return BadRequest("id is null");
                 }
 
@@ -37,14 +38,17 @@ namespace ModBot.API.Controllers
 
                 if (punishedLevel == null)
                 {
+                    logger.Info($"No punishmentlevel was found in database with id: {id}.", this.GetType().Name);
                     return NotFound("No punishment found ");
                 }
 
+                logger.Info($"PunishmentLevel with ID: {punishedLevel.Id} get send to client", this.GetType().Name);
                 return Ok(punishedLevel);
             }
 
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -59,15 +63,17 @@ namespace ModBot.API.Controllers
 
                 if (punishmentLevels.Count() == 0)
                 {
+                    logger.Info("No punishmentLevels was found in datbase", this.GetType().Name);
                     return NotFound("Punishemnts is empty");
                 }
-                
+
+                logger.Info($"{punishmentLevels.Count()} punishmentlevels was sent to client", this.GetType().Name);
                 return Ok(punishmentLevels);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
-
             }
         }
 
@@ -77,18 +83,26 @@ namespace ModBot.API.Controllers
         {
             try
             {              
-                if (createPunishment == null)              
+                if (createPunishment == null)
+                {
+                    logger.Info("PunishmentDto was empty or null", this.GetType().Name);
                     return BadRequest("Parameters is null");
+                }
                
                 var result =_punishedLevelService.CreatePunishmentLevel(createPunishment);
 
                 if (result)
+                {
+                    logger.Info("PunishmentLevel was created and sent Statuscode: 204 to client", this.GetType().Name);
                     return NoContent();
-                
+                }
+
+                logger.Info("No punishmentlevel was created", this.GetType().Name);
                 return BadRequest("PunishedLevel was not created");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -99,18 +113,26 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                if (id == 0)                
+                if (id == 0)
+                {
+                    logger.Info("Id in parameter is zero", this.GetType().Name);
                     return BadRequest("Id cannot be 0");
+                }
                 
                var result = await _punishedLevelService.DeletePunishemntLevel(id);
 
-                if (result)              
+                if (result)
+                {
+                    logger.Info("PunishmentLevel was deleted and sent Statuscode: 204 to client", this.GetType().Name);
                     return NoContent();
+                }
 
+                logger.Info("Punishementlevel was not deleted", this.GetType().Name);
                 return BadRequest("PunishedLevel was not created");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -121,18 +143,26 @@ namespace ModBot.API.Controllers
         {
             try
             {
-                if(updatePunishment == null)              
+                if(updatePunishment == null)
+                {
+                    logger.Info("PunishmentDto is null", this.GetType().Name);
                     return BadRequest("object is null");
-                
+                }
+                 
                var result = await _punishedLevelService.UpdatePunishmentLevel(updatePunishment,id);
 
-                if (result)           
+                if (result)
+                {
+                    logger.Info("PunishmentLevel was updated and statuscode 204 was sent to Client", this.GetType().Name);
                    return NoContent();
+                }
 
+                logger.Info("Punishmentelevel was not updated", this.GetType().Name);
                 return BadRequest("Punishmentlevels was not updated");    
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }

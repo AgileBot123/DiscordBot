@@ -15,9 +15,11 @@ namespace ModBot.API.Controllers
     public class GuildController : ControllerBase
     {
         private readonly IGuildService _guildService;
-        public GuildController(IGuildService guildService)
+        private readonly ILoggerManager logger;
+        public GuildController(IGuildService guildService, ILoggerManager logger)
         {
             this._guildService = guildService;
+            this.logger = logger;
         }
 
 
@@ -31,12 +33,16 @@ namespace ModBot.API.Controllers
 
                 if(guild == null)
                 {
+                    logger.Info("guild was null", this.GetType().Name);
                     return NotFound("Guild not found");
                 }
+
+                logger.Info($"Guild with id: {guild.Id} sent to client", this.GetType().Name);
                 return Ok(guild);            
             }
-            catch(Exception)
+            catch(Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }
@@ -47,12 +53,16 @@ namespace ModBot.API.Controllers
         {
             try
             {
+                logger.Info("Get all Guilds", this.GetType().Name);
                 var guilds = await _guildService.GetAllGuilds();
 
+
+                logger.Info($"Number of guilds sent to client {guilds.Count()}", this.GetType().Name);
                 return Ok(guilds);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+                logger.Error(ex, this.GetType().Name);
                 return StatusCode(500, "internal server error");
             }
         }

@@ -11,6 +11,7 @@ using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
 using System;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Text;
@@ -88,7 +89,32 @@ namespace ModBot.WebClient.Controllers
             {
                 DiscordRestClient discordRestClient = new DiscordRestClient();
                 await discordRestClient.LoginAsync(TokenType.Bearer, Session.Get<string>(HttpContext.Session, "token"));
-                var GuildInformation = discordRestClient;
+
+                var GuildInformation = discordRestClient.GetGuildSummariesAsync();
+
+                var guildModel = new GuildModel();
+                await foreach (var guild in GuildInformation)
+                {
+                    foreach (var item in guild.Where(x => x.Id == guildId))
+                    {
+                      guildModel = new GuildModel(item.Id, item.Name, item.IconUrl, hasbot(item.Id));                       
+                    }
+                }
+
+                if (guildModel != null)
+                {
+                    using (var client = new HttpClient())
+                    {
+                        var guildDto = new GuildDto() { Id = guildId };
+                        var JsonString = JsonConvert.SerializeObject(guildDto);
+                        var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
+                        var response = client.PostAsync(endpoints.GetGuild, stringContent).Result;
+  
+                        var JsonResultString = response.Content.ReadAsStringAsync().Result;
+                        var guild = JsonConvert.DeserializeObject<GuildModel>(JsonResultString);
+                    }
+                }
+
                 return RedirectToAction("Dashboard");
             }
             catch(Exception ex)

@@ -14,10 +14,12 @@ namespace ModBot.Testing.Controllers
     {
         private readonly Mock<IChangelogService> _mockPunish;
         private ChangeLogController _punishedLevelsController;
+        private readonly Mock<ILoggerManager> logger;
         public ChangeLogControllerTest()
         {
+            logger = new Mock<ILoggerManager>();
             _mockPunish = new Mock<IChangelogService>();
-            _punishedLevelsController = new ChangeLogController(_mockPunish.Object);
+            _punishedLevelsController = new ChangeLogController(_mockPunish.Object, logger.Object);
         }
 
 

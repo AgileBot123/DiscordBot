@@ -26,6 +26,7 @@ namespace ModBot.API.Extensions.Service
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IStatisticsService, StatisticsService>();
             services.AddScoped<IGuildService, GuildService>();
+            services.AddScoped<ILoggerManager, LoggerManager>();
 
             services.AddScoped<IStatisticsRepository, DatabaseRepository>();
             services.AddScoped<IBannedWordRepository, DatabaseRepository>();
