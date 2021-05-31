@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
+using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
@@ -35,8 +36,8 @@ namespace ModBot.WebClient.Controllers
             var response = client.GetAsync(endpoints.GetAllBannedWords).Result;
 
                 var jsonstring = response.Content.ReadAsStringAsync().Result;
-                var res = JsonConvert.DeserializeObject<ListOfBannedWordsDTO>(jsonstring);
-                foreach (var item in res.BWords)
+                var res = JsonConvert.DeserializeObject<BannedWordListDto>(jsonstring);
+                foreach (var item in res.BannedWordList)
                 {
                     var result = new ListBannedWords
                     {
