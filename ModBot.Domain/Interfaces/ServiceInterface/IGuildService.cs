@@ -1,5 +1,6 @@
 ﻿using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
+using ModBot.Domain.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,6 +10,6 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IGuild> GetGuildById(ulong guildId);
         Task<IEnumerable<IGuild>> GetAllGuilds();
-        Task<bool> CreateGuild(IGuild guild);
+        Task<bool> CreateGuild(Guild guild);
     }
 }
