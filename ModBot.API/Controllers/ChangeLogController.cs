@@ -15,7 +15,8 @@ namespace ModBot.API.Controllers
     public class ChangeLogController : ControllerBase
     {
         private readonly IChangelogService _changelogService;
-     
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
         public ChangeLogController(IChangelogService changelogService)
         {
             this._changelogService = changelogService;
@@ -30,7 +31,11 @@ namespace ModBot.API.Controllers
             try
             {
                 if (id == 0)
-                    return BadRequest("id is null");
+                {
+                    _log.Info("Id is 0");
+                    return BadRequest("id is zero");
+                }
+                    
 
                 var getLog = await _changelogService.GetChangeLog(id);
 
