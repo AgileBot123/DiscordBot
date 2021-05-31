@@ -19,10 +19,12 @@ namespace ModBot.Testing.Controllers
 
         private readonly Mock<IMemberService> _mockMember;
         private MemberController _memberController;
+        private readonly Mock<ILoggerManager> _Logger;
         public MemberControllerTest()
         {
+            _Logger = new Mock<ILoggerManager>();
             _mockMember = new Mock<IMemberService>();
-            _memberController = new MemberController(_mockMember.Object);
+            _memberController = new MemberController(_mockMember.Object, _Logger.Object);
         }
 
         private List<IMember> listOfMember = new List<IMember>() 

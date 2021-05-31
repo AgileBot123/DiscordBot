@@ -13,6 +13,7 @@ namespace ModBot.Business.Services
     public class BannedWordService : IBannedWordService
     {
         private readonly DatabaseRepository _databaseRepository;
+        private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
         public BannedWordService(DatabaseRepository databaseRepository)
         {
             _databaseRepository = databaseRepository;

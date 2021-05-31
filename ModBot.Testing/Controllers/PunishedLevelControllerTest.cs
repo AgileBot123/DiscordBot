@@ -20,10 +20,12 @@ namespace ModBot.Testing.Controllers
     {
         private readonly Mock<IPunishmentsLevelsService> _mockPunish;
         private PunishedLevelsController punishedLevelsController;
+        private readonly Mock<ILoggerManager> logger;
         public PunishedLevelControllerTest()
         {
+            logger = new Mock<ILoggerManager>();
           _mockPunish = new Mock<IPunishmentsLevelsService>();
-          punishedLevelsController = new PunishedLevelsController(_mockPunish.Object);
+          punishedLevelsController = new PunishedLevelsController(_mockPunish.Object, logger.Object);
         }
 
 

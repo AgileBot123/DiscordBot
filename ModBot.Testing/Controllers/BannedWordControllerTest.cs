@@ -21,10 +21,12 @@ namespace ModBot.Testing.Controllers
 
         private readonly Mock<IBannedWordService> _mockBannedWord;
         private BannedWordsController _bannedWordsController;
+        private readonly Mock<ILoggerManager> loggerManager;
         public BannedWordControllerTest()
         {
+            loggerManager = new Mock<ILoggerManager>();
             _mockBannedWord = new Mock<IBannedWordService>();
-            _bannedWordsController = new BannedWordsController(_mockBannedWord.Object);
+            _bannedWordsController = new BannedWordsController(_mockBannedWord.Object, loggerManager.Object);
         }
 
 
