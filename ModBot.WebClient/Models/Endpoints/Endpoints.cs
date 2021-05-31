@@ -20,7 +20,7 @@ namespace ModBot.WebClient.Models.Endpoints
 
         public string UpdateBannedWordList => Base + "updatebannedwordlist";
 
-        public string CreateLog => Base + "/createlog";
+        public string CreateLog => Base + "createlog";
 
         public string GetChangeLog => Base + "getchangelog";
 
@@ -28,7 +28,7 @@ namespace ModBot.WebClient.Models.Endpoints
 
         public string DeleteLog => Base + "deletelog";
 
-        public string UpdateLog => Base + "udpatelog";
+        public string UpdateLog => Base + "updatelog";
 
         public string CreatePunishedLevel => Base + "createpunishmentlevel";
 

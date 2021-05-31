@@ -1,45 +1,30 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ModBot.Domain.DTO;
 using ModBot.WebClient.Models;
+using ModBot.WebClient.Models.Endpoints;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ModBot.WebClient.Controllers
 {
     public class PunnishmentController : Controller
     {
+        private readonly IEndpoints endpoints;
         public PunnishmentController()
         {
+            endpoints = new Endpoints();
+        }
+       
+       
 
-        }
-        public IActionResult CreatePunishemnt()
+        public IActionResult Settings(PunishmentModel punishmentModel)
         {
-            return View();
-        }
-        public IActionResult CreatePunishemnt(PunishmentModel punishmentModel)
-        {
-            return View();
-        }
-        public IActionResult Get_PunishLevel(int id)
-        {
-            return View();
-        }
-        public IActionResult GetList_PunishLevel()
-        {
-            return View();
-        }
-        public IActionResult DeletePunishment(int id)
-        {
-            return View();
-        }
-        public IActionResult UpdatePunishment(int id)
-        {
-            return View();
-        }
-
-        public IActionResult Settings(int id)
-        {
+            
             return View();
         }
     }

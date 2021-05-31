@@ -10,7 +10,7 @@ namespace ModBot.WebClient.Models
         public int TimeOutLevel { get; set; }
         public int KickLevel { get; set; }
         public int BanLevel { get; set; }
-        public DateTime SpamMuteTime { get; set; }
-        public DateTime StrikeMuteTime { get; set; }
+        public int SpamMuteTime { get; set; }
+        public int StrikeMuteTime { get; set; }
     }
 }
