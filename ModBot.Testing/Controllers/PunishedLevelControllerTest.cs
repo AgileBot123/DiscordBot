@@ -39,9 +39,9 @@ namespace ModBot.Testing.Controllers
         public async Task GetAllPunishedLevels_ShouldReturnOk()
         {
             //Arrange
-            _mockPunish.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(_punishmentsList);
+            _mockPunish.Setup(x => x.GetAllPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(_punishmentsList);
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevels();
+            var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var punishmentsLevel = result.Value.Should().BeOfType<List<IPunishmentsLevels>>().Subject;
@@ -55,9 +55,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             IEnumerable<IPunishmentsLevels> punishmentLevelsListIsEmpty = new List<IPunishmentsLevels>();
-            _mockPunish.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(punishmentLevelsListIsEmpty);
+            _mockPunish.Setup(x => x.GetAllPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(punishmentLevelsListIsEmpty);
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevels();
+            var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
             //Assert
             response.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -67,9 +67,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
                 IEnumerable<IPunishmentsLevels> punishmentLevelsIsNull = null;
-             _mockPunish.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(punishmentLevelsIsNull);
+             _mockPunish.Setup(x => x.GetAllPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(punishmentLevelsIsNull);
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevels();
+            var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
             //Assert
             var result = response.Should().BeOfType<ObjectResult>().Subject;
             result.Value.Should().Be("internal server error");
