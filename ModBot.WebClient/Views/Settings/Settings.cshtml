@@ -22,13 +22,13 @@
         </tr>
         <tr style="background-color:white">
             <th>
-                Mute Level<input value="@Html.DisplayNameFor(model => model.TimeOutLevel)">
+                Mute Level<input value="@Model.TimeOutLevel">
             </th>
             <th>
-                Kick Level<input value="@Html.DisplayNameFor(model => model.KickLevel)">
+                Kick Level<input value="@Model.KickLevel">
             </th>
             <th>
-                Ban Level<input value="@Html.DisplayNameFor(model => model.BanLevel)">
+                Ban Level<input value="@Model.BanLevel">
             </th>
         </tr>
         <tr>
@@ -36,10 +36,10 @@
                 Bot Prefix <input value="!">
             </th>
             <th>
-                Spam Mute Timer <input value="@Html.DisplayNameFor(model => model.SpamMuteTime)">
+                Spam Mute Timer <input value="@Model.SpamMuteTime">
             </th>
             <th>
-                Strike Mute Timer <input value="@Html.DisplayNameFor(model => model.StrikeMuteTime)">
+                Strike Mute Timer <input value="@Model.StrikeMuteTime">
             </th>
         </tr>
     </thead>
@@ -49,13 +49,13 @@
         @foreach (var item in Model.BannedWordList) {
         <tr>
             <td>
-                <input value="@Html.DisplayFor(modelItem => item.Profanity)">
+                <input value="@item.Profanity">
             </td>
             <td>
-                <input value="@Html.DisplayFor(modelItem => item.Strikes)">
+                <input value="@item.Strikes">
             </td>
             <td>
-                <input value="@Html.DisplayFor(modelItem => item.Punishment)">
+                <input value="@item.Punishment">
             </td>
         </tr>
 }

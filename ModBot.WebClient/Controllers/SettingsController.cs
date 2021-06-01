@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.Domain.DTO.BannedWordDtos;
+using ModBot.WebClient.Extention;
 using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
@@ -30,34 +31,22 @@ namespace ModBot.WebClient.Controllers
 
 
         [HttpGet]
-        public IActionResult Settings()
+        public async Task<IActionResult> Settings()
         {
-
             HandleCookie("ServerIsSelected", "true");
 
+            var  allBannedWords = await GetAllBannedWord();
+            var PunishmentLevels = await GetPunishmentLevels();
 
-
-           var allBannedWords = GetAllBannedWord();
-           var allPunishmentLevels = GetAllPunishmentLevel();
-
-            var settings = new List<SettingsDTO>();
-
-
-            foreach (var words in allBannedWords)
+            var settings = new SettingsDTO()
             {
-                foreach (var punishments in allPunishmentLevels)
-                {
-                    settings.Add(new SettingsDTO()
-                    {
-                        BannedWordList = allBannedWords, 
-                        TimeOutLevel = punishments.TimeOutLevel,
-                        KickLevel = punishments.KickLevel,
-                        BanLevel = punishments.BanLevel,
-                        SpamMuteTime = punishments.SpamMuteTime,
-                        StrikeMuteTime = punishments.StrikeMuteTime
-                    });;
-                }
-            }
+                BannedWordList = allBannedWords,
+                TimeOutLevel = PunishmentLevels.TimeOutLevel,
+                KickLevel = PunishmentLevels.KickLevel,
+                BanLevel = PunishmentLevels.BanLevel,
+                SpamMuteTime = PunishmentLevels.SpamMuteTime,
+                StrikeMuteTime = PunishmentLevels.StrikeMuteTime
+            };
 
             return View(settings);
         }
@@ -95,18 +84,22 @@ namespace ModBot.WebClient.Controllers
             HandleCookie("ServerIsSelected", "true");
             return View();
         }
-
-        public List<PunishmentSettingsDto> GetAllPunishmentLevel()
+        [HttpPost]
+        public async Task<PunishmentSettingsDto> GetPunishmentLevels()
         {
-            var punishmentList = new List<PunishmentSettingsDto>();
+
             using (HttpClient client = new HttpClient())
             {
-                var response = client.GetAsync(endpoints.GetPunishmentLevels).Result;
+                var guildId = Session.Get<ulong>(HttpContext.Session, "guild");
+                var punishmentSettings = new PunishmentSettingsDto() { GuildId = guildId };
+                var JsonString = JsonConvert.SerializeObject(punishmentSettings);
+                var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(endpoints.GetPunishmentLevels, stringContent).Result;
                 if (response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    punishmentList = JsonConvert.DeserializeObject<List<PunishmentSettingsDto>>(jsonString);
-                    return punishmentList;
+                    punishmentSettings = JsonConvert.DeserializeObject<PunishmentSettingsDto>(jsonString);
+                    return punishmentSettings;
                 }
             }
 
@@ -127,11 +120,11 @@ namespace ModBot.WebClient.Controllers
         public IActionResult DeletePunishment(int? id)
         {
 
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 var requestUrl = endpoints.GetPunishmentLevel + id;
                 var response = client.GetAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
                     var punishment = JsonConvert.DeserializeObject<PunishmentSettingsDto>(jsonString);
@@ -145,11 +138,11 @@ namespace ModBot.WebClient.Controllers
         [HttpPost]
         public IActionResult DeletePunishment(int id)
         {
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 var requestUrl = endpoints.DeletePunishmentLevel + id;
                 var response = client.DeleteAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     return RedirectToAction("Settings");
                 }
@@ -157,16 +150,16 @@ namespace ModBot.WebClient.Controllers
             HandleCookie("ServerIsSelected", "true");
             return View();
         }
-        
+
         [HttpGet]
         public IActionResult UpdatePunishment(int? id)
         {
 
-            using(HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient())
             {
                 var requestUrl = endpoints.GetPunishmentLevel + id;
                 var response = client.GetAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
+                if (response.IsSuccessStatusCode)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
                     var punishment = JsonConvert.DeserializeObject<PunishmentSettingsDto>(jsonString);
@@ -181,15 +174,15 @@ namespace ModBot.WebClient.Controllers
         [HttpPost]
         public IActionResult UpdatePunishment(PunishmentSettingsDto update)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
-                using(HttpClient client = new HttpClient())
+                using (HttpClient client = new HttpClient())
                 {
                     var updatePunishment = JsonConvert.SerializeObject(update);
                     var content = new StringContent(updatePunishment, Encoding.UTF8, "Application/json");
                     var requestUrl = endpoints.UpdatePunishmentLevel;
                     var response = client.PutAsync(requestUrl, content).Result;
-                    if(response.IsSuccessStatusCode)
+                    if (response.IsSuccessStatusCode)
                     {
                         return RedirectToAction("Settings");
                     }
@@ -199,23 +192,25 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
         
-
-        public List<BannedWordDto> GetAllBannedWord()
+        [HttpPost]
+        public async Task<List<BannedWordDto>> GetAllBannedWord()
         {
             var bannedWords = new List<BannedWordDto>();
             using(HttpClient client = new HttpClient())
             {
-                var response = client.GetAsync(endpoints.GetAllBannedWords).Result;
+                var guildId = Session.Get<ulong>(HttpContext.Session, "guild");
+                var bannedwordDto = new BannedWordDto() { GuildId = guildId };
+                var JsonString = JsonConvert.SerializeObject(bannedwordDto);
+                var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(endpoints.GetAllBannedWords, stringContent).Result;
                 if(response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
                     bannedWords = JsonConvert.DeserializeObject<List<BannedWordDto>>(jsonString);
                     return bannedWords;
                 }
+                return null;
             }
-
-            HandleCookie("ServerIsSelected", "true");
-            return null;
         }
 
 

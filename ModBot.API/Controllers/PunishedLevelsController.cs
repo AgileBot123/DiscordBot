@@ -53,19 +53,20 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
-        public async Task<IActionResult> GetPunishmentLevels(ulong guilId)
+        public async Task<IActionResult> GetPunishmentLevels(PunishmentSettingsDto punishmentSettingsDto)
         {
             try
             {
-                var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels(guilId);
+                var guildId = punishmentSettingsDto.GuildId;
+                var punishmentLevels = await _punishedLevelService.GetPunishmentLevels(guildId);
 
-                if (punishmentLevels.Count() == 0)
+                if (punishmentLevels == null)
                 {
                     logger.Info("No punishmentLevels was found in datbase", this.GetType().Name);
-                    return NotFound("Punishemnts is empty");
+                    return NotFound("Punishments are empty");
                 }
 
-                logger.Info($"{punishmentLevels.Count()} punishmentlevels was sent to client", this.GetType().Name);
+                logger.Info($"punishmentlevels was sent to client", this.GetType().Name);
                 return Ok(punishmentLevels);
             }
             catch (Exception ex)
