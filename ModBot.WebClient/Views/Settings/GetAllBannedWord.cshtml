@@ -3,6 +3,15 @@
 @{
     ViewData["Title"] = "GetAllBannedWord";
 }
+<style type="text/css">
+    #input {
+        text-align: left;
+        width: 210px;
+        margin: 0 auto;
+        height: 25px;
+        margin-bottom: 5px;
+    }
+</style>
 
 <h1>GetAllBannedWord</h1>
 
@@ -13,7 +22,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Word)
+                @Html.DisplayNameFor(model => model.Profanity)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Strikes)
@@ -28,7 +37,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Word)
+                @Html.DisplayFor(modelItem => item.Profanity)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Strikes)

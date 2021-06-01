@@ -1,0 +1,48 @@
+﻿@model ModBot.Domain.Models.BannedWord
+
+@{
+    ViewData["Title"] = "UpdateBannedWord";
+}
+
+<h1>UpdateBannedWord</h1>
+
+<h4>BannedWord</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="UpdateBannedWord">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Profanity" class="control-label"></label>
+                <input asp-for="Profanity" class="form-control" />
+                <span asp-validation-for="Profanity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Strikes" class="control-label"></label>
+                <input asp-for="Strikes" class="form-control" />
+                <span asp-validation-for="Strikes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Punishment" class="control-label"></label>
+                <input asp-for="Punishment" class="form-control" />
+                <span asp-validation-for="Punishment" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BannedWordUsedCount" class="control-label"></label>
+                <input asp-for="BannedWordUsedCount" class="form-control" />
+                <span asp-validation-for="BannedWordUsedCount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

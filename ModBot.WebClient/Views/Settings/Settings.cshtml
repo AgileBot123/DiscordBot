@@ -1,0 +1,46 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<ModBot.WebClient.Models.BannedWordModel>
+
+@{
+    ViewData["Title"] = "Settings";
+}
+<table class="table" style="">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Profanity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Strikes)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Punishment)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profanity)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Strikes)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Punishment)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "UpdateBannedWord", new {  word=item.Profanity }) |
+                   
+                    @Html.ActionLink("Delete", "DeleteBannedWord", new { word = item.Profanity })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

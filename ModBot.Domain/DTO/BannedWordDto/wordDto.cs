@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
 
-namespace ModBot.WebClient.Models
+namespace ModBot.Domain.DTO.BannedWordDto
 {
-    public class BannedWordModel
+    public class wordDto
     {
         public string Profanity { get; set; }
         public int Strikes { get; set; }

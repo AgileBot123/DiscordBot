@@ -19,11 +19,11 @@ namespace ModBot.Domain.Extensions.Routes
 
         public class BannedWords
         {
-            public const string GetBannedWord = Base + "GetBannedWord/{id}";
+            public const string GetBannedWord = Base + "GetBannedWord/{word}";
             public const string GetAllBannedWords = Base + "GetAllBannedWords";
             public const string CreateBannedWord = Base + "CreateBannedWord";
-            public const string DeleteBannedWord = Base + "DeleteBannedWord";
-            public const string UpdateBannedWord = Base + "UpdateBannedWord";
+            public const string DeleteBannedWord = Base + "DeleteBannedWord/{word}";
+            public const string UpdateBannedWord = Base + "UpdateBannedWordList";
 
         }
         public class ChangeLog
