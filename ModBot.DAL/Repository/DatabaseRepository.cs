@@ -337,13 +337,13 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
-        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels(ulong guildId)
         {
 
             try
             {
                 var punishments = new List<IPunishmentsLevels>();
-                foreach (var punishemntLevel in await _context.PunishmentsLevels.AsNoTracking().ToListAsync())
+                foreach (var punishemntLevel in await _context.PunishmentsLevels.AsNoTracking().Where(x=>x.GuildId==guildId).ToListAsync())
                 {
                     var punishment = new PunishmentSettings(punishemntLevel.Id,
                                                             punishemntLevel.TimeOutLevel,
