@@ -65,6 +65,12 @@ namespace ModBot.DAL.Repository
             return _context.SaveChanges() > 0;
         }
 
+        public virtual bool UpdateGuild(Guild guild)
+        {
+            _context.Guilds.Update(guild);
+            return _context.SaveChanges() > 0;
+        }
+
         #endregion
 
         #region Member

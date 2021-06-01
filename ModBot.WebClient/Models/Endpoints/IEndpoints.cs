@@ -3,6 +3,8 @@
     public interface IEndpoints
     {
         string CreateGuild { get; }
+        string UpdateGuild { get; }
+
         string CreateBannedWord { get; }
 
         string GetBannedWord { get; }
