@@ -11,6 +11,7 @@
 </p>
 <table class="table">
     <thead>
+        
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Word)
@@ -25,23 +26,28 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Word)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Strikes)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Punishment)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-            </td>
-        </tr>
-}
+
+
+
+        @foreach (var item in Model)
+        {  
+            <tr>
+                <td>
+                    <p style="color:White">  @Html.DisplayFor(modelItem => item.Word) </p>
+                </td>
+                <td>
+                    <p style="color:White">  @Html.DisplayFor(modelItem => item.Strikes)</p>
+                </td>
+                <td>
+                    <p style="color:White">@Html.DisplayFor(modelItem => item.Punishment)</p></td>
+                <td>
+                    <p style="color:White">@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })|
+                                           @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })|
+                                           @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</p>
+                </td>
+            </tr>
+        
+        }
+
     </tbody>
 </table>
