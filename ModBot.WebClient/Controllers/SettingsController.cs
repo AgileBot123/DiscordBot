@@ -20,8 +20,10 @@ namespace ModBot.WebClient.Controllers
         {
             endpoints = new Endpoints();
         }
-        public IActionResult Index()
+        public IActionResult Settings()
         {
+            GetAllBannedWord();
+           
             return View();
         }
 
@@ -137,6 +139,8 @@ namespace ModBot.WebClient.Controllers
             }
             return View();
         }
+
+        [HttpPost]
         public IActionResult UpdatePunishment(PunishmentModel update)
         {
             if(ModelState.IsValid)
@@ -164,12 +168,12 @@ namespace ModBot.WebClient.Controllers
                 if(response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var bannedWordResponse = JsonConvert.DeserializeObject<List<BannedWordDto>>(jsonString);
+                    var bannedWordResponse = JsonConvert.DeserializeObject<List<wordDto>>(jsonString);
                     foreach (var bannedword in bannedWordResponse)
                     {
                         var bannedWordListModel = new BannedWordModel
                         {
-                            Word = bannedword.Word,
+                            Profanity = bannedword.Profanity,
                             Strikes = bannedword.Strikes,
                             Punishment = bannedword.Punishment,
                              
@@ -185,15 +189,15 @@ namespace ModBot.WebClient.Controllers
         {
             return View();
         }
-        public IActionResult CreateBannedWord(BannedWordModel bannedWordModel)
+        public IActionResult CreateBannedWord(BannedWordDto bannedWord)
         {
             if(ModelState.IsValid)
             {
                 var createBannedWordRequest = new BannedWordDto
                 {
-                    Word = bannedWordModel.Word,
-                    Strikes = bannedWordModel.Strikes,
-                    Punishment = bannedWordModel.Punishment
+                    Word = bannedWord.Word,
+                    Strikes = bannedWord.Strikes,
+                    Punishment = bannedWord.Punishment
                 };
                 string jsonCreateBannedWord = JsonConvert.SerializeObject(createBannedWordRequest);
                 var Content = new StringContent(jsonCreateBannedWord, Encoding.UTF8, "application/json");
@@ -209,41 +213,43 @@ namespace ModBot.WebClient.Controllers
             ViewBag.Message = "Banned word created";
             return View();
         }
-        public IActionResult DeleteBannedWord(int? id)
-        {
+        //public IActionResult DeleteBannedWord(string? word)
+        //{
             
-            using(HttpClient client = new HttpClient())
-            {
-                var requestUrl = endpoints.GetBannedWord + id;
-                var response = client.GetAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
-                {
-                    var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var bannedWord = JsonConvert.DeserializeObject<BannedWordDto>(jsonString);
-                    return View(bannedWord);
-                }
-            }
-            return View();
-        }
-        public IActionResult DeleteBannedWord(int id)
+        //    using(HttpClient client = new HttpClient())
+        //    {
+        //        var requestUrl = endpoints.GetBannedWord + word;
+        //        var response = client.GetAsync(requestUrl).Result;
+        //        if(response.IsSuccessStatusCode)
+        //        {
+        //            var jsonString = response.Content.ReadAsStringAsync().Result;
+        //            var bannedWord = JsonConvert.DeserializeObject<BannedWordDto>(jsonString);
+        //            return View(bannedWord);
+        //        }
+        //    }
+        //    return View();
+        //}
+        public IActionResult DeleteBannedWord(string word)
         {
                       
             using(HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.DeleteBannedWord + id;
+                var requestUrl = endpoints.DeleteBannedWord + word;
                 var response = client.DeleteAsync(requestUrl).Result;
                 if(response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction();
+                {                    
+                       return RedirectToAction("GetAllBannedWord");
                 }
             }
             return View();
         }
-        public IActionResult UpdateBannedWord(int? id)
+
+        [HttpGet]
+        public IActionResult UpdateBannedWord(string word)
         {
             using (HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.GetBannedWord + id;
+                var requestUrl = endpoints.GetBannedWord + word;
                 var response = client.GetAsync(requestUrl).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -254,7 +260,9 @@ namespace ModBot.WebClient.Controllers
             }
             return View();
         }
-        public IActionResult UpdateBannedWord(BannedWordModel update)
+
+        [HttpPost]
+        public IActionResult UpdateBannedWord(BannedWordDto update)
         {
             if (ModelState.IsValid)
             {
