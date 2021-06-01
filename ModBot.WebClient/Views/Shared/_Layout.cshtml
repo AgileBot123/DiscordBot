@@ -32,6 +32,7 @@
 </head>
 <body class="w3-black">
     <header>
+
         <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
 
 
@@ -66,12 +67,13 @@
                 <i class="fa fa-eye w3-xxlarge"></i>
                 <p>SERVER</p>
             </a>
-            <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="BannedWord" asp-action="GetAllBannedWords">
+            <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Settings" asp-action="GetAllBannedWord">
                 <i class="fa fa-eye w3-xxlarge"></i>
                 <p>BannedWords</p>
             </a>
         </nav>
     </header>
+    
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
@@ -87,5 +89,6 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @RenderSection("Scripts", required: false)
+
 </body>
 </html>
