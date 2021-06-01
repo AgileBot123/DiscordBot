@@ -10,8 +10,7 @@
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
-    <thead>
-        
+    <thead>       
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Word)
@@ -26,28 +25,42 @@
         </tr>
     </thead>
     <tbody>
-
-
-
         @foreach (var item in Model)
         {  
+           
+
             <tr>
                 <td>
-                    <p style="color:White">  @Html.DisplayFor(modelItem => item.Word) </p>
+                    <div class="dropdown-item-text" style="width:200px;" background-color="Black">
+                        <select>
+                            <option value="0">Select word:</option>
+                            <option value="1">@Html.DisplayFor(modelItem => item.Word)</option>
+                        </select>
+                    </div>
+                    
                 </td>
                 <td>
-                    <p style="color:White">  @Html.DisplayFor(modelItem => item.Strikes)</p>
+                    <div class="dropdown-item-text" style="width:200px" background-color="Black">
+                        <select>
+                            <option value="0">Select Strikes:</option>
+                            <option value="1">@Html.DisplayFor(modelItem => item.Strikes)</option>
+                        </select>
+                    </div>
                 </td>
                 <td>
-                    <p style="color:White">@Html.DisplayFor(modelItem => item.Punishment)</p></td>
+                    <div class="dropdown-item-text" style="width:200px;" background-color="Black">
+                        <select>
+                            <option value="0">Select Punishment:</option>
+                            <option value="1">@Html.DisplayFor(modelItem => item.Punishment)</option>
+                        </select>
+                    </div>           
+                </td>
                 <td>
                     <p style="color:White">@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })|
                                            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })|
                                            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</p>
                 </td>
-            </tr>
-        
+            </tr>        
         }
-
     </tbody>
 </table>
