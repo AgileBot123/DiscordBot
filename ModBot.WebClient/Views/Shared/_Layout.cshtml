@@ -5,62 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ModBot.Webclient</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/site.css"  type="text/css"  />
     <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <style>
-
-        body, h1, h2, h3, h4, h5, h6 {
-            font-family: "Montserrat", sans-serif
-        }
-
-        .w3-row-padding img {
-            margin-bottom: 12px
-        }
-        /* Set the width of the sidebar to 120px */
-        .w3-sidebar {
-            width: 120px;
-            background: #222;
-        }
-        /* Add a left margin to the "page content" that matches the width of the sidebar (120px) */
-        #main {
-            margin-left: 120px
-        }
-        /* Remove margins from "page content" on small screens */
-    </style>
 </head>
-<body class="w3-black">
+<body>
     <header>
 
-        <nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">
 
-
-            <a class="w3-bar-item w3-button w3-padding-large w3-black" asp-area="" asp-controller="Home" asp-action="Start">
-                <i class="fa fa-home w3-xxlarge"></i>
-                <p>Home</p>
-            </a>
+        <!--<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">-->
+        <nav>
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Start", "Home")'">Home</button>
 
             @if (User.Identity.IsAuthenticated)
             {
-                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="Logout">
-                    <i class="fa fa-eye w3-xxlarge"></i>
-                    <p>LOGOUT</p>
-                </a>
-                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="ServerList">
-                    <i class="fa fa-eye w3-xxlarge"></i>
-                    <p>Servers</p>
-                </a>
+            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'" >Logout</button>
+
             }
 
             @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
             {
-                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Settings" asp-action="Settings">
-                    <i class="fa fa-user w3-xxlarge"></i>
-                    <p>Settings</p>
-                </a>
+
+          <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'" >Servers</button>
+
             }
         </nav>
+
+
+
+
+
+
+
+
     </header>
 
     <div class="container">
