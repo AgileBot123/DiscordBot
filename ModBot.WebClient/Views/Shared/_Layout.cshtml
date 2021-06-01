@@ -20,14 +20,16 @@
 
             @if (User.Identity.IsAuthenticated)
             {
-            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'" >Logout</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
+
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'">Servers</button>
 
             }
 
             @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
             {
 
-          <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'" >Servers</button>
+               <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
 
             }
         </nav>
