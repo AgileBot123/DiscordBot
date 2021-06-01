@@ -116,6 +116,7 @@ namespace ModBot.WebClient.Controllers
 
         public IActionResult EditGuild(ulong guildId)
         {
+            HandleCookie("ServerIsSelected", "true");
             Session.Set<ulong>(HttpContext.Session, "guild", guildId);
             return RedirectToAction("Dashboard");
         }
