@@ -8,11 +8,20 @@
     <h1 class="mb-3">Please select server</h1>
 </div>
 <style>
+    #example1 {
+        display: flex;
+        align-items: center;
+        width: 1300px;
+        border: 10px;
+        padding: 15px;
+        position: relative;
+        background: #23272a;
+        background-clip: border-box;
+    }
     img {
         float: left;
         width: 60px;
         height: 60px;
-        margin-right: 5px;
     }
 
     #Text {
@@ -22,13 +31,15 @@
     }
 
     #meta {
+        width: 1200px;
         display: flex;
         align-items: center;
     }
 
     #Button {
+        position: relative;
         float: right;
-        padding-left: 650px;
+        left: 50%;
     }
     #order1 {
         order: 1;
@@ -37,13 +48,14 @@
         order: 2;
     }
 </style>
-<table>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <div id="meta">
+<div id="example1">
+    <table>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <div id="meta">
                             @if (item.HasBot == true)
                             {
                                 <!-- Do something here to display your items in table format (or whatever format you want with as many columns you want -->
@@ -62,28 +74,29 @@
                                     <a asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id" class="btn btn-success">Edit bot</a>
                                 </div>
                             }
-                        else
-                        {
-                            @if (item.Icon == null)
-                            {
-                                <img src="~/images/Default.png" alt="@item.Name" />
-                            }
                             else
                             {
-                                <img src=@item.Icon alt="@item.Name" />
+                                @if (item.Icon == null)
+                                {
+                                    <img src="~/images/Default.png" alt="@item.Name" />
+                                }
+                                else
+                                {
+                                    <img src=@item.Icon alt="@item.Name" />
+                                }
+                                <p id="Text">
+                                    @item.Name
+                                </p>
+                                <div id="Button">
+                                    <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
+                                </div>
                             }
-                            <p id="Text">
-                                @item.Name
-                            </p>
-                            <div id="Button">
-                                <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
-                            </div>
-                        }
 
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <p></p>
