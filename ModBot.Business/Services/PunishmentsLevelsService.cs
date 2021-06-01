@@ -33,9 +33,9 @@ namespace ModBot.Business.Services
             return _databaseRepository.CreatePunishmentSetting(createdPunishment);
         }
 
-        public async Task<bool> DeletePunishemntLevel(int id)
+        public async Task<bool> DeletePunishemntLevel(PunishmentSettingsDto punishment)
         {
-            var getPunishedLevel = await _databaseRepository.GetPunishmentSetting(id);
+            var getPunishedLevel = await _databaseRepository.GetPunishmentSetting(punishment.GuildId,punishment.Id);
 
             if (getPunishedLevel != null)
             {
@@ -56,10 +56,10 @@ namespace ModBot.Business.Services
         }
 
 
-        public async Task<IPunishmentsLevels> GetPunishmentLevel(int id)
+        public async Task<IPunishmentsLevels> GetPunishmentLevel(ulong guilId,int id)
         {
 
-            var punishment = await _databaseRepository.GetPunishmentSetting(id);
+            var punishment = await _databaseRepository.GetPunishmentSetting(guilId, id);
 
             if (punishment is null)
                 return null;
@@ -69,7 +69,7 @@ namespace ModBot.Business.Services
 
         public async Task<bool> UpdatePunishmentLevel(PunishmentSettingsDto updatePunishment, int id)
         {
-            var selectPunishment = await _databaseRepository.GetPunishmentSetting(id);
+            var selectPunishment = await _databaseRepository.GetPunishmentSetting(updatePunishment.GuildId,id);
 
             if(selectPunishment != null)
             {

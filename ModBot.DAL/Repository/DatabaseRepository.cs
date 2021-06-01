@@ -362,11 +362,11 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
-        public virtual async Task<IPunishmentsLevels> GetPunishmentSetting(int id)
+        public virtual async Task<IPunishmentsLevels> GetPunishmentSetting(ulong guilId,int id)
         {
             try
             {
-                return await _context.PunishmentsLevels.AsNoTracking().SingleAsync(x => x.Id == id);
+                return await _context.PunishmentsLevels.AsNoTracking().SingleAsync(x => x.Id == id && x.GuildId==guilId);
             }
             catch (Exception)
             {
