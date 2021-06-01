@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.WebClient.Models;
@@ -22,11 +23,13 @@ namespace ModBot.WebClient.Controllers
         }
         public IActionResult Index()
         {
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
         public IActionResult CreatePunishemnt()
         {
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -56,6 +59,7 @@ namespace ModBot.WebClient.Controllers
 
             }
             ViewBag.Message = "New Punishment";
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -85,10 +89,12 @@ namespace ModBot.WebClient.Controllers
                     ViewBag.Punishments = punishmentList;
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View("punisments", punishmentList);
         }
         public IActionResult GetPunishLevel(int id)
         {
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -105,6 +111,7 @@ namespace ModBot.WebClient.Controllers
                     return View(punishment);
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -119,6 +126,7 @@ namespace ModBot.WebClient.Controllers
                     return RedirectToAction();
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -135,6 +143,7 @@ namespace ModBot.WebClient.Controllers
                     return View(punishment);
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult UpdatePunishment(PunishmentModel update)
@@ -153,6 +162,7 @@ namespace ModBot.WebClient.Controllers
                     }
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult GetAllBannedWord()
@@ -179,10 +189,12 @@ namespace ModBot.WebClient.Controllers
                     ViewBag.Message = bannedWords;
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View(bannedWords);
         }
         public IActionResult CreateBannedWord()
         {
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult CreateBannedWord(BannedWordModel bannedWordModel)
@@ -207,6 +219,7 @@ namespace ModBot.WebClient.Controllers
                 return RedirectToAction();
             }
             ViewBag.Message = "Banned word created";
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult DeleteBannedWord(int? id)
@@ -223,6 +236,7 @@ namespace ModBot.WebClient.Controllers
                     return View(bannedWord);
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult DeleteBannedWord(int id)
@@ -237,6 +251,7 @@ namespace ModBot.WebClient.Controllers
                     return RedirectToAction();
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult UpdateBannedWord(int? id)
@@ -252,6 +267,7 @@ namespace ModBot.WebClient.Controllers
                     return View(bannedWord);
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
         public IActionResult UpdateBannedWord(BannedWordModel update)
@@ -270,7 +286,16 @@ namespace ModBot.WebClient.Controllers
                     }
                 }
             }
+            HandleCookie("ServerIsSelected", "true");
             return View();
+        }
+        public void HandleCookie(string name, string content)
+        {
+            HttpContext.Response.Cookies.Append(name, content, new CookieOptions()
+            {
+                Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0))
+
+            });
         }
     }
 }
