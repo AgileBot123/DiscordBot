@@ -25,7 +25,7 @@ namespace ModBot.API.Controllers
 
         [HttpGet]
         [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
-        public async Task<IActionResult> GetPunishmentLevel(ulong guilId,int id)
+        public async Task<IActionResult> GetPunishmentLevel(ulong guilId, int id)
         {
             try
             {
@@ -35,13 +35,20 @@ namespace ModBot.API.Controllers
                     return BadRequest("id is null");
                 }
 
-                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(guilId,id);
+                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(guilId, id);
 
                 if (punishedLevel == null)
                 {
                     logger.Info($"No punishmentlevel was found in database with id: {id}.", this.GetType().Name);
                     return NotFound("No punishment found ");
                 }
+                return Ok(punishedLevel);
+            }
+            catch
+            {
+                return NotFound("Internal Server Error");
+            }
+        }
 
 
         [HttpPost]
