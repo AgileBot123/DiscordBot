@@ -27,7 +27,8 @@ namespace ModBot.Business.Services
                         kickLevel: createPunished.KickLevel,
                         banLevel: createPunished.BanLevel,
                         spamMuteLevel: createPunished.SpamMuteTime,
-                        strikeMuteLevel: createPunished.StrikeMuteTime
+                        strikeMuteLevel: createPunished.StrikeMuteTime,
+                        guildId: createPunished.GuildId
                      );
 
             return _databaseRepository.CreatePunishmentSetting(createdPunishment);
@@ -77,7 +78,8 @@ namespace ModBot.Business.Services
                                                        updatePunishment.KickLevel,
                                                        updatePunishment.BanLevel,
                                                        updatePunishment.SpamMuteTime,
-                                                       updatePunishment.StrikeMuteTime);
+                                                       updatePunishment.StrikeMuteTime,
+                                                       updatePunishment.GuildId);
 
                 var result = _databaseRepository.UpdatePunishmentSetting(punishment,id);
 

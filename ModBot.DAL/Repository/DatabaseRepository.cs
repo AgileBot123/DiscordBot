@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModBot.DAL.Data;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;

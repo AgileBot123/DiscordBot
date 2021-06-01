@@ -134,6 +134,8 @@ namespace ModBot.WebClient.Controllers
                 var punishmentSettings = GetpunishmentsSettings(guildId);
                 if(punishmentSettings == null)                
                     return await CreatePunishmentSettings(guildId);
+                else
+                    return RedirectToAction("Dashboard");
             }
             else if (guild.HasBot == false)
                 return await SetHasBotTrueInGuild(guildId);
