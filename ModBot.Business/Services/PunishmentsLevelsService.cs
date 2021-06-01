@@ -46,13 +46,10 @@ namespace ModBot.Business.Services
             return false;
         }
 
-        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels(ulong guilId)
+        public async Task<IPunishmentsLevels> GetPunishmentLevels(ulong guilId)
         {
-            var punishmentLevels = await _databaseRepository.GetAllPunishmentLevels(guilId);
+            var punishmentLevels = await _databaseRepository.GetPunishmentLevels(guilId);
 
-            if (punishmentLevels.Count() == 0)
-                    return null;
-            
             return punishmentLevels;
         }
 

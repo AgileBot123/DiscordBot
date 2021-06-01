@@ -53,7 +53,7 @@ namespace ModBot.API.Controllers
             }    
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route(Routes.BannedWords.GetAllBannedWords)]
         public async Task<IActionResult> GetAllBannedWords(BannedWordDto bannedWordDto)
         {
