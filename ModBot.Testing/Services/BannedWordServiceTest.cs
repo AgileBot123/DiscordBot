@@ -31,7 +31,7 @@ namespace ModBot.Testing.Services
         {
             Punishment = "Timeout",
             Strikes = 1,
-            Word = "Fuck"
+            Profanity = "Fuck"
         };
         private IBannedWord bannedWord = new BannedWord("Fuck", 1, "Timeout");
 
@@ -145,7 +145,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             BannedWordListDto BannedWordDtoList = new BannedWordListDto();
-            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Word = "Fuck" });
+            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "Fuck" });
             _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
             _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(true);
             _mockRepo.Setup(x => x.DeleteBannedWord(It.IsAny<IBannedWord>())).Returns(true);
@@ -162,7 +162,7 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             BannedWordListDto BannedWordDtoList = new BannedWordListDto();
-            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Word = "FuckFuck" });
+            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "FuckFuck" });
             _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
             _mockRepo.Setup(x => x.CreateBannedWord(It.IsAny<IBannedWord>())).Returns(true);
             _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(false);

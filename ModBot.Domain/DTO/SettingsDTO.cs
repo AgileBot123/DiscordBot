@@ -6,11 +6,17 @@ namespace ModBot.Domain.DTO
 {
     public class SettingsDTO
     {
-        public string Insert_Word { get; set; }
-        public string BadWord1 { get; set; }
-        public string BadWord2 { get; set; }
-        public string BadWord3 { get; set; }
-        public string Bad_Sentence1 { get; set; }
-        public string Bad_Sentence2 { get; set; }
+        //BannedWord
+        public string Profanity { get; set; }
+        public int Strikes { get; set; }
+        public string Punishment { get; set; }
+        public int BannedWordUsedCount { get; set; }
+
+        //Punishment
+        public int TimeOutLevel { get; set; }
+        public int KickLevel { get; set; }
+        public int BanLevel { get; set; }
+        public int SpamMuteTime { get; set; }
+        public int StrikeMuteTime { get; set; }
     }
 }

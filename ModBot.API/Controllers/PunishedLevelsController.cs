@@ -23,8 +23,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        [Route(Routes.PunishedLevels.GetPunishedLevel)]
-        public async Task<IActionResult> GetPunishedLevel(int id)
+        [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
+        public async Task<IActionResult> GetPunishmentLevel(int id)
         {
             try
             {
@@ -54,8 +54,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpGet]
-        [Route(Routes.PunishedLevels.GetPunishedLevels)]
-        public async Task<IActionResult> GetPunishedLevels()
+        [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
+        public async Task<IActionResult> GetPunishmentLevels()
         {
             try
             {
@@ -78,8 +78,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
-        [Route(Routes.PunishedLevels.CreatePunishedLevel)]
-        public IActionResult CreatePunishedLevel(PunishmentDto createPunishment)
+        [Route(Routes.PunishmentLevels.CreatePunishmentLevel)]
+        public IActionResult CreatePunishmentLevel(PunishmentSettingsDto createPunishment)
         {
             try
             {              
@@ -108,8 +108,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpDelete]
-        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> DeletePunishedLevel(int id)
+        [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
+        public async Task<IActionResult> DeletePunishmentLevel(int id)
         {
             try
             {
@@ -138,8 +138,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPut]
-        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> UpdatePunishedLevel(int id, PunishmentDto updatePunishment)
+        [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
+        public async Task<IActionResult> UpdatePunishmentLevel(int id, PunishmentSettingsDto updatePunishment)
         {
             try
             {

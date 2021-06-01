@@ -22,7 +22,7 @@ namespace ModBot.Business.Services
         public bool CreateBannedWord(BannedWordDto createBannedWord)
         {
             var createdBannedWord = new BannedWord(
-                word: createBannedWord.Word,
+                word: createBannedWord.Profanity,
                 strikes: createBannedWord.Strikes,
                 punishment: createBannedWord.Punishment);
 
@@ -66,9 +66,9 @@ namespace ModBot.Business.Services
 
                 foreach (var updatedBannedWord in updatedBannedWordList)
                 {
-                    if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Word)))
+                    if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Profanity)))
                     {
-                        changedBannedWord = new BannedWord(updatedBannedWord.Word,
+                        changedBannedWord = new BannedWord(updatedBannedWord.Profanity,
                                                      updatedBannedWord.Strikes,
                                                      updatedBannedWord.Punishment);
 
@@ -76,7 +76,7 @@ namespace ModBot.Business.Services
                     }
                     else
                     {
-                        changedBannedWord = new BannedWord(updatedBannedWord.Word,
+                        changedBannedWord = new BannedWord(updatedBannedWord.Profanity,
                                                      updatedBannedWord.Strikes,
                                                      updatedBannedWord.Punishment);
 
@@ -86,7 +86,7 @@ namespace ModBot.Business.Services
 
                 foreach (var bannedWord in bannedWordList)
                 {
-                    if (!updatedBannedWordList.Any(b => b.Word.Equals(bannedWord.Profanity)))
+                    if (!updatedBannedWordList.Any(b => b.Profanity.Equals(bannedWord.Profanity)))
                     {
                         changedBannedWord = new BannedWord(bannedWord.Profanity,
                                                      bannedWord.Strikes,

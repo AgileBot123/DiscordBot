@@ -20,32 +20,57 @@ namespace ModBot.WebClient.Controllers
         {
             endpoints = new Endpoints();
         }
+
+        [HttpGet]
         public IActionResult Settings()
         {
-            GetAllBannedWord();
-           
-            return View();
+
+           var allBannedWords = GetAllBannedWord();
+           var allPunishmentLevels = GetAllPunishmentLevel();
+
+            var settings = new List<SettingsDTO>();
+
+
+            foreach (var words in allBannedWords)
+            {
+                foreach (var punishments in allPunishmentLevels)
+                {
+                    settings.Add(new SettingsDTO()
+                    {
+                        Profanity = words.Profanity,
+                        Strikes = words.Strikes,
+                        Punishment = words.Punishment,
+                        BannedWordUsedCount = words.BannedWordUsedCount,
+                        TimeOutLevel = punishments.TimeOutLevel,
+                        KickLevel = punishments.KickLevel,
+                        BanLevel = punishments.BanLevel,
+                        SpamMuteTime = punishments.SpamMuteTime,
+                        StrikeMuteTime = punishments.StrikeMuteTime
+                    });
+                }
+            }
+
+            return View(settings);
         }
 
-        public IActionResult CreatePunishemnt()
-        {
-            return View();
-        }
+        //[HttpPost]
+        //public IActionResult Settings(//SUperMOdel Parent)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        CreateBannedWord(new BannedWordDto(//parent.BannedWord.Profanity, parent....));
+        //        CreatePunishemnt(new PunishmentDto(//parent.Punishment.Id, parent....));
+        //    }
+
+        //    return View();
+        //}
 
         [HttpPost]
-        public IActionResult CreatePunishemnt(PunishmentModel punishmentModel)
+        public IActionResult CreatePunishemnt(PunishmentSettingsDto punishmentModel)
         {
             if (ModelState.IsValid)
             {
-                var createPunishmentRequest = new PunishmentDto
-                {
-                    TimeOutLevel = punishmentModel.TimeOutLevel,
-                    KickLevel = punishmentModel.KickLevel,
-                    BanLevel = punishmentModel.BanLevel,
-                    SpamMuteTime = punishmentModel.SpamMuteTime,
-                    StrikeMuteTime = punishmentModel.StrikeMuteTime
-                };
-                string jsonCreatePunishment = JsonConvert.SerializeObject(createPunishmentRequest);
+                string jsonCreatePunishment = JsonConvert.SerializeObject(punishmentModel);
                 var httpContet = new StringContent(jsonCreatePunishment, Encoding.UTF8, "application/json");
 
                 using (HttpClient client = new HttpClient())
@@ -54,62 +79,43 @@ namespace ModBot.WebClient.Controllers
                     if (response.StatusCode != System.Net.HttpStatusCode.OK)
                         return View("Error");
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Settings");
 
             }
             ViewBag.Message = "New Punishment";
             return View();
         }
 
-        public IActionResult GetAllPunishmentLevel()
+        public List<PunishmentSettingsDto> GetAllPunishmentLevel()
         {
-            var punishmentList = new List<PunishmentModel>();
+            var punishmentList = new List<PunishmentSettingsDto>();
             using (HttpClient client = new HttpClient())
             {
                 var response = client.GetAsync(endpoints.GetPunishmentLevels).Result;
                 if (response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var punishmentResponse = JsonConvert.DeserializeObject<PunishmentLevelsListDto>(jsonString);
-                    foreach (var punishment in punishmentResponse.Punishments)
-
-                    {
-                        var punishmentModel = new PunishmentModel
-                        {
-                            TimeOutLevel = punishment.TimeOutLevel,
-                            KickLevel = punishment.KickLevel,
-                            BanLevel = punishment.BanLevel,
-                            SpamMuteTime = punishment.SpamMuteTime,
-                            StrikeMuteTime = punishment.StrikeMuteTime
-                        };
-                        punishmentList.Add(punishmentModel);
-                    }
-                    ViewBag.Punishments = punishmentList;
+                    punishmentList = JsonConvert.DeserializeObject<List<PunishmentSettingsDto>>(jsonString);
+                    return punishmentList;
                 }
             }
-            return View("punisments", punishmentList);
+            return null;
         }
+
+
+        [HttpGet]
         public IActionResult GetPunishLevel(int id)
         {
             return View();
         }
 
+        [HttpGet]
         public IActionResult DeletePunishment(int? id)
         {
-            using(HttpClient client = new HttpClient())
-            {
-                var requestUrl = endpoints.GetPunishmentLevel + id;
-                var response = client.GetAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
-                {
-                    var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var punishment = JsonConvert.DeserializeObject<PunishmentDto>(jsonString);
-                    return View(punishment);
-                }
-            }
             return View();
         }
 
+        [HttpPost]
         public IActionResult DeletePunishment(int id)
         {
             using(HttpClient client = new HttpClient())
@@ -118,30 +124,20 @@ namespace ModBot.WebClient.Controllers
                 var response = client.DeleteAsync(requestUrl).Result;
                 if(response.IsSuccessStatusCode)
                 {
-                    return RedirectToAction();
+                    return RedirectToAction("Settings");
                 }
             }
             return View();
         }
-
+        
+        [HttpGet]
         public IActionResult UpdatePunishment(int? id)
         {
-            using(HttpClient client = new HttpClient())
-            {
-                var requestUrl = endpoints.GetPunishmentLevel + id;
-                var response = client.GetAsync(requestUrl).Result;
-                if(response.IsSuccessStatusCode)
-                {
-                    var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var punishment = JsonConvert.DeserializeObject<PunishmentDto>(jsonString);
-                    return View(punishment);
-                }
-            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult UpdatePunishment(PunishmentModel update)
+        public IActionResult UpdatePunishment(PunishmentSettingsDto update)
         {
             if(ModelState.IsValid)
             {
@@ -153,82 +149,61 @@ namespace ModBot.WebClient.Controllers
                     var response = client.PutAsync(requestUrl, content).Result;
                     if(response.IsSuccessStatusCode)
                     {
-                        return RedirectToAction();
+                        return RedirectToAction("Settings");
                     }
                 }
             }
             return View();
         }
-        public IActionResult GetAllBannedWord()
+        
+
+        public List<BannedWordDto> GetAllBannedWord()
         {
-            var bannedWords = new List<BannedWordModel>();
+            var bannedWords = new List<BannedWordDto>();
             using(HttpClient client = new HttpClient())
             {
                 var response = client.GetAsync(endpoints.GetAllBannedWords).Result;
                 if(response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var bannedWordResponse = JsonConvert.DeserializeObject<List<wordDto>>(jsonString);
-                    foreach (var bannedword in bannedWordResponse)
-                    {
-                        var bannedWordListModel = new BannedWordModel
-                        {
-                            Profanity = bannedword.Profanity,
-                            Strikes = bannedword.Strikes,
-                            Punishment = bannedword.Punishment,
-                             
-                        };
-                        bannedWords.Add(bannedWordListModel);
-                    }
-                    ViewBag.Message = bannedWords;
+                    bannedWords = JsonConvert.DeserializeObject<List<BannedWordDto>>(jsonString);
+                    return bannedWords;
                 }
             }
-            return View(bannedWords);
+            return null;
         }
+
+
+
+        [HttpGet]
         public IActionResult CreateBannedWord()
         {
             return View();
         }
+
+        [HttpPost]
         public IActionResult CreateBannedWord(BannedWordDto bannedWord)
         {
             if(ModelState.IsValid)
             {
-                var createBannedWordRequest = new BannedWordDto
-                {
-                    Word = bannedWord.Word,
-                    Strikes = bannedWord.Strikes,
-                    Punishment = bannedWord.Punishment
-                };
-                string jsonCreateBannedWord = JsonConvert.SerializeObject(createBannedWordRequest);
+                var jsonCreateBannedWord = JsonConvert.SerializeObject(bannedWord);
                 var Content = new StringContent(jsonCreateBannedWord, Encoding.UTF8, "application/json");
 
                 using(HttpClient client = new HttpClient())
                 {
-                    var response = client.PostAsync(new Uri(endpoints.CreateBannedWord), Content).Result;
-                    if (response.StatusCode != System.Net.HttpStatusCode.OK)
+                    var response = client.PostAsync(endpoints.CreateBannedWord, Content).Result;
+                    if (response.StatusCode != System.Net.HttpStatusCode.NoContent)
+                    {
                         return View("Error");
+                    }            
                 }
-                return RedirectToAction();
+                return RedirectToAction("Settings");
             }
-            ViewBag.Message = "Banned word created";
+            ViewBag.Message = "Banned word Created";
             return View();
         }
-        //public IActionResult DeleteBannedWord(string? word)
-        //{
-            
-        //    using(HttpClient client = new HttpClient())
-        //    {
-        //        var requestUrl = endpoints.GetBannedWord + word;
-        //        var response = client.GetAsync(requestUrl).Result;
-        //        if(response.IsSuccessStatusCode)
-        //        {
-        //            var jsonString = response.Content.ReadAsStringAsync().Result;
-        //            var bannedWord = JsonConvert.DeserializeObject<BannedWordDto>(jsonString);
-        //            return View(bannedWord);
-        //        }
-        //    }
-        //    return View();
-        //}
+
+        [HttpGet]
         public IActionResult DeleteBannedWord(string word)
         {
                       
@@ -247,27 +222,20 @@ namespace ModBot.WebClient.Controllers
         [HttpGet]
         public IActionResult UpdateBannedWord(string word)
         {
-            using (HttpClient client = new HttpClient())
-            {
-                var requestUrl = endpoints.GetBannedWord + word;
-                var response = client.GetAsync(requestUrl).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var bannedWord = JsonConvert.DeserializeObject<BannedWordDto>(jsonString);
-                    return View(bannedWord);
-                }
-            }
             return View();
         }
 
         [HttpPost]
-        public IActionResult UpdateBannedWord(BannedWordDto update)
+        public IActionResult UpdateBannedWord(BannedWordListDto update)
         {
             if (ModelState.IsValid)
             {
                 using (HttpClient client = new HttpClient())
                 {
+
+                    var bannedWord = new BannedWordDto();
+                    update.BannedWordList.Add(bannedWord);
+
                     var updateBannedWord = JsonConvert.SerializeObject(update);
                     var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
                     var requestUrl = endpoints.UpdateBannedWordList;

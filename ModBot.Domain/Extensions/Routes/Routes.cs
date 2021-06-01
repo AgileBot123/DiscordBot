@@ -35,13 +35,13 @@ namespace ModBot.Domain.Extensions.Routes
             public const string DeleteLog = Base + "DeleteLog";
           
         }
-        public class PunishedLevels
+        public class PunishmentLevels
         {
-            public const string GetPunishedLevel = Base + "GetPunishedLevel/{id}";
-            public const string GetPunishedLevels = Base + "GetPunishedLevels";
-            public const string CreatePunishedLevel = Base + "CreatePunishedLevel";
-            public const string DeletePunishedLevel = Base + "DeletePunishedLevel";
-            public const string UpdatePunishedLevel = Base + "UpdatePunishedLevel";
+            public const string GetPunishmentLevel = Base + "GetPunishmentLevel/{id}";
+            public const string GetPunishmentLevels = Base + "GetPunishmentLevels";
+            public const string CreatePunishmentLevel = Base + "CreatePunishmentLevel";
+            public const string DeletePunishmentLevel = Base + "DeletePunishmentLevel";
+            public const string UpdatePunishmentLevel = Base + "UpdatePunishmentLevel";
         }
         public class Members
         {

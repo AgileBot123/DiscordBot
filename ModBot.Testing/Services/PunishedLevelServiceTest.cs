@@ -25,7 +25,7 @@ namespace ModBot.Testing.Services
             _punishedLevelService = new PunishmentsLevelsService(_mockRepo.Object);
         }
 
-        private readonly PunishmentDto punishmentDto = new PunishmentDto()
+        private readonly PunishmentSettingsDto punishmentDto = new PunishmentSettingsDto()
         {
             BanLevel = 1,
             KickLevel = 2,
@@ -35,7 +35,7 @@ namespace ModBot.Testing.Services
         };
         private readonly IPunishmentsLevels punishmentLevls = new PunishmentSettings(1,2, 3, default, default);
 
-        private List<PunishmentDto> PunishmentLevelsList = new List<PunishmentDto>();
+        private List<PunishmentSettingsDto> PunishmentLevelsList = new List<PunishmentSettingsDto>();
 
         [TestMethod]
         public void CreatePunishMent_ShouldReturnTrue()
@@ -143,7 +143,7 @@ namespace ModBot.Testing.Services
         public async Task UpdatePunishedLevels_ShouldReturnTrue()
         {
             //Arrange
-            var punishmentDto = new PunishmentDto() { BanLevel = 1 };      
+            var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };      
             var punishments = new PunishmentSettings(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
@@ -158,7 +158,7 @@ namespace ModBot.Testing.Services
         public async Task UpdatePunishedLevels_ShouldReturnFalse()
         {
             //Arrange
-            var punishmentDto = new PunishmentDto() { BanLevel = 1 };
+            var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };
             var punishments = new PunishmentSettings(1, 2, 3, default, default);
             _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<int>())).ReturnsAsync(punishments);
             _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);

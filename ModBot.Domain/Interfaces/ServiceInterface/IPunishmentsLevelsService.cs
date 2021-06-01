@@ -11,9 +11,9 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IPunishmentsLevels> GetPunishmentLevel(int id);
         Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels();
-        bool CreatePunishmentLevel(PunishmentDto createPunished);
+        bool CreatePunishmentLevel(PunishmentSettingsDto createPunished);
         Task<bool> DeletePunishemntLevel(int id);
-        Task<bool> UpdatePunishmentLevel(PunishmentDto updatePunishment, int id);
+        Task<bool> UpdatePunishmentLevel(PunishmentSettingsDto updatePunishment, int id);
 
     }
 }

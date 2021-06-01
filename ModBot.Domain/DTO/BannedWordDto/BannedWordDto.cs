@@ -6,7 +6,7 @@ namespace ModBot.Domain.DTO.BannedWordDto
 {
     public class BannedWordDto
     {
-        public string Word { get; set; }
+        public string Profanity { get; set; }
         public int Strikes { get; set; }
         public string Punishment { get; set; }
         public int BannedWordUsedCount { get; set; }
