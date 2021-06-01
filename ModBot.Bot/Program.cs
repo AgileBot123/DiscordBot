@@ -60,7 +60,7 @@ namespace ChatFilterBot
 
             var update = new Guild(fetchedGuild.Id, false, fetchedGuild.Avatar, fetchedGuild.GuildName);
 
-           
+            databaseRepo.UpdateGuild(update);
         }
 
         private static DatabaseRepository DatabaseRepo()
@@ -78,16 +78,16 @@ namespace ChatFilterBot
             var databaseRepo = DatabaseRepo();
             var fetchedGuild = await databaseRepo.GetGuild(guild.Id);
 
-            if (fetchedGuild != null)
+            if (fetchedGuild == null)
             {
-               var update = new Guild(fetchedGuild.Id, true, fetchedGuild.Avatar, fetchedGuild.GuildName);
-
-
+                var createGuild = new Guild(guild.Id, true, guild.IconUrl, guild.Name);
+                databaseRepo.CreateGuild(createGuild);       
             }
             else
             {
-                databaseRepo.CreateGuild(fetchedGuild);
-            }
+                var update = new Guild(fetchedGuild.Id, true, fetchedGuild.Avatar, fetchedGuild.GuildName);
+                databaseRepo.UpdateGuild(update);
+            }                   
         }
 
 
