@@ -10,17 +10,25 @@ nav {
     background-color: #23272a;
     top: 0;
     left: 0;
-    width: 175px;
+    width: 130px;
     overflow: auto;
     z-index: 1;
     overflow-x: hidden;
     padding-top: 50px;
 }
 
+nav button {
+    margin: 10px;
+    font-size: 45px;
+}
+
 h1 {
     text-align: center;
-    color: white;
-    font-size: 50px;
+    font-size: 80px;
+}
+
+h3 {
+    text-align: center;
 }
 
 p {
@@ -64,12 +72,11 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-    background-color: #2c2f33;
+    background-color: #23272a;
 }
 
 row {
     background-color: darkgray;
-    color: white;
     border-radius: 1em;
     padding: 1em;
     position: absolute;
@@ -79,10 +86,38 @@ row {
     transform: translate(-50%, -50%)
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+.startPage {
+    background-color: darkgray;
+    height: 500px;
+    width: 500px;
+    border-radius: 1em;
+    padding: 1em;
+    text-align: center;
+    font-size: 25px;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    margin-right: -45%;
+    transform: translate(-50%, -50%)   
+}
+
+.startPage h5 {
+    font-size: 45px;
+    color: white;
+}
+
+
+.btn-primary {
+    font-size: 25px;
+}
+
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #8064A2;
+    border-color: #8064A2;
 }

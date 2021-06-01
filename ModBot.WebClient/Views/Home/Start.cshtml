@@ -7,12 +7,15 @@
 @if (!User.Identity.IsAuthenticated)
 {
 
-    <div class="container">
-        <h5>Welcome to Box Bot</h5>
+<div class="startPage">
+    <h5>Welcome to Box Bot</h5>
 
-        <p> This is a welcome message explaining what Box bot's purpose is and what it's capable of.</p>
-        <br />
+    <p> This is a welcome message explaining what Box bot's purpose is and what it's capable of.</p>
 
-        <a class="btn btn-success" asp-area="" asp-controller="Authentication" asp-action="Authentication">Log In</a>
-    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <a class="btn btn-primary rounded-pill" asp-area="" asp-controller="Authentication" asp-action="Authentication">Log In</a>
+</div>
  }
