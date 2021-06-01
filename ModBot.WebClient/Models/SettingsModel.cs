@@ -7,7 +7,7 @@ namespace ModBot.WebClient.Models
 {
     public class SettingsModel
     {
-        public int id { get; set;  }
+        public int ID { get; set;  }
         public string Insert_Word { get; set; }
         public string BadWord1 { get; set; }
         public string BadWord2 { get; set; }

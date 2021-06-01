@@ -25,6 +25,8 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
+        
+
         public IActionResult CreatePunishemnt()
         {
             return View();
@@ -141,16 +143,14 @@ namespace ModBot.WebClient.Controllers
         {
             if(ModelState.IsValid)
             {
-                using(HttpClient client = new HttpClient())
+                using HttpClient client = new HttpClient();
+                var updatePunishment = JsonConvert.SerializeObject(update);
+                var content = new StringContent(updatePunishment, Encoding.UTF8, "Application/json");
+                var requestUrl = endpoints.UpdatePunishmentLevel;
+                var response = client.PutAsync(requestUrl, content).Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    var updatePunishment = JsonConvert.SerializeObject(update);
-                    var content = new StringContent(updatePunishment, Encoding.UTF8, "Application/json");
-                    var requestUrl = endpoints.UpdatePunishmentLevel;
-                    var response = client.PutAsync(requestUrl, content).Result;
-                    if(response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction();
-                    }
+                    return RedirectToAction();
                 }
             }
             return View();
@@ -258,16 +258,14 @@ namespace ModBot.WebClient.Controllers
         {
             if (ModelState.IsValid)
             {
-                using (HttpClient client = new HttpClient())
+                using HttpClient client = new HttpClient();
+                var updateBannedWord = JsonConvert.SerializeObject(update);
+                var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
+                var requestUrl = endpoints.UpdateBannedWordList;
+                var response = client.PutAsync(requestUrl, content).Result;
+                if (response.IsSuccessStatusCode)
                 {
-                    var updateBannedWord = JsonConvert.SerializeObject(update);
-                    var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
-                    var requestUrl = endpoints.UpdateBannedWordList;
-                    var response = client.PutAsync(requestUrl, content).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction();
-                    }
+                    return RedirectToAction();
                 }
             }
             return View();

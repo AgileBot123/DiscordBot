@@ -3,14 +3,37 @@
 @{
     ViewData["Title"] = "GetAllBannedWord";
 }
+<style>
+    .dropdown{
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-item-text {
+        border: none;
+        border-radius: 1px;
+    }
+
+    select {
+        width: 100%;
+        padding: 16px 25px;
+        border: none;
+        border-radius: 5px;
+        background-color: dimgrey;
+    }
+    tr{
+        color: white;
+        
+    }
+
+</style>
 
 <h1>GetAllBannedWord</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
-    <thead>       
+    <thead>
+        
+        
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Word)
@@ -26,24 +49,23 @@
     </thead>
     <tbody>
         @foreach (var item in Model)
-        {  
-           
-
+        {
             <tr>
                 <td>
                     <div class="dropdown-item-text" style="width:200px;" background-color="Black">
                         <select>
                             <option value="0">Select word:</option>
+                            
                             <option value="1">@Html.DisplayFor(modelItem => item.Word)</option>
+                            
                         </select>
-                    </div>
-                    
+                    </div> 
                 </td>
                 <td>
                     <div class="dropdown-item-text" style="width:200px" background-color="Black">
                         <select>
-                            <option value="0">Select Strikes:</option>
-                            <option value="1">@Html.DisplayFor(modelItem => item.Strikes)</option>
+                            <option>Select Strikes:</option>
+                            <option>@Html.DisplayFor(modelItem => item.Strikes)</option>
                         </select>
                     </div>
                 </td>
@@ -55,11 +77,7 @@
                         </select>
                     </div>           
                 </td>
-                <td>
-                    <p style="color:White">@Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ })|
-                                           @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })|
-                                           @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })</p>
-                </td>
+               
             </tr>        
         }
     </tbody>
