@@ -9,13 +9,13 @@
 </div>
 <style>
     #example1 {
+        position: absolute;
         display: flex;
-        align-items: center;
-        width: 1300px;
+        width: 1000px;
         border: 10px;
         padding: 15px;
-        position: relative;
-        background: #23272a;
+        left: 23%;
+        background: #2F3136;
         background-clip: border-box;
     }
     img {
@@ -25,13 +25,15 @@
     }
 
     #Text {
+        color: white;
+        padding-left: 15px;
         width: 300px;
         height: 10px;
         float: right;
     }
 
     #meta {
-        width: 1200px;
+        width: 1000px;
         display: flex;
         align-items: center;
     }
@@ -39,7 +41,7 @@
     #Button {
         position: relative;
         float: right;
-        left: 50%;
+        left: 52%;
     }
     #order1 {
         order: 1;
@@ -54,14 +56,14 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>
+                    <td style="padding-bottom: 10px;">
                         <div id="meta">
                             @if (item.HasBot == true)
                             {
                                 <!-- Do something here to display your items in table format (or whatever format you want with as many columns you want -->
                                 @if (item.Icon == null)
                                 {
-                                    <img src="~/images/Default.png" alt="@item.Name" />
+                                    <img src="~/images/MissingServer.png" alt="@item.Name" />
                                 }
                                 else
                                 {
@@ -78,7 +80,7 @@
                             {
                                 @if (item.Icon == null)
                                 {
-                                    <img src="~/images/Default.png" alt="@item.Name" />
+                                    <img src="~/images/MissingServer.png" alt="@item.Name" />
                                 }
                                 else
                                 {
