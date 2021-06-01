@@ -59,7 +59,7 @@
                                     @item.Name
                                 </p>
                                 <div id="Button">
-                                    <a href=@AddDiscordBot@item.Id class="btn btn-success">Edit bot</a>
+                                    <a asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id" class="btn btn-success">Edit bot</a>
                                 </div>
                             }
                         else

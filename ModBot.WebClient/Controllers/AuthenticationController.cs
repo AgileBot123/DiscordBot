@@ -110,9 +110,15 @@ namespace ModBot.WebClient.Controllers
             return guildDto;
         }
 
+        public IActionResult EditGuild(ulong guildId)
+        {
+            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
+            return RedirectToAction("Dashboard");
+        }
         
         public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
         {
+            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
             var guild = GetGuild(guildId);
             if (guild == null)
                 return await CreateGuild(guildId);
