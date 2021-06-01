@@ -19,11 +19,9 @@ namespace ModBot.Bot.Modules
             _commandLogic = commandLogic;
         }
 
-
         [Command("ping")]
         public async Task Ping()
         {
-
             var response = _commandLogic.BotResponseCooldown(Context);
             if (response == null)
                 await ReplyAsync("pong");

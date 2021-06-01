@@ -14,12 +14,9 @@ namespace ModBot.DAL.Repository
 {
    public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, 
                                       IMemberRepository, IStatisticsRepository, IPunishmentRepository, 
-                                      IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
+                                      IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository, IBannedWordGuildRepository
     {
-        public DatabaseRepository()
-        {
-
-        }
+     
         private readonly ModBotContext _context;
         public DatabaseRepository(ModBotContext context)
         {
@@ -59,9 +56,9 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public virtual bool CreateGuild(Guild guild)
+        public virtual bool CreateGuild(IGuild guild)
         {
-            _context.Guilds.Add(guild);
+            _context.Add(guild);
             return _context.SaveChanges() > 0;
         }
 
@@ -145,12 +142,11 @@ namespace ModBot.DAL.Repository
                         item.Id,
                         item.NumberOfMembers,
                         item.NumberOfBannedWords,
-                        item.NumberOfMembersBeenTimedOut,
-                        item.NumberOfMembersBeingBanned,
+                        item.NumberOfTimesBannedWordBeenUsed,
+                        item.NumberOfTimesEachCommandoBeenUsed,
                         item.TotalStrikesInDatabase,
                         item.AverageNumberOfStrikes,
-                        item.MedianNumberOfStrikes,
-                        item.MostUsedCommand));
+                        item.MedianNumberOfStrikes));
                 }
                 return newList;
             }
@@ -160,6 +156,7 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
+
         public async Task<IStatistics> GetStatistics(int id)
         {
             return await _context.Statistics.SingleAsync(x => x.Id == id);
@@ -464,6 +461,34 @@ namespace ModBot.DAL.Repository
                 throw;
             }
         }
+
+
+
         #endregion
+
+
+        #region BannedWordGuild
+        public async Task<List<BannedWordGuilds>> GetAllBannedWordGuild()
+        {
+            try
+            {
+               var bannedWordGuilds = await _context.BannedWordGuilds.ToListAsync();
+                var newList = new List<BannedWordGuilds>();
+                foreach (var item in bannedWordGuilds)
+                {
+                    newList.Add(item);
+                }
+                return newList;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        #endregion
+
+
     }
 }

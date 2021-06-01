@@ -53,7 +53,7 @@ namespace ModBot.Domain.Extensions.Routes
         {
             public const string GetAllStats = Base + "GetAllStats";
             public const string GetSpecificStats = Base + "GetStat/{id}";
-            public const string RefreshStats = Base + "RefreshStats";
+            public const string RefreshStats = Base + "RefreshStats/{guildId}";
         }
     }
 }

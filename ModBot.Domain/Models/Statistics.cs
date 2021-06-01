@@ -13,53 +13,42 @@ namespace ModBot.Domain.Models
         private readonly int _id;
         private readonly int _numberOfMember;
         private readonly int _numberOfBannedWords;
-        private readonly int _numberOfMembersBeenTimedOut;
-        private readonly int _numberOfMembersBeingBanned;
         private readonly int _totalStrikesInDatabase;
         private readonly double _averageNumberOfStrikes;
         private readonly double  _medianNumberOfStrikes;
-        private readonly string _mostUsedCommand;
+        private readonly int _numberOfTimesBannedWordBeenUsed;
+        private int _numberOfTimesEachCommandoBeenUsed;
+        private readonly ulong _guildId;
 
-        public Statistics()
-        {
+        public Statistics() { }
 
-        }
-
-        public Statistics(int id, int numberOfMember, int numberOfBannedWords, int numberOfMembersBeenTimedOut, int numberOfMembersBeingBanned, int totalStrikesInDatabase, double averageNumberOfStrikes, double medianNumberOfStrikes, string mostUsedCommand)
+        public Statistics(int id, int numberOfMember, int numberOfBannedWords, int numberOfTimesBannedWordBeenUsed, int numberOfTimesEachCommandoBeenUsed, int totalStrikesInDatabase, double averageNumberOfStrikes, double medianNumberOfStrikes)
         {
             _id = id;
             _numberOfMember = numberOfMember;
             _numberOfBannedWords = numberOfBannedWords;
-            _numberOfMembersBeenTimedOut = numberOfMembersBeenTimedOut;
-            _numberOfMembersBeingBanned = numberOfMembersBeingBanned;
+            _numberOfTimesBannedWordBeenUsed = numberOfTimesBannedWordBeenUsed;
+            _numberOfTimesEachCommandoBeenUsed = numberOfTimesEachCommandoBeenUsed;
             _totalStrikesInDatabase = totalStrikesInDatabase;
             _averageNumberOfStrikes = averageNumberOfStrikes;
             _medianNumberOfStrikes = medianNumberOfStrikes;
-            _mostUsedCommand = mostUsedCommand;
         }
 
-        public Statistics(int numberOfMember, int numberOfBannedWords, int numberOfMembersBeenTimedOut, int numberOfMembersBeingBanned, int totalStrikesInDatabase, double averageNumberOfStrikes, double medianNumberOfStrikes, string mostUsedCommand)
+        public Statistics(int numberOfMember, int numberOfBannedWords, int numberOfTimesBannedWordBeenUsed, int numberOfTimesEachCommandoBeenUsed, int totalStrikesInDatabase, double averageNumberOfStrikes, double medianNumberOfStrikes)
         {
             _numberOfMember = numberOfMember;
             _numberOfBannedWords = numberOfBannedWords;
-            _numberOfMembersBeenTimedOut = numberOfMembersBeenTimedOut;
-            _numberOfMembersBeingBanned = numberOfMembersBeingBanned;
             _totalStrikesInDatabase = totalStrikesInDatabase;
+            _numberOfTimesBannedWordBeenUsed = numberOfTimesBannedWordBeenUsed;
+            _numberOfTimesEachCommandoBeenUsed = numberOfTimesEachCommandoBeenUsed;
             _averageNumberOfStrikes = averageNumberOfStrikes;
             _medianNumberOfStrikes = medianNumberOfStrikes;
-            _mostUsedCommand = mostUsedCommand;
         }
 
-
+        #region Properties
         public int Id
         {
             get { return _id; }
-            private set { }
-        }
-
-        public string MostUsedCommand
-        {
-            get { return _mostUsedCommand; }
             private set { }
         }
 
@@ -73,18 +62,6 @@ namespace ModBot.Domain.Models
         public int NumberOfBannedWords
         {
             get { return _numberOfBannedWords; }
-            private set { }
-        }
-
-        public int NumberOfMembersBeenTimedOut
-        {
-            get { return _numberOfMembersBeenTimedOut; }
-            private set { }
-        }
-
-        public int NumberOfMembersBeingBanned
-        {
-            get { return _numberOfMembersBeingBanned; }
             private set { }
         }
         public int TotalStrikesInDatabase
@@ -104,6 +81,25 @@ namespace ModBot.Domain.Models
             private set { }
         }
 
+        public ulong GuildId
+        {
+            get { return _guildId; }
+            private set { }
+        }
+
+        public Guild Guild { get; private set; }
+
+        public int NumberOfTimesBannedWordBeenUsed
+        {
+            get { return _numberOfTimesBannedWordBeenUsed; }
+            private set { }
+        }
+        public int NumberOfTimesEachCommandoBeenUsed
+        {
+            get { return _numberOfTimesEachCommandoBeenUsed; }
+            private set { }
+        }
+        #endregion
 
 
 
