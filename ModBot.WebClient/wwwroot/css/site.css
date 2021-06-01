@@ -17,6 +17,15 @@ nav {
     padding-top: 50px;
 }
 
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 50px;
+}
+
+p {
+    color: black;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -58,7 +67,7 @@ body {
     background-color: #2c2f33;
 }
 
-.container {
+row {
     background-color: darkgray;
     color: white;
     border-radius: 1em;
