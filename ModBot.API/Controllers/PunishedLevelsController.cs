@@ -22,38 +22,38 @@ namespace ModBot.API.Controllers
             this.logger = logger;
         }
 
-        [HttpGet]
-        [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
-        public async Task<IActionResult> GetPunishmentLevel(int id)
-        {
-            try
-            {
-                if (id == 0)
-                {
-                    logger.Info("Id is zero.", this.GetType().Name);
-                    return BadRequest("id is null");
-                }
+        //[HttpGet]
+        //[Route(Routes.PunishmentLevels.GetPunishmentLevel)]
+        //public async Task<IActionResult> GetPunishmentLevel(int id)
+        //{
+        //    try
+        //    {
+        //        if (id == 0)
+        //        {
+        //            logger.Info("Id is zero.", this.GetType().Name);
+        //            return BadRequest("id is null");
+        //        }
 
-                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
+        //        var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
 
-                if (punishedLevel == null)
-                {
-                    logger.Info($"No punishmentlevel was found in database with id: {id}.", this.GetType().Name);
-                    return NotFound("No punishment found ");
-                }
+        //        if (punishedLevel == null)
+        //        {
+        //            logger.Info($"No punishmentlevel was found in database with id: {id}.", this.GetType().Name);
+        //            return NotFound("No punishment found ");
+        //        }
 
-                logger.Info($"PunishmentLevel with ID: {punishedLevel.Id} get send to client", this.GetType().Name);
-                return Ok(punishedLevel);
-            }
+        //        logger.Info($"PunishmentLevel with ID: {punishedLevel.Id} get send to client", this.GetType().Name);
+        //        return Ok(punishedLevel);
+        //    }
 
-            catch (Exception ex)
-            {
-                logger.Error(ex, this.GetType().Name);
-                return StatusCode(500, "internal server error");
-            }
-        }
+        //    catch (Exception ex)
+        //    {
+        //        logger.Error(ex, this.GetType().Name);
+        //        return StatusCode(500, "internal server error");
+        //    }
+        //}
 
-        [HttpGet]
+        [HttpPost]
         [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
         public async Task<IActionResult> GetPunishmentLevels(ulong guilId)
         {

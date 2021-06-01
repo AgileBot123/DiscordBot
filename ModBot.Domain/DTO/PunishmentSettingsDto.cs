@@ -6,6 +6,7 @@ namespace ModBot.Domain.DTO
 {
     public class PunishmentSettingsDto
     {
+        public ulong GuildId { get; set; }
         public int TimeOutLevel { get; set; }
         public int KickLevel { get; set; }
         public int BanLevel { get; set; }

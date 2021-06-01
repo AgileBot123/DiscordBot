@@ -1,81 +1,61 @@
-﻿@model IEnumerable<ModBot.Domain.DTO.SettingsDTO>
+﻿@model ModBot.Domain.DTO.SettingsDTO
 
 @{
     ViewData["Title"] = "Settings";
 }
 
-<h1>Settings</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
 </p>
 <table class="table" style="background-color:white">
     <thead>
+        <tr>
+            <th>
+                <h1>Settings</h1>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <button value="Save Settings"></button>
+            </th>
+        </tr>
         <tr style="background-color:white">
             <th>
-                @Html.DisplayNameFor(model => model.Profanity)
+                Mute Level<input value="@Html.DisplayNameFor(model => model.TimeOutLevel)">
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Strikes)
+                Kick Level<input value="@Html.DisplayNameFor(model => model.KickLevel)">
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Punishment)
+                Ban Level<input value="@Html.DisplayNameFor(model => model.BanLevel)">
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Bot Prefix <input value="!">
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.BannedWordUsedCount)
+                Spam Mute Timer <input value="@Html.DisplayNameFor(model => model.SpamMuteTime)">
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TimeOutLevel)
+                Strike Mute Timer <input value="@Html.DisplayNameFor(model => model.StrikeMuteTime)">
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.KickLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BanLevel)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpamMuteTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StrikeMuteTime)
-            </th>
-            <th></th>
         </tr>
     </thead>
+</table>
+<table>
     <tbody>
-@foreach (var item in Model) {
+        @foreach (var item in Model.BannedWordList) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Profanity)
+                <input value="@Html.DisplayFor(modelItem => item.Profanity)">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Strikes)
+                <input value="@Html.DisplayFor(modelItem => item.Strikes)">
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Punishment)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BannedWordUsedCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TimeOutLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.KickLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BanLevel)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpamMuteTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StrikeMuteTime)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                <input value="@Html.DisplayFor(modelItem => item.Punishment)">
             </td>
         </tr>
 }

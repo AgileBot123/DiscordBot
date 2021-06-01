@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModBot.Domain.DTO.BannedWordDtos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -7,10 +8,7 @@ namespace ModBot.Domain.DTO
     public class SettingsDTO
     {
         //BannedWord
-        public string Profanity { get; set; }
-        public int Strikes { get; set; }
-        public string Punishment { get; set; }
-        public int BannedWordUsedCount { get; set; }
+        public List<BannedWordDto> BannedWordList { get; set; } = new List<BannedWordDto>();
 
         //Punishment
         public int TimeOutLevel { get; set; }
