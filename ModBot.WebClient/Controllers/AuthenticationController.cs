@@ -12,6 +12,7 @@ using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -70,17 +71,22 @@ namespace ModBot.WebClient.Controllers
             var token = await _logic.DiscordGetToken();
             Session.Set<string>(HttpContext.Session, "token", token);
             ViewBag.Test = HttpContext.User.Identity.Name;
-            var servers = _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token")).Result;
+            var servers = await _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token"));
+            Session.Set(HttpContext.Session, "serverlist", servers);
             return View("ServerList", servers);
         }
-        public async Task<IActionResult> ServerList()
+        public IActionResult ServerList()
         {
             HandleCookie("ServerIsSelected", "false");
-            var token = await _logic.DiscordGetToken();
-            Session.Set<string>(HttpContext.Session, "token", token);
-            ViewBag.Test = HttpContext.User.Identity.Name;
-            var servers = _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token")).Result;
-            return View("ServerList", servers);
+            if (Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist") != null)
+            {
+                var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
+                return View("ServerList", servers);
+            }
+            else
+            {
+                return RedirectToAction("Authentication");
+            }
         }
 
         public async Task<IActionResult> Logout()
