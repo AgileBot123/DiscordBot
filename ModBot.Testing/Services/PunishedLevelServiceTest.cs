@@ -115,12 +115,12 @@ namespace ModBot.Testing.Services
         public async Task GetAllBannedWords_ShouldReturnAlistWithBannedWords()
         {
             //Arrange
-            _mockRepo.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(new List<IPunishmentsLevels>()
+            _mockRepo.Setup(x => x.GetAllPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(new List<IPunishmentsLevels>()
             {
                 new PunishmentSettings(1,2,3, default, default)
             });
             //Act
-            var response = await _punishedLevelService.GetAllPunishmentLevels();
+            var response = await _punishedLevelService.GetAllPunishmentLevels(838707761067982881);
             //Assert
             var result = response.Should().BeOfType<List<IPunishmentsLevels>>().Subject;
             result.Should().HaveCount(1);
@@ -131,9 +131,9 @@ namespace ModBot.Testing.Services
         {
             //Arrange
             List<IPunishmentsLevels> punishmentsLevels = new List<IPunishmentsLevels>();
-            _mockRepo.Setup(x => x.GetAllPunishmentLevels()).ReturnsAsync(punishmentsLevels);
+            _mockRepo.Setup(x => x.GetAllPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(punishmentsLevels);
             //Act
-            var response = await _punishedLevelService.GetAllPunishmentLevels();
+            var response = await _punishedLevelService.GetAllPunishmentLevels(838707761067982881);
             //Assert
             response.Should().BeNull();
         }

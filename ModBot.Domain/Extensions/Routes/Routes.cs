@@ -32,9 +32,9 @@ namespace ModBot.Domain.Extensions.Routes
             public const string GetAllLogs = Base + "GetAllLogs";
             public const string CreateLog = Base + "CreateLog";
             public const string UpdateLog = Base + "Updatelog";
-            public const string DeleteLog = Base + "DeleteLog";
-          
+            public const string DeleteLog = Base + "DeleteLog";      
         }
+
         public class PunishmentLevels
         {
             public const string GetPunishmentLevel = Base + "GetPunishmentLevel/{id}";
