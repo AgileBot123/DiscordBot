@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ModBot.DAL.Data;
+using ModBot.Domain.DTO.BannedWordDto;
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
@@ -15,7 +16,7 @@ namespace ModBot.DAL.Repository
 {
    public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, 
                                       IMemberRepository, IStatisticsRepository, IPunishmentRepository, 
-                                      IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository, IBannedWordGuildRepository
+                                      IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
     {
      
         private readonly ModBotContext _context;
@@ -199,7 +200,8 @@ namespace ModBot.DAL.Repository
                     var bannedword = new BannedWord(
                                         word.Profanity, word.Strikes,
                                         word.Punishment,
-                                        word.BannedWordUsedCount);
+                                        word.BannedWordUsedCount,
+                                        word.GuildId);
                     bannedWords.Add(bannedword);
 
                 }
@@ -210,8 +212,19 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
-        public virtual async Task<IBannedWord> GetBannedWord(string word) =>
-            await _context.BannedWords.AsNoTracking().SingleAsync(x => x.Profanity == word);
+        public virtual async Task<IBannedWord> GetBannedWord(ulong guildId, string word)
+        {
+            try
+            {
+                return await _context.BannedWords.AsNoTracking().Where(x => x.Profanity == word 
+                                && x.GuildId == guildId).SingleOrDefaultAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public virtual bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
@@ -324,13 +337,13 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
-        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels(ulong guildId)
         {
 
             try
             {
                 var punishments = new List<IPunishmentsLevels>();
-                foreach (var punishemntLevel in await _context.PunishmentsLevels.AsNoTracking().ToListAsync())
+                foreach (var punishemntLevel in await _context.PunishmentsLevels.AsNoTracking().Where(x=>x.GuildId==guildId).ToListAsync())
                 {
                     var punishment = new PunishmentSettings(punishemntLevel.Id,
                                                             punishemntLevel.TimeOutLevel,
@@ -468,27 +481,6 @@ namespace ModBot.DAL.Repository
         #endregion
 
 
-        #region BannedWordGuild
-        public async Task<List<BannedWordGuilds>> GetAllBannedWordGuild()
-        {
-            try
-            {
-               var bannedWordGuilds = await _context.BannedWordGuilds.AsNoTracking().ToListAsync();
-                var newList = new List<BannedWordGuilds>();
-                foreach (var item in bannedWordGuilds)
-                {
-                    newList.Add(item);
-                }
-                return newList;
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-        }
-        #endregion
 
 
     }

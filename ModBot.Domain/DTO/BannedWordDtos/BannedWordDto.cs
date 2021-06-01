@@ -10,6 +10,7 @@ namespace ModBot.Domain.DTO.BannedWordDtos
         public int Strikes { get; set; }
         public string Punishment { get; set; }
         public int BannedWordUsedCount { get; set; }
+        public ulong GuildId { get; set; }
     }
     
 }

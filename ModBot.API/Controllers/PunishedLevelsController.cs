@@ -55,11 +55,11 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
-        public async Task<IActionResult> GetPunishmentLevels(PunishmentSettingsDto punishmentSettingsDto)
+        public async Task<IActionResult> GetPunishmentLevels(ulong guilId)
         {
             try
             {
-                var punishmentLevels = await _punishedLevelService.GetPunishmentLevels(punishmentSettingsDto.GuildId);
+                var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels(guilId);
 
                 if (punishmentLevels.Count() == 0)
                 {
