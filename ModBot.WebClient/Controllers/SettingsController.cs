@@ -25,7 +25,6 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
-      
         public IActionResult CreatePunishemnt()
         {
             return View();
@@ -165,21 +164,22 @@ namespace ModBot.WebClient.Controllers
                 if(response != null)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var bannedWordResponse = JsonConvert.DeserializeObject<BannedWordListDto>(jsonString);
-                    foreach (var bannedword in bannedWordResponse.BannedWordList)
+                    var bannedWordResponse = JsonConvert.DeserializeObject<List<BannedWordDto>>(jsonString);
+                    foreach (var bannedword in bannedWordResponse)
                     {
                         var bannedWordListModel = new BannedWordModel
                         {
                             Word = bannedword.Word,
                             Strikes = bannedword.Strikes,
-                            Punishment = bannedword.Punishment
+                            Punishment = bannedword.Punishment,
+                             
                         };
                         bannedWords.Add(bannedWordListModel);
                     }
                     ViewBag.Message = bannedWords;
                 }
             }
-            return View("Banned Words", bannedWords);
+            return View(bannedWords);
         }
         public IActionResult CreateBannedWord()
         {

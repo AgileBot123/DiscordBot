@@ -14,6 +14,7 @@ namespace ModBot.Domain.Extensions.Routes
             public const string CreateGuild = Base + "createguild";
             public const string GetGuild = Base + "getguild";
             public const string GetGuilds = Base + "getguilds";
+            public const string UpdateGuild = Base + "updateguild";
         }
 
         public class BannedWords
