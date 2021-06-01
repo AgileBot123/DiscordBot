@@ -36,5 +36,9 @@ namespace ModBot.Business.Services
         {
             return _databaseRepository.CreateGuild(guild);
         }
+        public async Task<bool> UpdateGuild(Guild guild)
+        {
+            return _databaseRepository.UpdateGuild(guild);
+        }
     }
 }

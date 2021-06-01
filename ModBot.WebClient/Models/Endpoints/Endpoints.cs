@@ -13,6 +13,7 @@ namespace ModBot.WebClient.Models.Endpoints
         #region Guild
         public string GetGuild => Base + "getguild";
         public string CreateGuild => Base + "createguild";
+        public string UpdateGuild => Base + "updateguild";
         #endregion
 
         #region Banned Word
