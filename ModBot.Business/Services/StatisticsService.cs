@@ -58,11 +58,11 @@ namespace ModBot.Business.Services
         public async Task<int> GetAllBannedWordCountPerGuild(ulong guildId)
         {
             var bannedWords = await _dataRepo.GetAllBannedWords();
-            var bannedWordGuilds = await _dataRepo.GetAllBannedWordGuild();
+            var bannedWordGuilds = await _dataRepo.GetAllGuildPunishments();
 
-            var profanity = bannedWordGuilds.Where(x => x.GuildId == guildId).Select(x => x.BannedWordProfanity).ToList();
+            var profanity = bannedWordGuilds.Where(x => x.GuildId == guildId).Select(x => x.PunishmentId).ToList();
 
-            var counter = new List<string>();
+            var counter = new List<int>();
             foreach (var word in profanity)
             {
                 counter.Add(word);

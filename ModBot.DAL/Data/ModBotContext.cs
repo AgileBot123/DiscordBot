@@ -22,8 +22,6 @@ namespace ModBot.DAL.Data
         public DbSet<GuildPunishment> GuildPunishment { get; set; }
         public DbSet<MemberPunishment> MemberPunishments { get; set; }
         public DbSet<Statistics> Statistics { get; set; }
-        public DbSet<GuildStatistics> GuildStatistics { get; set; }
-        public DbSet<BannedWordGuilds> BannedWordGuilds { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -39,23 +37,12 @@ namespace ModBot.DAL.Data
 
             //Punishment
             modelBuilder.Entity<Punishment>().ToTable("Punishment");
-            modelBuilder.Entity<Statistics>().HasKey(p => new { p.Id });
-
+            modelBuilder.Entity<Punishment>().HasKey(o => new { o.Id });
 
             //MemberPunishment
             modelBuilder.Entity<MemberPunishment>().ToTable("MemberPunishment");
             modelBuilder.Entity<MemberPunishment>().HasKey(o => new { o.MemberId, o.PunishmentId });
 
-            //GuildStatistics
-            modelBuilder.Entity<GuildStatistics>().ToTable("GuildStatistics");
-            modelBuilder.Entity<GuildStatistics>().HasKey(o => new { o.GuildId, o.StatisticsId });
-            //BannedWordGuilds
-            modelBuilder.Entity<BannedWordGuilds>().ToTable("BannedWordGuilds");
-            modelBuilder.Entity<BannedWordGuilds>().HasKey(o => new { o.GuildId, o.BannedWordProfanity });
-
-            //Statistics 
-            modelBuilder.Entity<Statistics>().ToTable("Statistics");
-            modelBuilder.Entity<Statistics>().HasKey(p => new { p.Id });
 
             ////Members
             modelBuilder.Entity<Member>().ToTable("Member");
@@ -63,7 +50,7 @@ namespace ModBot.DAL.Data
 
             ////BannedWord
             modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
-            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.Profanity });
+            modelBuilder.Entity<BannedWord>().HasNoKey();
 
             ////ChangedLogs
             modelBuilder.Entity<Changelog>().ToTable("Changelog");

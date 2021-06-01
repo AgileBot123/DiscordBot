@@ -1,0 +1,63 @@
+﻿@model ModBot.Domain.DTO.SettingsDTO
+
+@{
+    ViewData["Title"] = "Settings";
+}
+
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" style="background-color:white">
+    <thead>
+        <tr>
+            <th>
+                <h1>Settings</h1>
+            </th>
+        </tr>
+        <tr>
+            <th>
+                <button value="Save Settings"></button>
+            </th>
+        </tr>
+        <tr style="background-color:white">
+            <th>
+                Mute Level<input value="@Html.DisplayNameFor(model => model.TimeOutLevel)">
+            </th>
+            <th>
+                Kick Level<input value="@Html.DisplayNameFor(model => model.KickLevel)">
+            </th>
+            <th>
+                Ban Level<input value="@Html.DisplayNameFor(model => model.BanLevel)">
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Bot Prefix <input value="!">
+            </th>
+            <th>
+                Spam Mute Timer <input value="@Html.DisplayNameFor(model => model.SpamMuteTime)">
+            </th>
+            <th>
+                Strike Mute Timer <input value="@Html.DisplayNameFor(model => model.StrikeMuteTime)">
+            </th>
+        </tr>
+    </thead>
+</table>
+<table>
+    <tbody>
+        @foreach (var item in Model.BannedWordList) {
+        <tr>
+            <td>
+                <input value="@Html.DisplayFor(modelItem => item.Profanity)">
+            </td>
+            <td>
+                <input value="@Html.DisplayFor(modelItem => item.Strikes)">
+            </td>
+            <td>
+                <input value="@Html.DisplayFor(modelItem => item.Punishment)">
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

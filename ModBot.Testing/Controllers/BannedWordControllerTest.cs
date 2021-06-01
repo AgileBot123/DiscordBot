@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModBot.API.Controllers;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
@@ -29,6 +29,14 @@ namespace ModBot.Testing.Controllers
             _bannedWordsController = new BannedWordsController(_mockBannedWord.Object, loggerManager.Object);
         }
 
+        private BannedWordDto bannedWordDto = new BannedWordDto()
+        {
+            Profanity = "Fuck",
+            Punishment = "Timeout",
+            BannedWordUsedCount = 0,
+            Strikes = 2,
+            GuildId = 838707761067982881
+        };
 
         [TestMethod]
         public async Task GetAllBannedWords_ShouldReturnOk()
@@ -36,12 +44,12 @@ namespace ModBot.Testing.Controllers
             //Arrange
             List<IBannedWord> bannedWords = new List<IBannedWord>()
             {
-                new BannedWord("Fuck", 1, "Kicked"),
-                new BannedWord("FuckFuck", 1, "Banned")
+                new BannedWord("Fuck", 1, "Kicked", 12312312312),
+                new BannedWord("FuckFuck", 1, "Banned", 12312312312)
             };
-            _mockBannedWord.Setup(x => x.GetAllBannedWords()).ReturnsAsync(bannedWords);
+            _mockBannedWord.Setup(x => x.GetAllBannedWords(It.IsAny<ulong>())).ReturnsAsync(bannedWords);
             //Act
-            var response = await _bannedWordsController.GetAllBannedWords();
+            var response = await _bannedWordsController.GetAllBannedWords(bannedWordDto);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var vehicle = result.Value.Should().BeOfType<List<IBannedWord>>().Subject;
@@ -53,9 +61,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             List<IBannedWord> listIsNull = null;
-            _mockBannedWord.Setup(x => x.GetAllBannedWords()).ReturnsAsync(listIsNull);
+            _mockBannedWord.Setup(x => x.GetAllBannedWords(It.IsAny<ulong>())).ReturnsAsync(listIsNull);
             //Act
-            var response = await _bannedWordsController.GetAllBannedWords();
+            var response = await _bannedWordsController.GetAllBannedWords(bannedWordDto);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             result.Value.Should().BeNull();
@@ -66,9 +74,9 @@ namespace ModBot.Testing.Controllers
         public async Task GetBannedWord_ShouldReturnOk()
         {
             //Arrange
-            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<string>())).ReturnsAsync(new BannedWord("Fuck", 4, "Timeout"));
+            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<ulong>(), It.IsAny<string>())).ReturnsAsync(new BannedWord("Fuck", 4, "Timeout", 12312312312));
             //Act
-            var response = await _bannedWordsController.GetBannedWord("Fuck");
+            var response = await _bannedWordsController.GetBannedWord(bannedWordDto);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var okValue = result.Value.Should().BeOfType<BannedWord>().Subject;
@@ -80,9 +88,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrangep
             IBannedWord BannedWordIsNull = null;
-            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<string>())).ReturnsAsync(BannedWordIsNull);
+            _mockBannedWord.Setup(x => x.GetBannedWord(It.IsAny<ulong>(), It.IsAny<string>())).ReturnsAsync(BannedWordIsNull);
             //Act
-            var response = await _bannedWordsController.GetBannedWord("Fuck");
+            var response = await _bannedWordsController.GetBannedWord(bannedWordDto);
             //Assert
             response.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -92,7 +100,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
             var word = string.Empty;
             //Act
-            var response = await _bannedWordsController.GetBannedWord(word);
+            var response = await _bannedWordsController.GetBannedWord(bannedWordDto);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
             result.Value.Should().Be("word is null or empty");
@@ -105,7 +113,7 @@ namespace ModBot.Testing.Controllers
             {
                 Punishment = "Timeout",
                 Strikes = 3,
-                Word = "Fuck"
+                Profanity = "Fuck"
             };
             _mockBannedWord.Setup(x => x.CreateBannedWord(It.IsAny<BannedWordDto>())).Returns(true);
             //Act
@@ -147,7 +155,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
             List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
             {
-                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Profanity = "Fuck" }
             };
 
             var bannedWord = new BannedWordListDto();
@@ -166,7 +174,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
             List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
             {
-                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Profanity = "Fuck" }
             };
             var bannedWord = new BannedWordListDto();
             bannedWord.BannedWordList = BannedWordList;
@@ -198,9 +206,17 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             string word = "Fuck";
-            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<string>())).ReturnsAsync(true);
+            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<ulong>(), It.IsAny<string>())).ReturnsAsync(true);
             //Act
-            var response = await _bannedWordsController.DeleteBannedWord(word);
+            var newBannedWord = new BannedWordDto()
+            {
+                Profanity = "Fuck",
+                Punishment = "Timeout",
+                BannedWordUsedCount = 0,
+                Strikes = 2,
+                GuildId = 838707761067982881
+            };
+            var response = await _bannedWordsController.DeleteBannedWord(bannedWordDto);
             //Assert
             response.Should().BeOfType<NoContentResult>();
         }
@@ -210,9 +226,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             string word = "Fuck";
-            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<string>())).ReturnsAsync(false);
+            _mockBannedWord.Setup(x => x.DeleteBannedWord(It.IsAny<ulong>(),It.IsAny<string>())).ReturnsAsync(false);
             //Act
-            var response = await _bannedWordsController.DeleteBannedWord(word);
+            var response = await _bannedWordsController.DeleteBannedWord(bannedWordDto);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
             result.Value.Should().Be("Banned word was not deleted");

@@ -1,5 +1,6 @@
 ﻿using ModBot.Domain.DTO;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,7 +10,7 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
 {
     public interface IBannedWordRepository
     {
-        Task<IBannedWord> GetBannedWord(string word);
+        Task<IBannedWord> GetBannedWord(ulong guildId, string banned);
         Task<IEnumerable<IBannedWord>> GetAllBannedWords();
         bool CreateBannedWord(IBannedWord createBannedWord);
         bool DeleteBannedWord(IBannedWord bannedWord);

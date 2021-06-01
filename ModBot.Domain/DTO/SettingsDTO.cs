@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModBot.Domain.DTO.BannedWordDtos;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -6,11 +7,14 @@ namespace ModBot.Domain.DTO
 {
     public class SettingsDTO
     {
-        public string Insert_Word { get; set; }
-        public string BadWord1 { get; set; }
-        public string BadWord2 { get; set; }
-        public string BadWord3 { get; set; }
-        public string Bad_Sentence1 { get; set; }
-        public string Bad_Sentence2 { get; set; }
+        //BannedWord
+        public List<BannedWordDto> BannedWordList { get; set; } = new List<BannedWordDto>();
+
+        //Punishment
+        public int TimeOutLevel { get; set; }
+        public int KickLevel { get; set; }
+        public int BanLevel { get; set; }
+        public int SpamMuteTime { get; set; }
+        public int StrikeMuteTime { get; set; }
     }
 }
