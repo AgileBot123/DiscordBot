@@ -6,6 +6,7 @@ namespace ModBot.Domain.DTO
 {
     public class PunishmentSettingsDto
     {
+
         public int Id { get; set; }
         public int TimeOutLevel { get; set; }
         public int KickLevel { get; set; }

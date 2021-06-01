@@ -1,5 +1,5 @@
 ﻿
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;

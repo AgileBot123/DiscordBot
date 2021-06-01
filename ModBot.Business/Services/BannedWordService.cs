@@ -1,5 +1,5 @@
 ﻿using ModBot.DAL.Repository;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
 using ModBot.Domain.Models;
@@ -52,10 +52,9 @@ namespace ModBot.Business.Services
             return getAllBannedWordGuilds;
         }
 
-        public async Task<IBannedWord> GetBannedWord(ulong guildId, string word)
-        {
-           return await _databaseRepository.GetBannedWord(guildId, word);
-        }
+        public async Task<IBannedWord> GetBannedWord(ulong guildId, string word) =>
+                    await _databaseRepository.GetBannedWord(guildId, word);
+        
 
         public async Task<bool> UpdateBannedWordList(BannedWordListDto updatedBannedWordListDto)
         {

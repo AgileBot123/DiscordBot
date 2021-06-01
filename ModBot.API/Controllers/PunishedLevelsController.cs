@@ -22,6 +22,7 @@ namespace ModBot.API.Controllers
             this.logger = logger;
         }
 
+
         [HttpGet]
         [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
         public async Task<IActionResult> GetPunishmentLevel(ulong guilId,int id)
@@ -42,18 +43,8 @@ namespace ModBot.API.Controllers
                     return NotFound("No punishment found ");
                 }
 
-                logger.Info($"PunishmentLevel with ID: {punishedLevel.Id} get send to client", this.GetType().Name);
-                return Ok(punishedLevel);
-            }
 
-            catch (Exception ex)
-            {
-                logger.Error(ex, this.GetType().Name);
-                return StatusCode(500, "internal server error");
-            }
-        }
-
-        [HttpGet]
+        [HttpPost]
         [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
         public async Task<IActionResult> GetPunishmentLevels(ulong guilId)
         {

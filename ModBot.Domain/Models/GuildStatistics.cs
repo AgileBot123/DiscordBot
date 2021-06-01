@@ -7,8 +7,8 @@ namespace ModBot.Domain.Models
 {
     public class GuildStatistics : IGuildStatistics
     {
-        private int _statisticsId;
-        private ulong _guildId;
+        private readonly int _statisticsId;
+        private readonly ulong _guildId;
         public int StatisticsId
         {
             get { return _statisticsId; }
