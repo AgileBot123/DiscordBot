@@ -17,7 +17,7 @@
         <nav>
             @ViewBag.Test
             <br />
-            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Start", "Home")'">Home</button>
+            <input type="image" src="~/images/Icon.png" name="Icon" width="100" height="100" alt="Home" onclick="location.href='@Url.Action("Start", "Home")'" />
             <br />
             @if (User.Identity.IsAuthenticated)
             {
@@ -33,7 +33,7 @@
             {
 
 
-               <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
 
                 <br />
 
