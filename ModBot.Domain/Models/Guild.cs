@@ -43,6 +43,7 @@ namespace ModBot.Domain.Models
         #region Constructors
         private Guild() { }
 
+        
         public Guild(ulong id, bool hasBot, string avatar, string guildName)
         {
             _id = id;

@@ -10,21 +10,25 @@ using ModBot.Domain.Interfaces;
 using ModBot.DAL.Repository;
 using ModBot.DAL.Data;
 using Microsoft.EntityFrameworkCore;
+using ModBot.Bot;
+using System.Linq;
+using System.Configuration;
+using Microsoft.Extensions.Configuration;
+using ModBot.Domain.Models;
 
 namespace ChatFilterBot
 {
     public class Program
     {
+       
         public static void Main(string[] args) => new Program().RunBotAsync().GetAwaiter().GetResult();
 
         private DiscordSocketClient _client;
         private CommandService _commandsServices;
         private IServiceProvider _services;
-        // private Commands _BotCommands;
 
         public async Task RunBotAsync()
         {
-
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 
@@ -36,8 +40,6 @@ namespace ChatFilterBot
                  .AddSingleton(_commandsServices)
                  .BuildServiceProvider();
 
-            // _BotCommands = new Commands(new CommandLogic());
-
             string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.YFxf6PAcFRZws3hbx8YYE8KuLWs";
 
             _client.Log += _client_Log;
@@ -46,21 +48,63 @@ namespace ChatFilterBot
             await _client.LoginAsync(TokenType.Bot, Token);
 
             await _client.StartAsync();
-
+           
             await Task.Delay(-1);
+
         }
+
+        public async Task LeftGuild(SocketGuild guild)
+        {
+            var databaseRepo = DatabaseRepo();
+            var fetchedGuild = await databaseRepo.GetGuild(guild.Id);
+
+            var update = new Guild(fetchedGuild.Id, false, fetchedGuild.Avatar, fetchedGuild.GuildName);
+
+           
+        }
+
+        private static DatabaseRepository DatabaseRepo()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ModBotContext>();
+            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True");
+            var _context = new ModBotContext(optionsBuilder.Options);
+            var databaseRepo = new DatabaseRepository(_context);
+            return databaseRepo;
+        }
+
+
+        public async Task JoinedGuild(SocketGuild guild)
+        {
+            var databaseRepo = DatabaseRepo();
+            var fetchedGuild = await databaseRepo.GetGuild(guild.Id);
+
+            if (fetchedGuild != null)
+            {
+               var update = new Guild(fetchedGuild.Id, true, fetchedGuild.Avatar, fetchedGuild.GuildName);
+
+
+            }
+            else
+            {
+                databaseRepo.CreateGuild(fetchedGuild);
+            }
+        }
+
+
 
         private Task _client_Log(LogMessage arg)
-        {
-            Console.WriteLine(arg);
-            return Task.CompletedTask;
-        }
+            {
+                Console.WriteLine(arg);
+                return Task.CompletedTask;
+            }
+
 
         public async Task RegisterComamndsAsync()
         {
             _client.MessageReceived += HandleCommandsAsync;
             await _commandsServices.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
-
+            _client.LeftGuild += LeftGuild;
+            _client.JoinedGuild += JoinedGuild;
         }
 
         private async Task HandleCommandsAsync(SocketMessage arg)
@@ -74,10 +118,8 @@ namespace ChatFilterBot
             {
                 var result = await _commandsServices.ExecuteAsync(context, argPos, _services);
                 if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
-                
-
+              
             }
-
         }
     }
 }

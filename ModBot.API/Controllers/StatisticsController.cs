@@ -62,11 +62,11 @@ namespace ModBot.API.Controllers
 
         [HttpPost]
         [Route(Routes.Statistisc.RefreshStats)]
-        public async Task<IActionResult> RefreshStats()
+        public async Task<IActionResult> RefreshStats(ulong guildId)
         {
             try
             {
-                var created = await _statsService.RefreshStatisticsInfo();
+                var created = await _statsService.RefreshStatisticsInfo(guildId);
 
                 if (created)
                 {
@@ -83,8 +83,7 @@ namespace ModBot.API.Controllers
                 return StatusCode(500, "internal server error");
             }
         }
-        
-  
+
 
     }
 }

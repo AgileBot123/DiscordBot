@@ -22,6 +22,8 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
+
+
         public async Task<int> GetUserStrikes(ulong memberID, ulong guildId)
         {
             var Punishment = await GetPunishment(memberID, guildId);
@@ -113,6 +115,5 @@ namespace ModBot.Business.Services
                 }
             }
         }
-
     }
 }

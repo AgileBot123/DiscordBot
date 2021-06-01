@@ -1,6 +1,7 @@
 ﻿using ModBot.Domain.Interfaces.ModelsInterfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace ModBot.Domain.Models
@@ -11,6 +12,7 @@ namespace ModBot.Domain.Models
         private ulong _guildId;
         private string _profanity;
 
+        [Key]
         public ulong GuildId
         {
             get { return _guildId; }
@@ -19,6 +21,7 @@ namespace ModBot.Domain.Models
 
         public Guild Guild { get; private set; }
 
+        [Key]
         public string BannedWordProfanity
         {
             get { return _profanity; }
@@ -29,7 +32,7 @@ namespace ModBot.Domain.Models
 
 
         #region Constructors
-        private BannedWordGuilds() {}
+        public BannedWordGuilds() {}
 
         public BannedWordGuilds(ulong guildId, string bannedWordWord)
         {

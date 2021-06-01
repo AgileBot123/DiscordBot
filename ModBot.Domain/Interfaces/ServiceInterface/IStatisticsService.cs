@@ -1,4 +1,5 @@
 ﻿using ModBot.Domain.interfaces;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,6 +11,8 @@ namespace ModBot.Domain.Interfaces.ServiceInterface
     {
         Task<IEnumerable<IStatistics>> GetAllStatistics();
         Task<IStatistics> GetSpecificStats(int id);
-        Task<bool> RefreshStatisticsInfo();
+        Task<bool> RefreshStatisticsInfo(ulong guildId);
+        Task<int> GetCommandCountPerGuild(ulong guildId);
+        Task<int> GetAllBannedWordCountPerGuild(ulong guildId);
     }
 }

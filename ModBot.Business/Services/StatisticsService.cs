@@ -19,20 +19,18 @@ namespace ModBot.Business.Services
             _dataRepo = dataRepo;
         }
 
-        public async Task<bool> RefreshStatisticsInfo()
+        public async Task<bool> RefreshStatisticsInfo(ulong guildId)
         {
-
             //Siffrorna och strängen ska bytas ut mot fungerande metoder 
             var createStats = new Statistics
                 (
-                    await NumberOfMembersInNumber(),
-                    await NumberOfBannedWords(),
-                    1,
-                    3,
-                    3,
-                    await TotalNumberofStrikes(),
-                    await AverageNumberOfStrikes(),
-                    "!Ping"
+                    await NumberOfMembersInNumber(guildId),
+                    await NumberOfBannedWords(guildId),
+                    await GetAllBannedWordCountPerGuild(guildId),
+                    await GetCommandCountPerGuild(guildId),
+                    await TotalNumberofStrikes(guildId),
+                    await AverageNumberOfStrikes(guildId),
+                    3               
                 );
 
             var result = _dataRepo.AddToStatistics(createStats);
@@ -52,16 +50,35 @@ namespace ModBot.Business.Services
         {
             return await _dataRepo.GetStatistics(id);
         }
+        public Task<int> GetCommandCountPerGuild(ulong guildId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<int> GetAllBannedWordCountPerGuild(ulong guildId)
+        {
+            var bannedWords = await _dataRepo.GetAllBannedWords();
+            var bannedWordGuilds = await _dataRepo.GetAllBannedWordGuild();
+
+            var profanity = bannedWordGuilds.Where(x => x.GuildId == guildId).Select(x => x.BannedWordProfanity).ToList();
+
+            var counter = new List<string>();
+            foreach (var word in profanity)
+            {
+                counter.Add(word);
+            }
+            return counter.Count();
+        }
 
 
-       #region private Methods
-        private async Task<int> NumberOfMembersInNumber()
+        #region private Methods
+        private async Task<int> NumberOfMembersInNumber(ulong guildId)
         {
             var members = await _dataRepo.GetAllMembers();
             return members.Count();
         }
 
-        private async Task<int> NumberOfBannedWords()
+        private async Task<int> NumberOfBannedWords(ulong guildId)
         {
             var BannedWords = await _dataRepo.GetAllBannedWords();
             List<string> newList = new List<String>();
@@ -72,17 +89,19 @@ namespace ModBot.Business.Services
             return newList.Count();
         }
 
-        private async Task<int> TotalNumberofStrikes()
+        private async Task<int> TotalNumberofStrikes(ulong guildId)
         {
             return 0;
         }
 
 
-        private async Task<double> AverageNumberOfStrikes()
+        private async Task<double> AverageNumberOfStrikes(ulong guildId)
         {
             return 0;
         }
-       #endregion
+
+
+        #endregion
 
 
     }
