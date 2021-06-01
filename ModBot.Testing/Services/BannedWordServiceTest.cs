@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ModBot.Business.Services;
 using ModBot.DAL.Repository;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;

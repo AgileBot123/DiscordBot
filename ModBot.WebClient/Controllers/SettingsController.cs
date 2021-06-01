@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.WebClient.Models;
 using ModBot.WebClient.Models.Endpoints;
 using Newtonsoft.Json;
@@ -37,16 +37,13 @@ namespace ModBot.WebClient.Controllers
                 {
                     settings.Add(new SettingsDTO()
                     {
-                        Profanity = words.Profanity,
-                        Strikes = words.Strikes,
-                        Punishment = words.Punishment,
-                        BannedWordUsedCount = words.BannedWordUsedCount,
+                        BannedWordList = allBannedWords, 
                         TimeOutLevel = punishments.TimeOutLevel,
                         KickLevel = punishments.KickLevel,
                         BanLevel = punishments.BanLevel,
                         SpamMuteTime = punishments.SpamMuteTime,
                         StrikeMuteTime = punishments.StrikeMuteTime
-                    });
+                    });;
                 }
             }
 

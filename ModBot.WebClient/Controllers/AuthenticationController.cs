@@ -121,8 +121,12 @@ namespace ModBot.WebClient.Controllers
             Session.Set<ulong>(HttpContext.Session, "guild", guildId);
             var guild = GetGuild(guildId);
             if (guild == null)
-                return await CreateGuild(guildId);
-
+            {
+                await CreateGuild(guildId);
+                var punishmentSettings = GetpunishmentsSettings(guildId);
+                if(punishmentSettings == null)                
+                    return await CreatePunishmentSettings(guildId);
+            }
             else if (guild.HasBot == false)
                 return await SetHasBotTrueInGuild(guildId);
 
@@ -130,7 +134,55 @@ namespace ModBot.WebClient.Controllers
                 return RedirectToAction("Dashboard");
         }
 
+        [HttpPost]
+        public PunishmentSettingsDto GetpunishmentsSettings(ulong guildId)
+        {
+            using (var client = new HttpClient())
+            {
+                var punishmentSettingsDto = new PunishmentSettingsDto() { GuildId = guildId };
+                var JsonString = JsonConvert.SerializeObject(punishmentSettingsDto);
+                var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
+                var response = client.PostAsync(endpoints.GetPunishmentLevels, stringContent).Result;
 
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    var JsonResultString = response.Content.ReadAsStringAsync().Result;
+                    var punishmentSettings = JsonConvert.DeserializeObject<PunishmentSettingsDto>(JsonResultString);
+                    return punishmentSettings;
+                }
+                return null;
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreatePunishmentSettings(ulong guildId)
+        {
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    var punishmentSettingsDto = new PunishmentSettingsDto()
+                    {
+                        GuildId = guildId,
+                        TimeOutLevel = 5,
+                        KickLevel = 15,
+                        BanLevel = 20,
+                        StrikeMuteTime = 20,
+                        SpamMuteTime = 5,
+                    };
+
+                    var JsonString = JsonConvert.SerializeObject(punishmentSettingsDto);
+                    var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
+                    await client.PostAsync(endpoints.CreatePunishmentLevel, stringContent);
+
+                    return RedirectToAction("Dashboard");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("internal error");
+            }
+        }
 
         [HttpPost]
         public GuildModel GetGuild(ulong guildId)

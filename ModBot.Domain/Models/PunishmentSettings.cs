@@ -63,13 +63,14 @@ namespace ModBot.Domain.Models
         #region Constructors
         private PunishmentSettings() { }
 
-        public PunishmentSettings(int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel)
+        public PunishmentSettings(int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel, ulong guildId)
         {
             this._timeOutLevel = timeoutLevel;
             this._kickLevel = kickLevel;
             this._banLevel = banLevel;
             this._spamMuteTime = spamMuteLevel;
             this._strikeMuteTime = strikeMuteLevel;
+            this._guildId = guildId;
         }
 
 
