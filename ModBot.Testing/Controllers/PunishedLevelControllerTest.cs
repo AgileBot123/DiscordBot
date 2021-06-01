@@ -34,6 +34,16 @@ namespace ModBot.Testing.Controllers
             new PunishmentSettings(1, 1, 2, 3, default, default)
         };
 
+        private PunishmentSettingsDto punishmentDto = new PunishmentSettingsDto()
+        {
+            Id = 1,
+            TimeOutLevel = 1,
+            BanLevel = 2,
+            KickLevel = 1,
+            SpamMuteTime = 1,
+            StrikeMuteTime = 1,
+            GuildId = 12312312321
+        };
 
         [TestMethod]
         public async Task GetAllPunishedLevels_ShouldReturnOk()
@@ -80,9 +90,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             var id = 1;
-            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(new PunishmentSettings(1, 2, 3, 1, default, default));
+            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(new PunishmentSettings(1, 2, 3, 1, default, default));
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevel(id);
+            var response = await punishedLevelsController.GetPunishmentLevel(1231231, id);
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var okValue = result.Value.Should().BeOfType<PunishmentSettings>().Subject;
@@ -94,9 +104,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrangep
             IPunishmentsLevels punishedLevelIsNull = null;
-            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<int>())).ReturnsAsync(punishedLevelIsNull);
+            _mockPunish.Setup(x => x.GetPunishmentLevel(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishedLevelIsNull);
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevel(1);
+            var response = await punishedLevelsController.GetPunishmentLevel(12123123123, 1);
             //Assert
             response.Should().BeOfType<NotFoundObjectResult>();
         }
@@ -107,7 +117,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
 
             //Act
-            var response = await punishedLevelsController.GetPunishmentLevel(0);
+            var response = await punishedLevelsController.GetPunishmentLevel(123123213, 0);
             //Assert
             response.Should().BeOfType<BadRequestObjectResult>();
         }
@@ -214,9 +224,9 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange
             int id = 1;
-            _mockPunish.Setup(x => x.DeletePunishemntLevel(It.IsAny<int>())).ReturnsAsync(true); 
+            _mockPunish.Setup(x => x.DeletePunishemntLevel(It.IsAny<PunishmentSettingsDto>())).ReturnsAsync(true); 
             //Act
-            var response = await punishedLevelsController.DeletePunishmentLevel(1);
+            var response = await punishedLevelsController.DeletePunishmentLevel(punishmentDto);
             //Assert
             response.Should().BeOfType<NoContentResult>();
         }
@@ -226,7 +236,7 @@ namespace ModBot.Testing.Controllers
         {
             //Arrange 
             //Act
-            var response = await punishedLevelsController.DeletePunishmentLevel(0);
+            var response = await punishedLevelsController.DeletePunishmentLevel(punishmentDto);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
             result.Value.Should().Be("Id cannot be 0");
@@ -236,9 +246,9 @@ namespace ModBot.Testing.Controllers
         public async Task DeletePunishedLevel_ShouldReturnBadRequestIfParameterIsZero()
         {
             //Arrange
-            _mockPunish.Setup(x => x.DeletePunishemntLevel(It.IsAny<int>())).ReturnsAsync(false);
+            _mockPunish.Setup(x => x.DeletePunishemntLevel(It.IsAny<PunishmentSettingsDto>())).ReturnsAsync(false);
             //Act
-            var response = await punishedLevelsController.DeletePunishmentLevel(1);
+            var response = await punishedLevelsController.DeletePunishmentLevel(punishmentDto);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
             result.Value.Should().Be("PunishedLevel was not created");

@@ -134,7 +134,7 @@ namespace ModBot.WebClient.Controllers
                 if(response.IsSuccessStatusCode)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var punishment = JsonConvert.DeserializeObject<PunishmentDto>(jsonString);
+                    var punishment = JsonConvert.DeserializeObject<PunishmentSettingsDto>(jsonString);
                     return View(punishment);
                 }
             }
@@ -169,7 +169,7 @@ namespace ModBot.WebClient.Controllers
                 if(response.IsSuccessStatusCode)
                 {
                     var jsonString = response.Content.ReadAsStringAsync().Result;
-                    var punishment = JsonConvert.DeserializeObject<PunishmentDto>(jsonString);
+                    var punishment = JsonConvert.DeserializeObject<PunishmentSettingsDto>(jsonString);
                     return View(punishment);
                 }
             }
@@ -269,6 +269,7 @@ namespace ModBot.WebClient.Controllers
         }
         
         public IActionResult DeleteBannedWord(int id)
+        { 
 
             ViewBag.Message = "Banned word Created";
             return View();
@@ -276,7 +277,6 @@ namespace ModBot.WebClient.Controllers
 
         [HttpGet]
         public IActionResult DeleteBannedWord(string word)
-
         {
                       
             using(HttpClient client = new HttpClient())
@@ -298,7 +298,7 @@ namespace ModBot.WebClient.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                var requestUrl = endpoints.GetBannedWord + id;
+                var requestUrl = endpoints.GetBannedWord + word;
                 var response = client.GetAsync(requestUrl).Result;
                 if (response.IsSuccessStatusCode)
                 {
@@ -336,6 +336,7 @@ namespace ModBot.WebClient.Controllers
             HandleCookie("ServerIsSelected", "true");
             return View();
         }
+
         public void HandleCookie(string name, string content)
         {
             HttpContext.Response.Cookies.Append(name, content, new CookieOptions()
@@ -344,5 +345,6 @@ namespace ModBot.WebClient.Controllers
 
             });
         }
+
     }
 }
