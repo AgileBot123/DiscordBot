@@ -24,14 +24,15 @@ namespace ModBot.Business.Services
             var createdBannedWord = new BannedWord(
                 word: createBannedWord.Profanity,
                 strikes: createBannedWord.Strikes,
-                punishment: createBannedWord.Punishment);
+                punishment: createBannedWord.Punishment
+                , createBannedWord.GuildId);
 
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
 
-        public async Task<bool> DeleteBannedWord(string word)
+        public async Task<bool> DeleteBannedWord(ulong guildId, string word)
         {
-            var getBannedWord = await _databaseRepository.GetBannedWord(word);
+            var getBannedWord = await GetBannedWord(guildId, word);
 
             if (getBannedWord != null)
             {
@@ -42,18 +43,18 @@ namespace ModBot.Business.Services
             return false;
         }
 
-        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords() => await _databaseRepository.GetAllBannedWords();
-
-        
-
-        public async Task<IBannedWord> GetBannedWord(string word)
+        public async Task<IEnumerable<IBannedWord>> GetAllBannedWords(ulong guildId)
         {
-            var bannedWord = await _databaseRepository.GetBannedWord(word);
+            var allBannedWords = await _databaseRepository.GetAllBannedWords();
 
-            if (bannedWord == null)
-                return null;
+            var getAllBannedWordGuilds = allBannedWords.Where(x => x.GuildId == guildId).ToList();
 
-            return bannedWord;
+            return getAllBannedWordGuilds;
+        }
+
+        public async Task<IBannedWord> GetBannedWord(ulong guildId, string word)
+        {
+           return await _databaseRepository.GetBannedWord(guildId, word);
         }
 
         public async Task<bool> UpdateBannedWordList(BannedWordListDto updatedBannedWordListDto)
@@ -68,9 +69,11 @@ namespace ModBot.Business.Services
                 {
                     if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Profanity)))
                     {
-                        changedBannedWord = new BannedWord(updatedBannedWord.Profanity,
+                        changedBannedWord = new BannedWord(                                                   
+                                                     updatedBannedWord.Profanity,
                                                      updatedBannedWord.Strikes,
-                                                     updatedBannedWord.Punishment);
+                                                     updatedBannedWord.Punishment,
+                                                     updatedBannedWord.GuildId);
 
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
                     }
@@ -78,7 +81,8 @@ namespace ModBot.Business.Services
                     {
                         changedBannedWord = new BannedWord(updatedBannedWord.Profanity,
                                                      updatedBannedWord.Strikes,
-                                                     updatedBannedWord.Punishment);
+                                                     updatedBannedWord.Punishment, 
+                                                     updatedBannedWord.GuildId);
 
                         _databaseRepository.CreateBannedWord(changedBannedWord);
                     }
@@ -90,7 +94,8 @@ namespace ModBot.Business.Services
                     {
                         changedBannedWord = new BannedWord(bannedWord.Profanity,
                                                      bannedWord.Strikes,
-                                                     bannedWord.Punishment);
+                                                     bannedWord.Punishment,
+                                                     bannedWord.GuildId);
 
                        _databaseRepository.DeleteBannedWord(changedBannedWord);
                     }

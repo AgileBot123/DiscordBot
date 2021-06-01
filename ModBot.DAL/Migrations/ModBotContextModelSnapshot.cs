@@ -21,11 +21,14 @@ namespace ModBot.DAL.Migrations
 
             modelBuilder.Entity("ModBot.Domain.Models.BannedWord", b =>
                 {
-                    b.Property<string>("Profanity")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int>("BannedWordUsedCount")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("decimal(20,0)");
+
+                    b.Property<string>("Profanity")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Punishment")
                         .HasColumnType("nvarchar(max)");
@@ -33,24 +36,9 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("Strikes")
                         .HasColumnType("int");
 
-                    b.HasKey("Profanity");
+                    b.HasIndex("GuildId");
 
                     b.ToTable("BannedWord");
-                });
-
-            modelBuilder.Entity("ModBot.Domain.Models.BannedWordGuilds", b =>
-                {
-                    b.Property<decimal>("GuildId")
-                        .HasColumnType("decimal(20,0)");
-
-                    b.Property<string>("BannedWordProfanity")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("GuildId", "BannedWordProfanity");
-
-                    b.HasIndex("BannedWordProfanity");
-
-                    b.ToTable("BannedWordGuilds");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.Changelog", b =>
@@ -105,21 +93,6 @@ namespace ModBot.DAL.Migrations
                     b.HasIndex("PunishmentId");
 
                     b.ToTable("GuildPunishment");
-                });
-
-            modelBuilder.Entity("ModBot.Domain.Models.GuildStatistics", b =>
-                {
-                    b.Property<decimal>("GuildId")
-                        .HasColumnType("decimal(20,0)");
-
-                    b.Property<int>("StatisticsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("GuildId", "StatisticsId");
-
-                    b.HasIndex("StatisticsId");
-
-                    b.ToTable("GuildStatistics");
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.Member", b =>
@@ -221,11 +194,11 @@ namespace ModBot.DAL.Migrations
                     b.Property<double>("AverageNumberOfStrikes")
                         .HasColumnType("float");
 
+                    b.Property<decimal>("GuildId")
+                        .HasColumnType("decimal(20,0)");
+
                     b.Property<double>("MedianNumberOfStrikes")
                         .HasColumnType("float");
-
-                    b.Property<string>("MostUsedCommand")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfBannedWords")
                         .HasColumnType("int");
@@ -233,10 +206,10 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("NumberOfMembers")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfMembersBeenTimedOut")
+                    b.Property<int>("NumberOfTimesBannedWordBeenUsed")
                         .HasColumnType("int");
 
-                    b.Property<int>("NumberOfMembersBeingBanned")
+                    b.Property<int>("NumberOfTimesEachCommandoBeenUsed")
                         .HasColumnType("int");
 
                     b.Property<int>("TotalStrikesInDatabase")
@@ -244,24 +217,18 @@ namespace ModBot.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("GuildId");
+
                     b.ToTable("Statistics");
                 });
 
-            modelBuilder.Entity("ModBot.Domain.Models.BannedWordGuilds", b =>
+            modelBuilder.Entity("ModBot.Domain.Models.BannedWord", b =>
                 {
-                    b.HasOne("ModBot.Domain.Models.BannedWord", "BannedWord")
-                        .WithMany()
-                        .HasForeignKey("BannedWordProfanity")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("ModBot.Domain.Models.Guild", "Guild")
                         .WithMany()
                         .HasForeignKey("GuildId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("BannedWord");
 
                     b.Navigation("Guild");
                 });
@@ -285,25 +252,6 @@ namespace ModBot.DAL.Migrations
                     b.Navigation("Punishment");
                 });
 
-            modelBuilder.Entity("ModBot.Domain.Models.GuildStatistics", b =>
-                {
-                    b.HasOne("ModBot.Domain.Models.Guild", "Guild")
-                        .WithMany()
-                        .HasForeignKey("GuildId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ModBot.Domain.Models.Statistics", "Statistics")
-                        .WithMany()
-                        .HasForeignKey("StatisticsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guild");
-
-                    b.Navigation("Statistics");
-                });
-
             modelBuilder.Entity("ModBot.Domain.Models.MemberPunishment", b =>
                 {
                     b.HasOne("ModBot.Domain.Models.Member", "Member")
@@ -324,6 +272,17 @@ namespace ModBot.DAL.Migrations
                 });
 
             modelBuilder.Entity("ModBot.Domain.Models.PunishmentSettings", b =>
+                {
+                    b.HasOne("ModBot.Domain.Models.Guild", "Guild")
+                        .WithMany()
+                        .HasForeignKey("GuildId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Guild");
+                });
+
+            modelBuilder.Entity("ModBot.Domain.Models.Statistics", b =>
                 {
                     b.HasOne("ModBot.Domain.Models.Guild", "Guild")
                         .WithMany()
