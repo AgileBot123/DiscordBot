@@ -6,7 +6,7 @@
     <title>@ViewData["Title"] - ModBot.Webclient</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css"  type="text/css"  />
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -14,21 +14,22 @@
     <header>
 
 
-        <!--<nav class="w3-sidebar w3-bar-block w3-small w3-hide-small w3-center">-->
         <nav>
+            @ViewBag.Test
+            <br />
             <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Start", "Home")'">Home</button>
-
+            <br />
             @if (User.Identity.IsAuthenticated)
             {
-            <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'" >Logout</button>
-
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
+                <br />
             }
 
             @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
             {
 
-          <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'" >Servers</button>
-
+                <button type="button" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'">Servers</button>
+                <br />
             }
         </nav>
 
@@ -40,11 +41,6 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - ModBot.Webclient - <a asp-area="" asp-controller="Authentication" asp-action="Authentication">Sign in</a>
-        </div>
-    </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
