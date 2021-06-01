@@ -43,7 +43,39 @@
             Strike Mute Timer <input value="@Model.StrikeMuteTime">
         </th>
     </tr>
+</table>
 
+<table class="table">
+    <tr>
+        <th>
+            <h2>Profanity</h2>
+        </th>
+        <th>
+            <h2>Strikes</h2>
+        </th>
+        <th>
+            <h2>Punishment</h2>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <input value="" type="text" size="22">
+        </th>
+        <th>
+            <input value="" type="text" size="10">
+        </th>
+        <th>
+            <select size="15">
+                <option value="None">None</option>
+                <option value="Mute">Mute</option>
+                <option value="Kick">Kick</option>
+                <option value="Ban">Ban</option>
+            </select>
+        </th>
+        <th>
+            <input value="Add" type="button" size="10">
+        </th>
+    </tr>
 </table>
 <table>
     <tbody>
@@ -58,6 +90,9 @@
             <td>
                 <input value="@item.Punishment">
             </td>
+            <th>
+                <input value="Remove" type="button" size="15">
+            </th>
         </tr>
 }
     </tbody>
