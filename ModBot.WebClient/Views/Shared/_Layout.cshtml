@@ -38,7 +38,7 @@
 
             <a class="w3-bar-item w3-button w3-padding-large w3-black" asp-area="" asp-controller="Home" asp-action="Start">
                 <i class="fa fa-home w3-xxlarge"></i>
-                <p>HOME</p>
+                <p>Home</p>
             </a>
 
             @if (User.Identity.IsAuthenticated)
@@ -47,17 +47,17 @@
                     <i class="fa fa-eye w3-xxlarge"></i>
                     <p>LOGOUT</p>
                 </a>
-                <a href="#servers" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Authentication" asp-action="ServerList">
                     <i class="fa fa-eye w3-xxlarge"></i>
-                    <p>SERVER</p>
+                    <p>Servers</p>
                 </a>
             }
 
             @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
             {
-                <a href="#settings" class="w3-bar-item w3-button w3-padding-large w3-hover-black">
+                <a class="w3-bar-item w3-button w3-padding-large w3-hover-black" asp-area="" asp-controller="Settings" asp-action="Settings">
                     <i class="fa fa-user w3-xxlarge"></i>
-                    <p>SETTINGS</p>
+                    <p>Settings</p>
                 </a>
             }
         </nav>
