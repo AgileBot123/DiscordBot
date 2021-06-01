@@ -73,6 +73,15 @@ namespace ModBot.WebClient.Controllers
             var servers = _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token")).Result;
             return View("ServerList", servers);
         }
+        public async Task<IActionResult> ServerList()
+        {
+            HandleCookie("ServerIsSelected", "false");
+            var token = await _logic.DiscordGetToken();
+            Session.Set<string>(HttpContext.Session, "token", token);
+            ViewBag.Test = HttpContext.User.Identity.Name;
+            var servers = _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token")).Result;
+            return View("ServerList", servers);
+        }
 
         public async Task<IActionResult> Logout()
         {
