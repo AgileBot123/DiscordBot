@@ -1,14 +1,17 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@model IEnumerable<ModBot.WebClient.Models.BannedWordModel>
+﻿@model IEnumerable<ModBot.Domain.DTO.SettingsDTO>
 
 @{
     ViewData["Title"] = "Settings";
 }
-<table class="table" style="">
+
+<h1>Settings</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table" style="background-color:white">
     <thead>
-        <tr>
+        <tr style="background-color:white">
             <th>
                 @Html.DisplayNameFor(model => model.Profanity)
             </th>
@@ -18,29 +21,63 @@
             <th>
                 @Html.DisplayNameFor(model => model.Punishment)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BannedWordUsedCount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TimeOutLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.KickLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BanLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SpamMuteTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StrikeMuteTime)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Profanity)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Strikes)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Punishment)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "UpdateBannedWord", new {  word=item.Profanity }) |
-                   
-                    @Html.ActionLink("Delete", "DeleteBannedWord", new { word = item.Profanity })
-                </td>
-            </tr>
-        }
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Profanity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Strikes)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Punishment)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BannedWordUsedCount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TimeOutLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.KickLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BanLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SpamMuteTime)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StrikeMuteTime)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
     </tbody>
 </table>
-

@@ -20,7 +20,7 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public bool CreatePunishmentLevel(PunishmentDto createPunished)
+        public bool CreatePunishmentLevel(PunishmentSettingsDto createPunished)
         {
             var createdPunishment = new PunishmentSettings(
                         timeoutLevel: createPunished.TimeOutLevel,
@@ -67,7 +67,7 @@ namespace ModBot.Business.Services
             return punishment;          
         }
 
-        public async Task<bool> UpdatePunishmentLevel(PunishmentDto updatePunishment, int id)
+        public async Task<bool> UpdatePunishmentLevel(PunishmentSettingsDto updatePunishment, int id)
         {
             var selectPunishment = await _databaseRepository.GetPunishmentSetting(id);
 

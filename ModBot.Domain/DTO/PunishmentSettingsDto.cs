@@ -4,7 +4,7 @@ using System.Text;
 
 namespace ModBot.Domain.DTO
 {
-    public class PunishmentDto
+    public class PunishmentSettingsDto
     {
         public int TimeOutLevel { get; set; }
         public int KickLevel { get; set; }

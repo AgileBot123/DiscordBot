@@ -6,6 +6,6 @@ namespace ModBot.Domain.DTO
 {
     public class PunishmentLevelsListDto
     {
-        public List<PunishmentDto> Punishments { get; set; } = new List<PunishmentDto>();
+        public List<PunishmentSettingsDto> Punishments { get; set; } = new List<PunishmentSettingsDto>();
     }
 }

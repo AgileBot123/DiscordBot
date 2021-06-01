@@ -105,7 +105,7 @@ namespace ModBot.Testing.Controllers
             {
                 Punishment = "Timeout",
                 Strikes = 3,
-                Word = "Fuck"
+                Profanity = "Fuck"
             };
             _mockBannedWord.Setup(x => x.CreateBannedWord(It.IsAny<BannedWordDto>())).Returns(true);
             //Act
@@ -147,7 +147,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
             List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
             {
-                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Profanity = "Fuck" }
             };
 
             var bannedWord = new BannedWordListDto();
@@ -166,7 +166,7 @@ namespace ModBot.Testing.Controllers
             //Arrange
             List<BannedWordDto> BannedWordList = new List<BannedWordDto>()
             {
-                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Word = "Fuck" }
+                new BannedWordDto{ Punishment = "Timeout", Strikes = 1, Profanity = "Fuck" }
             };
             var bannedWord = new BannedWordListDto();
             bannedWord.BannedWordList = BannedWordList;
