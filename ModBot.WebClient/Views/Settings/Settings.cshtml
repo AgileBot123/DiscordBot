@@ -3,46 +3,47 @@
 @{
     ViewData["Title"] = "Settings";
 }
+<style>
 
+</style>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                <h1>Settings</h1>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                <button value="Save Settings"></button>
-            </th>
-        </tr>
-        <tr>
-            <th>
-                Mute Level<input value="@Model.TimeOutLevel">
-            </th>
-            <th>
-                Kick Level<input value="@Model.KickLevel">
-            </th>
-            <th>
-                Ban Level<input value="@Model.BanLevel">
-            </th>
-        </tr>
-        <tr>
-            <th>
-                Bot Prefix <input value="!">
-            </th>
-            <th>
-                Spam Mute Timer <input value="@Model.SpamMuteTime">
-            </th>
-            <th>
-                Strike Mute Timer <input value="@Model.StrikeMuteTime">
-            </th>
-        </tr>
-    </thead>
+
+    <tr>
+        <th>
+            <h1>Settings</h1>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <button value="Save Settings"></button>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Mute Level<input value="@Model.TimeOutLevel">
+        </th>
+        <th>
+            Bot Prefix <input value="!">
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Kick Level<input value="@Model.KickLevel">
+        </th>
+        <th>
+            Spam Mute Timer <input value="@Model.SpamMuteTime">
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Ban Level<input value="@Model.BanLevel">
+        </th>
+        <th>
+            Strike Mute Timer <input value="@Model.StrikeMuteTime">
+        </th>
+    </tr>
+
 </table>
 <table>
     <tbody>
