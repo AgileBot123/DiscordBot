@@ -99,7 +99,6 @@ namespace ModBot.WebClient
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -115,7 +114,6 @@ namespace ModBot.WebClient
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
@@ -128,7 +126,7 @@ namespace ModBot.WebClient
             {
                 endpoints.MapControllerRoute(
                    name: "default",
-                   pattern: "{controller=Home}/{action=Start}/{id?}");
+                   pattern: "{controller=Home}/{action=Startup}/{id?}");
             });
         }
     }

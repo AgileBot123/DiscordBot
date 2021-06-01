@@ -3,6 +3,7 @@ using Discord.Rest;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.WebClient.ClientLogic;
@@ -58,12 +59,14 @@ namespace ModBot.WebClient.Controllers
         }
         public IActionResult Index()
         {
+            HandleCookie("ServerIsSelected", "false");
             return View();
         }
 
         [Authorize(AuthenticationSchemes = "Discord")]
         public async Task<IActionResult> Authentication()
         {
+            HandleCookie("ServerIsSelected", "false");
             var token = await _logic.DiscordGetToken();
             Session.Set<string>(HttpContext.Session, "token", token);
             ViewBag.Test = HttpContext.User.Identity.Name;
@@ -80,6 +83,7 @@ namespace ModBot.WebClient.Controllers
 
         public IActionResult Dashboard()
         {
+            HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
@@ -118,7 +122,11 @@ namespace ModBot.WebClient.Controllers
         
         public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
         {
+
+            HandleCookie("ServerIsSelected", "true");
+
             Session.Set<ulong>(HttpContext.Session, "guild", guildId);
+
             var guild = GetGuild(guildId);
             if (guild == null)
             {
@@ -248,6 +256,15 @@ namespace ModBot.WebClient.Controllers
             {
                 throw new Exception("internal error");
             }
+            
+        }
+        public void HandleCookie(string name, string content)
+        {
+                HttpContext.Response.Cookies.Append(name, content, new CookieOptions()
+                {
+                    Expires = new DateTimeOffset(2038, 1, 1, 0, 0, 0, TimeSpan.FromHours(0))
+
+                });
         }
     }
 }
