@@ -24,7 +24,7 @@ namespace ModBot.API.Controllers
 
         [HttpGet]
         [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
-        public async Task<IActionResult> GetPunishmentLevel(int id)
+        public async Task<IActionResult> GetPunishmentLevel(ulong guilId,int id)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace ModBot.API.Controllers
                     return BadRequest("id is null");
                 }
 
-                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
+                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(guilId,id);
 
                 if (punishedLevel == null)
                 {
@@ -109,17 +109,17 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
-        public async Task<IActionResult> DeletePunishmentLevel(int id)
+        public async Task<IActionResult> DeletePunishmentLevel(PunishmentSettingsDto punishment)
         {
             try
             {
-                if (id == 0)
+                if (punishment.Id == 0)
                 {
                     logger.Info("Id in parameter is zero", this.GetType().Name);
                     return BadRequest("Id cannot be 0");
                 }
                 
-               var result = await _punishedLevelService.DeletePunishemntLevel(id);
+               var result = await _punishedLevelService.DeletePunishemntLevel(punishment);
 
                 if (result)
                 {
