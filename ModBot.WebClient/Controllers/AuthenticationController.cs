@@ -139,6 +139,20 @@ namespace ModBot.WebClient.Controllers
         
         public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
         {
+            #region cache
+            var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
+            foreach (var server in servers)
+            {
+                if (server.Id == guildId)
+                {
+                    server.HasBot = true;
+                    break;
+                }
+            }
+            servers = servers.OrderBy(x => x.HasBot == false).ToList();
+            Session.Set(HttpContext.Session, "serverlist", servers);
+
+            #endregion
 
             HandleCookie("ServerIsSelected", "true");
 
