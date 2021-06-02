@@ -4,7 +4,10 @@
     ViewData["Title"] = "Settings";
 }
 <style>
-
+    #select
+    {
+        height: 30px;
+    }
 </style>
 
 <table class="table">
@@ -16,7 +19,7 @@
     </tr>
     <tr>
         <th>
-            <button value="Save Settings"></button>
+            <button value="Save Settings">Save Settings</button>
         </th>
     </tr>
     <tr>
@@ -57,25 +60,27 @@
             <h2>Punishment</h2>
         </th>
     </tr>
-    <tr>
-        <th>
-            <input value="" type="text" size="22">
-        </th>
-        <th>
-            <input value="" type="text" size="10">
-        </th>
-        <th>
-            <select size="15">
-                <option value="None">None</option>
-                <option value="Mute">Mute</option>
-                <option value="Kick">Kick</option>
-                <option value="Ban">Ban</option>
-            </select>
-        </th>
-        <th>
-            <input value="Add" type="button" size="10">
-        </th>
-    </tr>
+    <form>
+        <tr>
+            <th>
+                <input value="" type="text" size="22">
+            </th>
+            <th>
+                <input value="" type="text" size="10">
+            </th>
+            <th>
+                <select size="15" id="select">
+                    <option value="None">None</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Kick">Kick</option>
+                    <option value="Ban">Ban</option>
+                </select>
+            </th>
+            <th>
+                <input value="Add" type="button" size="10">
+            </th>
+        </tr>
+    </form>
 </table>
 <table>
     <tbody>
