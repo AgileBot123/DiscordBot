@@ -1,27 +1,44 @@
 ﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+.navbarLeft {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #2F3136;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.5s;
 }
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+nav {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+#layoutButton {
+    text-decoration: none;
+    width: 100%;
+    padding: 0, 30px, 0, 0;
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+
+h1 {
+    color: white;
+    text-align: center;
+    font-size: 40px;
+}
+
+h3 {
+    text-align: center;
+}
+
+p {
+    color: black;
 }
 
 /* Sticky footer styles
@@ -46,26 +63,54 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
 html {
   position: relative;
   min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #36393F;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+row {
+    border-radius: 1em;
+    padding: 1em;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+.startPage {
+    background-color: darkgray;
+    height: 500px;
+    width: 500px;
+    border-radius: 1em;
+    padding: 1em;
+    text-align: center;
+    font-size: 25px;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    margin-right: -45%;
+    transform: translate(-50%, -50%)   
+}
+
+.startPage h5 {
+    font-size: 35px;
+}
+
+
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:visited,
+.btn-primary:focus {
+    background-color: #8064A2;
+    border-color: #8064A2;
 }

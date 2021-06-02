@@ -22,9 +22,10 @@ namespace ModBot.API.Controllers
             this.logger = logger;
         }
 
+
         [HttpGet]
-        [Route(Routes.PunishedLevels.GetPunishedLevel)]
-        public async Task<IActionResult> GetPunishedLevel(int id)
+        [Route(Routes.PunishmentLevels.GetPunishmentLevel)]
+        public async Task<IActionResult> GetPunishmentLevel(ulong guilId, int id)
         {
             try
             {
@@ -34,40 +35,38 @@ namespace ModBot.API.Controllers
                     return BadRequest("id is null");
                 }
 
-                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(id);
+                var punishedLevel = await _punishedLevelService.GetPunishmentLevel(guilId, id);
 
                 if (punishedLevel == null)
                 {
                     logger.Info($"No punishmentlevel was found in database with id: {id}.", this.GetType().Name);
                     return NotFound("No punishment found ");
                 }
-
-                logger.Info($"PunishmentLevel with ID: {punishedLevel.Id} get send to client", this.GetType().Name);
                 return Ok(punishedLevel);
             }
-
-            catch (Exception ex)
+            catch
             {
-                logger.Error(ex, this.GetType().Name);
-                return StatusCode(500, "internal server error");
+                return NotFound("Internal Server Error");
             }
         }
 
-        [HttpGet]
-        [Route(Routes.PunishedLevels.GetPunishedLevels)]
-        public async Task<IActionResult> GetPunishedLevels()
+
+        [HttpPost]
+        [Route(Routes.PunishmentLevels.GetPunishmentLevels)]
+        public async Task<IActionResult> GetPunishmentLevels(PunishmentSettingsDto punishmentSettingsDto)
         {
             try
             {
-                var punishmentLevels = await _punishedLevelService.GetAllPunishmentLevels();
+                var guildId = punishmentSettingsDto.GuildId;
+                var punishmentLevels = await _punishedLevelService.GetPunishmentLevels(guildId);
 
-                if (punishmentLevels.Count() == 0)
+                if (punishmentLevels == null)
                 {
                     logger.Info("No punishmentLevels was found in datbase", this.GetType().Name);
-                    return NotFound("Punishemnts is empty");
+                    return NotFound("Punishments are empty");
                 }
 
-                logger.Info($"{punishmentLevels.Count()} punishmentlevels was sent to client", this.GetType().Name);
+                logger.Info($"punishmentlevels was sent to client", this.GetType().Name);
                 return Ok(punishmentLevels);
             }
             catch (Exception ex)
@@ -78,8 +77,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPost]
-        [Route(Routes.PunishedLevels.CreatePunishedLevel)]
-        public IActionResult CreatePunishedLevel(PunishmentDto createPunishment)
+        [Route(Routes.PunishmentLevels.CreatePunishmentLevel)]
+        public IActionResult CreatePunishmentLevel(PunishmentSettingsDto createPunishment)
         {
             try
             {              
@@ -108,18 +107,18 @@ namespace ModBot.API.Controllers
         }
 
         [HttpDelete]
-        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> DeletePunishedLevel(int id)
+        [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
+        public async Task<IActionResult> DeletePunishmentLevel(PunishmentSettingsDto punishment)
         {
             try
             {
-                if (id == 0)
+                if (punishment.Id == 0)
                 {
                     logger.Info("Id in parameter is zero", this.GetType().Name);
                     return BadRequest("Id cannot be 0");
                 }
                 
-               var result = await _punishedLevelService.DeletePunishemntLevel(id);
+               var result = await _punishedLevelService.DeletePunishemntLevel(punishment);
 
                 if (result)
                 {
@@ -138,8 +137,8 @@ namespace ModBot.API.Controllers
         }
 
         [HttpPut]
-        [Route(Routes.PunishedLevels.DeletePunishedLevel)]
-        public async Task<IActionResult> UpdatePunishedLevel(int id, PunishmentDto updatePunishment)
+        [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
+        public async Task<IActionResult> UpdatePunishmentLevel(int id, PunishmentSettingsDto updatePunishment)
         {
             try
             {

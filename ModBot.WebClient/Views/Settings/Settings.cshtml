@@ -1,0 +1,104 @@
+﻿@model ModBot.Domain.DTO.SettingsDTO
+
+@{
+    ViewData["Title"] = "Settings";
+}
+<style>
+    #select
+    {
+        height: 30px;
+    }
+</style>
+
+<table class="table">
+
+    <tr>
+        <th>
+            <h1>Settings</h1>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            <button value="Save Settings">Save Settings</button>
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Mute Level<input value="@Model.TimeOutLevel">
+        </th>
+        <th>
+            Bot Prefix <input value="!">
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Kick Level<input value="@Model.KickLevel">
+        </th>
+        <th>
+            Spam Mute Timer <input value="@Model.SpamMuteTime">
+        </th>
+    </tr>
+    <tr>
+        <th>
+            Ban Level<input value="@Model.BanLevel">
+        </th>
+        <th>
+            Strike Mute Timer <input value="@Model.StrikeMuteTime">
+        </th>
+    </tr>
+</table>
+
+<table class="table">
+    <tr>
+        <th>
+            <h2>Profanity</h2>
+        </th>
+        <th>
+            <h2>Strikes</h2>
+        </th>
+        <th>
+            <h2>Punishment</h2>
+        </th>
+    </tr>
+    <form>
+        <tr>
+            <th>
+                <input value="" type="text" size="22">
+            </th>
+            <th>
+                <input value="" type="text" size="10">
+            </th>
+            <th>
+                <select size="15" id="select">
+                    <option value="None">None</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Kick">Kick</option>
+                    <option value="Ban">Ban</option>
+                </select>
+            </th>
+            <th>
+                <input value="Add" type="button" size="10">
+            </th>
+        </tr>
+    </form>
+</table>
+<table>
+    <tbody>
+        @foreach (var item in Model.BannedWordList) {
+        <tr>
+            <td>
+                <input value="@item.Profanity">
+            </td>
+            <td>
+                <input value="@item.Strikes">
+            </td>
+            <td>
+                <input value="@item.Punishment">
+            </td>
+            <th>
+                <input value="Remove" type="button" size="15">
+            </th>
+        </tr>
+}
+    </tbody>
+</table>

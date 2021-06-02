@@ -11,6 +11,7 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     {
         Task<IGuild> GetGuild(ulong GuildId);
         Task<IEnumerable<IGuild>> GetAllGuilds();
-        bool CreateGuild(Guild guild);
+        bool CreateGuild(IGuild guild);
+        bool UpdateGuild(IGuild guild);
     }
 }

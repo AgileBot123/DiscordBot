@@ -20,22 +20,23 @@ namespace ModBot.Business.Services
             _databaseRepository = databaseRepository;
         }
 
-        public bool CreatePunishmentLevel(PunishmentDto createPunished)
+        public bool CreatePunishmentLevel(PunishmentSettingsDto createPunished)
         {
             var createdPunishment = new PunishmentSettings(
                         timeoutLevel: createPunished.TimeOutLevel,
                         kickLevel: createPunished.KickLevel,
                         banLevel: createPunished.BanLevel,
                         spamMuteLevel: createPunished.SpamMuteTime,
-                        strikeMuteLevel: createPunished.StrikeMuteTime
+                        strikeMuteLevel: createPunished.StrikeMuteTime,
+                        guildId: createPunished.GuildId
                      );
 
             return _databaseRepository.CreatePunishmentSetting(createdPunishment);
         }
 
-        public async Task<bool> DeletePunishemntLevel(int id)
+        public async Task<bool> DeletePunishemntLevel(PunishmentSettingsDto punishment)
         {
-            var getPunishedLevel = await _databaseRepository.GetPunishmentSetting(id);
+            var getPunishedLevel = await _databaseRepository.GetPunishmentSetting(punishment.GuildId,punishment.Id);
 
             if (getPunishedLevel != null)
             {
@@ -45,21 +46,18 @@ namespace ModBot.Business.Services
             return false;
         }
 
-        public async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public async Task<IPunishmentsLevels> GetPunishmentLevels(ulong guilId)
         {
-            var punishmentLevels = await _databaseRepository.GetAllPunishmentLevels();
+            var punishmentLevels = await _databaseRepository.GetPunishmentLevels(guilId);
 
-            if (punishmentLevels.Count() == 0)
-                    return null;
-            
             return punishmentLevels;
         }
 
 
-        public async Task<IPunishmentsLevels> GetPunishmentLevel(int id)
+        public async Task<IPunishmentsLevels> GetPunishmentLevel(ulong guilId,int id)
         {
 
-            var punishment = await _databaseRepository.GetPunishmentSetting(id);
+            var punishment = await _databaseRepository.GetPunishmentSetting(guilId, id);
 
             if (punishment is null)
                 return null;
@@ -67,9 +65,9 @@ namespace ModBot.Business.Services
             return punishment;          
         }
 
-        public async Task<bool> UpdatePunishmentLevel(PunishmentDto updatePunishment, int id)
+        public async Task<bool> UpdatePunishmentLevel(PunishmentSettingsDto updatePunishment, int id)
         {
-            var selectPunishment = await _databaseRepository.GetPunishmentSetting(id);
+            var selectPunishment = await _databaseRepository.GetPunishmentSetting(updatePunishment.GuildId,id);
 
             if(selectPunishment != null)
             {
@@ -77,7 +75,8 @@ namespace ModBot.Business.Services
                                                        updatePunishment.KickLevel,
                                                        updatePunishment.BanLevel,
                                                        updatePunishment.SpamMuteTime,
-                                                       updatePunishment.StrikeMuteTime);
+                                                       updatePunishment.StrikeMuteTime,
+                                                       updatePunishment.GuildId);
 
                 var result = _databaseRepository.UpdatePunishmentSetting(punishment,id);
 

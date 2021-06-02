@@ -56,8 +56,6 @@ namespace ModBot.WebClient.ClientLogic
             {
                 foreach (var guild in guildsummery.Where(g => g.Permissions.Administrator))
                 {
-                    //var JsonString = controller.hasbot(guild.Id).ToString();
-                    //var hasbot = JsonConvert.DeserializeObject<bool>(JsonString);
                     servers.Add(new GuildModel(guild.Id, guild.Name, guild.IconUrl, controller.hasbot(guild.Id)));
                 }
             }

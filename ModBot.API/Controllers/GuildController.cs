@@ -69,6 +69,26 @@ namespace ModBot.API.Controllers
             }
         }
 
+        [HttpPost]
+        [Route(Routes.Guilds.UpdateGuild)]
+        public async Task<IActionResult> UpdateGuild(GuildDto guildDto)
+        {
+            try
+            {
+                Guild guild = new Guild(guildDto.Id, guildDto.HasBot, guildDto.Icon, guildDto.Name);
+
+                bool succeded = await _guildService.UpdateGuild(guild);
+
+                logger.Info($"Guild in database was updated: {succeded}", this.GetType().Name);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                logger.Error(ex, this.GetType().Name);
+                return StatusCode(500, "internal server error");
+            }
+        }
+
         [HttpGet]
         [Route(Routes.Guilds.GetGuilds)]
         public async Task<IActionResult> GetAllGuilds()

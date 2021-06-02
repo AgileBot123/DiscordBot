@@ -1,4 +1,5 @@
 ﻿using ModBot.Domain.interfaces;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -10,12 +11,14 @@ namespace ModBot.Domain.Interfaces
         int Id { get; }
         int NumberOfMembers { get; }
         int NumberOfBannedWords { get; }
-        int NumberOfMembersBeenTimedOut { get; }
-        int NumberOfMembersBeingBanned { get; }
+        int NumberOfTimesBannedWordBeenUsed { get; }
+        int NumberOfTimesEachCommandoBeenUsed { get; }
         int TotalStrikesInDatabase { get; }
         double AverageNumberOfStrikes { get; }
         double MedianNumberOfStrikes { get; }
-        string MostUsedCommand { get; }
+
+        ulong GuildId { get; }
+        Guild Guild { get; }
 
 
         double MedianStrikePerMember(List<IMember> members);

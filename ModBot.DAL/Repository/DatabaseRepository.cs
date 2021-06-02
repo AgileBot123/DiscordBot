@@ -1,4 +1,6 @@
-﻿using ModBot.DAL.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using ModBot.DAL.Data;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.interfaces;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
@@ -16,10 +18,7 @@ namespace ModBot.DAL.Repository
                                       IMemberRepository, IStatisticsRepository, IPunishmentRepository, 
                                       IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
     {
-        public DatabaseRepository()
-        {
-
-        }
+     
         private readonly ModBotContext _context;
         public DatabaseRepository(ModBotContext context)
         {
@@ -31,7 +30,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.Guilds.SingleAsync(x => x.Id == guildID);
+                return await _context.Guilds.AsNoTracking().SingleAsync(x => x.Id == guildID);
             }
             catch (Exception)
             {
@@ -43,7 +42,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                var test = await _context.Guilds.ToListAsync();
+                var test = await _context.Guilds.AsNoTracking().ToListAsync();
                 return test;
                 //var guilds = new List<IGuild>();
                 //foreach (var _guild in await _context.Guilds.ToListAsync())
@@ -59,9 +58,15 @@ namespace ModBot.DAL.Repository
             }
         }
 
-        public virtual bool CreateGuild(Guild guild)
+        public virtual bool CreateGuild(IGuild guild)
         {
-            _context.Guilds.Add(guild);
+            _context.Add(guild);
+            return _context.SaveChanges() > 0;
+        }
+
+        public virtual bool UpdateGuild(IGuild guild)
+        {
+            _context.Update(guild);
             return _context.SaveChanges() > 0;
         }
 
@@ -84,7 +89,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.Members.SingleAsync(x => x.Id == id);
+                return await _context.Members.AsNoTracking().SingleAsync(x => x.Id == id);
             }
             catch (Exception)
             {
@@ -97,7 +102,7 @@ namespace ModBot.DAL.Repository
             try
             {
                 var members = new List<IMember>();
-                foreach (var _member in await _context.Members.ToListAsync())
+                foreach (var _member in await _context.Members.AsNoTracking().ToListAsync())
                 {
                     var member = new Member(_member.Id,
                                               _member.Username,
@@ -133,18 +138,17 @@ namespace ModBot.DAL.Repository
             try
             {
                 var newList = new List<IStatistics>();
-                foreach (var item in await _context.Statistics.ToListAsync())
+                foreach (var item in await _context.Statistics.AsNoTracking().ToListAsync())
                 {
                     newList.Add(new Statistics(
                         item.Id,
                         item.NumberOfMembers,
                         item.NumberOfBannedWords,
-                        item.NumberOfMembersBeenTimedOut,
-                        item.NumberOfMembersBeingBanned,
+                        item.NumberOfTimesBannedWordBeenUsed,
+                        item.NumberOfTimesEachCommandoBeenUsed,
                         item.TotalStrikesInDatabase,
                         item.AverageNumberOfStrikes,
-                        item.MedianNumberOfStrikes,
-                        item.MostUsedCommand));
+                        item.MedianNumberOfStrikes));
                 }
                 return newList;
             }
@@ -154,9 +158,10 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
+
         public async Task<IStatistics> GetStatistics(int id)
         {
-            return await _context.Statistics.SingleAsync(x => x.Id == id);
+            return await _context.Statistics.AsNoTracking().SingleAsync(x => x.Id == id);
         }
         #endregion
 
@@ -190,12 +195,13 @@ namespace ModBot.DAL.Repository
             try
             {
                 var bannedWords = new List<IBannedWord>();
-                foreach (var word in await _context.BannedWords.ToListAsync())
+                foreach (var word in await _context.BannedWords.AsNoTracking().ToListAsync())
                 {
                     var bannedword = new BannedWord(
                                         word.Profanity, word.Strikes,
                                         word.Punishment,
-                                        word.BannedWordUsedCount);
+                                        word.BannedWordUsedCount,
+                                        word.GuildId);
                     bannedWords.Add(bannedword);
 
                 }
@@ -206,8 +212,19 @@ namespace ModBot.DAL.Repository
                 return null;
             }
         }
-        public virtual async Task<IBannedWord> GetBannedWord(string word) =>
-            await _context.BannedWords.SingleAsync(x => x.Profanity == word);
+        public virtual async Task<IBannedWord> GetBannedWord(ulong guildId, string word)
+        {
+            try
+            {
+                return await _context.BannedWords.AsNoTracking().Where(x => x.Profanity == word 
+                                && x.GuildId == guildId).SingleOrDefaultAsync();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
 
         public virtual bool UpdateBannedWord(IBannedWord updateBannedWord)
         {
@@ -254,7 +271,7 @@ namespace ModBot.DAL.Repository
             try
             {
                 var changeLogs = new List<IChangelog>();
-                foreach (var log in await _context.Changelogs.ToListAsync())
+                foreach (var log in await _context.Changelogs.AsNoTracking().ToListAsync())
                 {
                     var changelog = new Changelog(log.Id,
                                                    log.ChangedDate,
@@ -273,7 +290,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.Changelogs.SingleAsync(x => x.Id == id);
+                return await _context.Changelogs.AsNoTracking().SingleAsync(x => x.Id == id);
             }
             catch (Exception)
             {
@@ -320,36 +337,24 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
-        public virtual async Task<IEnumerable<IPunishmentsLevels>> GetAllPunishmentLevels()
+        public virtual async Task<IPunishmentsLevels> GetPunishmentLevels(ulong guildId)
         {
-
             try
             {
-                var punishments = new List<IPunishmentsLevels>();
-                foreach (var punishemntLevel in await _context.PunishmentsLevels.ToListAsync())
-                {
-                    var punishment = new PunishmentSettings(punishemntLevel.Id,
-                                                            punishemntLevel.TimeOutLevel,
-                                                            punishemntLevel.KickLevel,
-                                                            punishemntLevel.BanLevel,
-                                                            punishemntLevel.SpamMuteTime,
-                                                            punishemntLevel.StrikeMuteTime);
-                    punishments.Add(punishment);
-
-
-                }
-                return punishments;
+                var punishmentlevel = _context.PunishmentsLevels.AsNoTracking().Where(x => x.GuildId == guildId).FirstOrDefault();
+                
+                return punishmentlevel;
             }
             catch (Exception)
             {
                 return null;
             }
         }
-        public virtual async Task<IPunishmentsLevels> GetPunishmentSetting(int id)
+        public virtual async Task<IPunishmentsLevels> GetPunishmentSetting(ulong guilId,int id)
         {
             try
             {
-                return await _context.PunishmentsLevels.SingleAsync(x => x.Id == id);
+                return await _context.PunishmentsLevels.AsNoTracking().SingleAsync(x => x.Id == id && x.GuildId==guilId);
             }
             catch (Exception)
             {
@@ -389,7 +394,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.Punishments.ToListAsync();
+                return await _context.Punishments.AsNoTracking().ToListAsync();
             }
             catch (Exception)
             {
@@ -422,7 +427,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.MemberPunishments.ToListAsync();
+                return await _context.MemberPunishments.AsNoTracking().ToListAsync();
             }
             catch (Exception)
             {
@@ -450,7 +455,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.GuildPunishment.ToListAsync();
+                return await _context.GuildPunishment.AsNoTracking().ToListAsync();
             }
             catch (Exception)
             {
@@ -458,6 +463,13 @@ namespace ModBot.DAL.Repository
                 throw;
             }
         }
+
+
+
         #endregion
+
+
+
+
     }
 }

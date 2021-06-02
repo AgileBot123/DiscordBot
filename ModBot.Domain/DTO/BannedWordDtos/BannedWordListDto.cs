@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ModBot.Domain.DTO.BannedWordDto
+namespace ModBot.Domain.DTO.BannedWordDtos
 {
    public class BannedWordListDto
     {

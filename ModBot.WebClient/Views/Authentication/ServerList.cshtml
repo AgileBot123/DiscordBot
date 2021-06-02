@@ -1,34 +1,46 @@
 ﻿
-<h1>Logged in Discord user: @ViewBag.Test </h1>
 @model IEnumerable<GuildModel>
 @{
     var AddDiscordBot = "https://discord.com/oauth2/authorize?response_type=code&client_id=844535789882834955&scope=bot%20applications.commands&permissions=2425564350&redirect_uri=https%3A%2F%2Flocalhost%3A5001%2Fauthentication%2Finitializeguild&guild_id=";
 }
-<div class="p-5 text-center bg-light">
-    <h1 class="mb-3">Please select server</h1>
+<div>
+    <h1>Please select server</h1>
 </div>
 <style>
+    #example1 {
+        position: absolute;
+        display: flex;
+        width: 1000px;
+        border: 10px;
+        padding: 15px;
+        left: 23%;
+        background: #2F3136;
+        background-clip: border-box;
+    }
     img {
         float: left;
         width: 60px;
         height: 60px;
-        margin-right: 5px;
     }
 
     #Text {
+        color: white;
+        padding-left: 15px;
         width: 300px;
         height: 10px;
         float: right;
     }
 
     #meta {
+        width: 1000px;
         display: flex;
         align-items: center;
     }
 
     #Button {
+        position: relative;
         float: right;
-        padding-left: 650px;
+        left: 52%;
     }
     #order1 {
         order: 1;
@@ -37,19 +49,20 @@
         order: 2;
     }
 </style>
-<table>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    <div id="meta">
+<div id="example1">
+    <table>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td style="padding-bottom: 10px;">
+                        <div id="meta">
                             @if (item.HasBot == true)
                             {
                                 <!-- Do something here to display your items in table format (or whatever format you want with as many columns you want -->
                                 @if (item.Icon == null)
                                 {
-                                    <img src="~/images/Default.png" alt="@item.Name" />
+                                    <img src="~/images/MissingServer.png" alt="@item.Name" />
                                 }
                                 else
                                 {
@@ -59,31 +72,32 @@
                                     @item.Name
                                 </p>
                                 <div id="Button">
-                                    <a href=@AddDiscordBot@item.Id class="btn btn-success">Edit bot</a>
+                                    <a asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id" class="btn btn-success">Edit bot</a>
                                 </div>
-                            }
-                        else
-                        {
-                            @if (item.Icon == null)
-                            {
-                                <img src="~/images/Default.png" alt="@item.Name" />
                             }
                             else
                             {
-                                <img src=@item.Icon alt="@item.Name" />
+                                @if (item.Icon == null)
+                                {
+                                    <img src="~/images/MissingServer.png" alt="@item.Name" />
+                                }
+                                else
+                                {
+                                    <img src=@item.Icon alt="@item.Name" />
+                                }
+                                <p id="Text">
+                                    @item.Name
+                                </p>
+                                <div id="Button">
+                                    <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
+                                </div>
                             }
-                            <p id="Text">
-                                @item.Name
-                            </p>
-                            <div id="Button">
-                                <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
-                            </div>
-                        }
 
-                    </div>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                        </div>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 <p></p>

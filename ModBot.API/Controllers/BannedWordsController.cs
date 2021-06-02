@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ModBot.Domain.DTO.BannedWordDto;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Extensions.Routes;
 using ModBot.Domain.Interfaces.RepositoryInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -25,17 +25,17 @@ namespace ModBot.API.Controllers
 
         [HttpGet]
         [Route(Routes.BannedWords.GetBannedWord)]
-        public async Task<IActionResult> GetBannedWord(string word)
+        public async Task<IActionResult> GetBannedWord(BannedWordDto bannedWordDto)
         {
             try
             {
-                if(string.IsNullOrEmpty(word))
+                if(string.IsNullOrEmpty(bannedWordDto.Profanity))
                 {
                     logger.Info("Parameter is null", this.GetType().Name);
                     return BadRequest("word is null or empty");
                 }
 
-                var bannedWord = await _bannedWordService.GetBannedWord(word);
+                var bannedWord = await _bannedWordService.GetBannedWord(bannedWordDto.GuildId, bannedWordDto.Profanity);
 
                 if(bannedWord == null)
                 {
@@ -53,14 +53,14 @@ namespace ModBot.API.Controllers
             }    
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route(Routes.BannedWords.GetAllBannedWords)]
-        public async Task<IActionResult> GetAllBannedWords()
+        public async Task<IActionResult> GetAllBannedWords(BannedWordDto bannedWordDto)
         {
             try
             {
                 logger.Info("Trying to get all banned words", this.GetType().Name);
-                var result = await _bannedWordService.GetAllBannedWords();
+                var result = await _bannedWordService.GetAllBannedWords(bannedWordDto.GuildId);
 
                 logger.Info($" {result.Count()} Number of bannedwords was returned", this.GetType().Name);
                 return Ok(result);
@@ -106,22 +106,22 @@ namespace ModBot.API.Controllers
 
         [HttpDelete]
         [Route(Routes.BannedWords.DeleteBannedWord)]
-        public async Task<IActionResult> DeleteBannedWord(string word)
+        public async Task<IActionResult> DeleteBannedWord(BannedWordDto bannedWordDto)
         {
             try
             {
-                if (string.IsNullOrEmpty(word))
+                if (string.IsNullOrEmpty(bannedWordDto.Profanity))
                 {
                     logger.Info($"Parameter was null", this.GetType().Name);
                     return BadRequest("word cannot be empty or null");
                 }
 
      
-                var result = await  _bannedWordService.DeleteBannedWord(word);
+                var result = await  _bannedWordService.DeleteBannedWord(bannedWordDto.GuildId, bannedWordDto.Profanity);
 
                 if (result)
                 {
-                    logger.Info($"Word: {word} was deleted from database", this.GetType().Name);
+                    logger.Info($"Word: {bannedWordDto.Profanity} was deleted from database", this.GetType().Name);
                     return NoContent();
                 }
 
