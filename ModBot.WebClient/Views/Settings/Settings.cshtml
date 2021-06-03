@@ -8,97 +8,175 @@
     {
         height: 30px;
     }
+   h2,label{
+        color: white;
+    }
+    h1 {
+        background-color: #2F3136;
+        color:white;
+    }
+   
+
+    input[type=text], select {
+        height: 50px;
+        width: 130px;
+        background-color: #36393F;
+        padding: 12px 20px;
+      
+        border-radius: 1em;
+        box-sizing: border-box;
+    }
+    
+
+    .startPage {
+        background-color: #2F3136;
+        height: 800px;
+        width: 1000px;
+        border-radius: 1em;
+        padding: 1em;
+        text-align: center;
+        font-size: 25px;
+        align-items: center;
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        margin-right: -45%;
+        transform: translate(-40%, -50%)
+    }
+    .button {
+        background-color: #44877f;
+        border: none;
+        color: white;
+        border-radius: 1em;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+    .button2 {
+        background-color: #824444;
+        border: none;
+        color: white;
+        border-radius: 1em;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        margin: 4px 2px;
+        cursor: pointer;
+    }
+
+
 </style>
 
-<table class="table">
+<div class="startPage">
+    
+        <table class="table">
 
-    <tr>
-        <th>
-            <h1>Settings</h1>
-        </th>
-    </tr>
-    <tr>
-        <th>
-            <button value="Save Settings">Save Settings</button>
-        </th>
-    </tr>
-    <tr>
-        <th>
-            Mute Level<input value="@Model.TimeOutLevel">
-        </th>
-        <th>
-            Bot Prefix <input value="!">
-        </th>
-    </tr>
-    <tr>
-        <th>
-            Kick Level<input value="@Model.KickLevel">
-        </th>
-        <th>
-            Spam Mute Timer <input value="@Model.SpamMuteTime">
-        </th>
-    </tr>
-    <tr>
-        <th>
-            Ban Level<input value="@Model.BanLevel">
-        </th>
-        <th>
-            Strike Mute Timer <input value="@Model.StrikeMuteTime">
-        </th>
-    </tr>
-</table>
+            <tr>
+                <th>
+                     <h1>Settings</h1>
+                </th>
+            </tr>
+            <tr>
 
-<table class="table">
-    <tr>
-        <th>
-            <h2>Profanity</h2>
-        </th>
-        <th>
-            <h2>Strikes</h2>
-        </th>
-        <th>
-            <h2>Punishment</h2>
-        </th>
-    </tr>
-    <form>
+                <th>
+                    <button class="button" value="Save Settings">Save Settings</button>
+                </th>
+
+            </tr>
+            <tr>
+                <th>
+                    <label for="Mute">Mute Level</label>
+                    <input type="text" id="Mute" value="@Model.TimeOutLevel">
+                </th>
+                <th>
+                    <label for="Bot">Bot Prefix</label>
+                     <input type="text" id="Bot" value="!">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label for="Kick">Kick Level</label>
+                    <input type="text" id="Kick" value="@Model.KickLevel">
+                </th>
+                <th>
+                    <label for="Spam">Spam Mute Timer</label>
+                     <input type="text" id="Spam" value="@Model.SpamMuteTime">
+                </th>
+            </tr>
+            <tr>
+                <th>
+                    <label for="Ban">Ban Level</label>
+                    <input type="text" id="Ban" value="@Model.BanLevel">
+                </th>
+                <th>
+                    <label for="Strike">Strike Mute Timer</label>
+                     <input type="text" id="Strike" value="@Model.StrikeMuteTime">
+                </th>
+            </tr>
+
+        </table>
+   
+
+    <table class="table">
         <tr>
             <th>
-                <input value="" type="text" size="22">
+                <h2>Profanity</h2>
             </th>
             <th>
-                <input value="" type="text" size="10">
+                <h2>Strikes</h2>
             </th>
             <th>
-                <select size="15" id="select">
-                    <option value="None">None</option>
-                    <option value="Mute">Mute</option>
-                    <option value="Kick">Kick</option>
-                    <option value="Ban">Ban</option>
-                </select>
-            </th>
-            <th>
-                <input value="Add" type="button" size="10">
+                <h2>Punishment</h2>
             </th>
         </tr>
-    </form>
-</table>
-<table>
-    <tbody>
-        @foreach (var item in Model.BannedWordList) {
-        <tr>
-            <td>
-                <input value="@item.Profanity">
-            </td>
-            <td>
-                <input value="@item.Strikes">
-            </td>
-            <td>
-                <input value="@item.Punishment">
-            </td>
-            <th>
-                <input value="Remove" type="button" size="15">
-            </th>
-        </tr>
-}
-    </tbody>
-</table>
+        <form>
+            <tr>
+                <th>
+                    <input value="" type="text" size="22">
+                </th>
+                <th>
+                    <input value="" type="text" size="10">
+                </th>
+                <th>
+                    <select size="15"  id="select">
+                        <option value="None">None</option>
+                        <option value="Mute">Mute</option>
+                        <option value="Kick">Kick</option>
+                        <option value="Ban">Ban</option>
+                    </select>
+                </th>
+                <th>
+                    <input class="button" value="Add" type="button" size="10">
+                </th>
+            </tr>
+        </form>
+    </table>
+    <table>
+        <tbody>
+            @foreach (var item in Model.BannedWordList)
+            {
+                <tr>
+                    <td>
+                        <input value="@item.Profanity">
+                    </td>
+                    <td>
+                        <input value="@item.Strikes">
+                    </td>
+                    <td>
+                        <input value="@item.Punishment">
+                    </td>
+                    <th>
+                        <input value="Remove" type="button" size="15">
+                    </th>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
