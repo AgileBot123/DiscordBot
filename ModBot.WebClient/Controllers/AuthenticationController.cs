@@ -75,12 +75,18 @@ namespace ModBot.WebClient.Controllers
             Session.Set(HttpContext.Session, "serverlist", servers);
             return View("ServerList", servers);
         }
+
+        [Authorize(AuthenticationSchemes = "Discord")]
         public IActionResult ServerList()
         {
             HandleCookie("ServerIsSelected", "false");
             if (Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist") != null)
             {
                 var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
+                foreach(var server in servers)
+                {
+                    server.HasBot = hasbot(server.Id);
+                }
                 return View("ServerList", servers);
             }
             else
@@ -97,12 +103,53 @@ namespace ModBot.WebClient.Controllers
             return RedirectToAction("Start", "Home");
         }
 
+        [Authorize(AuthenticationSchemes = "Discord")]
         public IActionResult Dashboard()
         {
             HandleCookie("ServerIsSelected", "true");
             return View();
         }
 
+        [Authorize(AuthenticationSchemes = "Discord")]
+        public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
+        {
+            #region cache
+            var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
+            servers = servers.OrderBy(x => x.HasBot == false).ToList();
+            Session.Set(HttpContext.Session, "serverlist", servers);
+
+            #endregion
+
+            HandleCookie("ServerIsSelected", "true");
+
+            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
+
+            var guild = GetGuild(guildId);
+            if (guild == null)
+            {
+                await CreateGuild(guildId);
+                var punishmentSettings = GetpunishmentsSettings(guildId);
+                if (punishmentSettings == null)
+                    return await CreatePunishmentSettings(guildId);
+                else
+                    return RedirectToAction("Dashboard");
+            }
+            else if (guild.HasBot == false)
+                return await SetHasBotTrueInGuild(guildId);
+
+            else
+                return RedirectToAction("Dashboard");
+        }
+
+        public IActionResult EditGuild(ulong guildId) // is this even used?
+        {
+            HandleCookie("ServerIsSelected", "true");
+            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
+            return RedirectToAction("Dashboard");
+        }
+
+
+        #region Functions
         public async Task<GuildDto> GetGuildDto(ulong guildId)
         {
             DiscordRestClient discordRestClient = new DiscordRestClient();
@@ -130,50 +177,6 @@ namespace ModBot.WebClient.Controllers
             return guildDto;
         }
 
-        public IActionResult EditGuild(ulong guildId)
-        {
-            HandleCookie("ServerIsSelected", "true");
-            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
-            return RedirectToAction("Dashboard");
-        }
-        
-        public async Task<IActionResult> Initializeguild([FromQuery(Name = "Guild_Id")] ulong guildId)
-        {
-            #region cache
-            var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
-            foreach (var server in servers)
-            {
-                if (server.Id == guildId)
-                {
-                    server.HasBot = true;
-                    break;
-                }
-            }
-            servers = servers.OrderBy(x => x.HasBot == false).ToList();
-            Session.Set(HttpContext.Session, "serverlist", servers);
-
-            #endregion
-
-            HandleCookie("ServerIsSelected", "true");
-
-            Session.Set<ulong>(HttpContext.Session, "guild", guildId);
-
-            var guild = GetGuild(guildId);
-            if (guild == null)
-            {
-                await CreateGuild(guildId);
-                var punishmentSettings = GetpunishmentsSettings(guildId);
-                if(punishmentSettings == null)                
-                    return await CreatePunishmentSettings(guildId);
-                else
-                    return RedirectToAction("Dashboard");
-            }
-            else if (guild.HasBot == false)
-                return await SetHasBotTrueInGuild(guildId);
-
-            else
-                return RedirectToAction("Dashboard");
-        }
 
         [HttpPost]
         public PunishmentSettingsDto GetpunishmentsSettings(ulong guildId)
@@ -299,5 +302,7 @@ namespace ModBot.WebClient.Controllers
 
                 });
         }
+
+        #endregion
     }
 }
