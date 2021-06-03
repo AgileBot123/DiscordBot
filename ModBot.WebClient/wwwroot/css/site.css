@@ -12,6 +12,7 @@ for details on configuring this project to bundle and minify static web assets. 
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.5s;
+    font-family: "Consolas";
 }
 
 nav {
@@ -31,6 +32,7 @@ h1 {
     color: white;
     text-align: center;
     font-size: 40px;
+    font-family: "Consolas";
 }
 
 h3 {
@@ -44,12 +46,14 @@ p {
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
+    font-family: "Consolas";
 }
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+        font-family: "Consolas";
+    }
 }
 
 .border-top {
@@ -88,6 +92,7 @@ row {
     background-color: darkgray;
     height: 500px;
     width: 500px;
+    font-family: "Consolas";
     border-radius: 1em;
     padding: 1em;
     text-align: center;
@@ -97,7 +102,7 @@ row {
     top: 50%;
     left: 55%;
     margin-right: -45%;
-    transform: translate(-50%, -50%)   
+    transform: translate(-50%, -50%)
 }
 
 .startPage h5 {
