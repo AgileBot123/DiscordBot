@@ -10,8 +10,8 @@ using ModBot.DAL.Data;
 namespace ModBot.DAL.Migrations
 {
     [DbContext(typeof(ModBotContext))]
-    [Migration("20210602185920_Changed a few")]
-    partial class Changedafew
+    [Migration("20210603084509_Initial commit")]
+    partial class Initialcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

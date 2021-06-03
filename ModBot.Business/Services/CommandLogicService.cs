@@ -123,9 +123,9 @@ namespace ModBot.Business.Services
 
         public async Task<bool> CheckBannedWordsFromFile(string message, ulong guildId)
         {
-            var allBannedWords = await _databaseRepository.GetAllBannedWords();
+           //var allBannedWords = await _databaseRepository.GetAllBannedWords();
 
-          //var allBannedWords = FileSaving.LoadFromFile<BannedWordForFileDto>();
+           var allBannedWords = FileSaving.LoadFromFile<BannedWordForFileDto>();
 
             var specificWord = allBannedWords.Any(x => x.Profanity.ToLower() == message.ToLower() && x.GuildId == guildId);
 

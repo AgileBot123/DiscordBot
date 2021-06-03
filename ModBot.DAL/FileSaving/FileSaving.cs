@@ -11,7 +11,7 @@ namespace ModBot.DAL.FileSaving
     public static class FileSaving
     {
         public static string path = "Words";
-        public static string fileName = "Words\\BannedWords.txt";
+        public static string fileName = "BannedWords.txt";
 
 
 
@@ -23,9 +23,12 @@ namespace ModBot.DAL.FileSaving
         public static List<T> LoadFromFile<T>()
         {
             CheckFileStatus();
-            using (StreamReader file = File.OpenText(fileName))
+
+            var asm = Assembly.GetExecutingAssembly();
+
+            using (Stream stream = asm.GetManifestResourceStream($"ModBot.DAL.Resources.{path + "\\" + fileName}"))            
+            using (StreamReader file = new StreamReader(stream))
             {
-                
                 var fetchedValue = JsonConvert.DeserializeObject<List<T>>(file.ReadToEnd());
                 if (fetchedValue == null)
                 {
@@ -33,6 +36,7 @@ namespace ModBot.DAL.FileSaving
                 }
                 return fetchedValue;
             }
+                 
         }
 
 
