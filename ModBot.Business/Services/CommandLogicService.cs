@@ -1,4 +1,5 @@
-﻿using Discord.Commands;
+﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using ModBot.DAL.FileSaving;
 using ModBot.DAL.Repository;
@@ -11,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
@@ -20,6 +22,7 @@ namespace ModBot.Business.Services
     {
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
+        public static List<SocketGuildUser> MutedMemeberList = new List<SocketGuildUser>();
 
 
 
@@ -120,6 +123,81 @@ namespace ModBot.Business.Services
             }
         }
 
+        public async Task<ulong> CreateMuteRole(SocketGuild guild)
+        {
+            bool rExist = false;
+            ulong roleID = 0;
+            foreach (var gRole in guild.Roles)
+            {
+                if (gRole.Name.Equals("Muted"))
+                {
+                    rExist = true;
+                    roleID = gRole.Id;
+                    break;
+                }
+            }
+
+            if (!rExist)
+            {
+                //if the roles doesnt exist u create it and set the perms of the channels
+                var mRole = await guild.CreateRoleAsync(
+                 "Muted", Discord.GuildPermissions.None,
+                  Discord.Color.DarkTeal/*what ever color*/, false, null
+                  );
+                try
+                {
+                    foreach (var channel in guild.Channels)
+                    {
+                        await channel.AddPermissionOverwriteAsync(mRole,
+                        OverwritePermissions.DenyAll(channel).Modify(
+                        viewChannel: PermValue.Allow, readMessageHistory: PermValue.Allow)
+                        );
+                    }
+                }
+                catch (Exception e)
+                {
+                    //handel error if occures
+                }
+            }
+            return roleID;
+        }
+
+        public async Task MuteMember(SocketGuildUser user, int time, ulong roleID)
+        {
+                var role = user.Guild.GetRole(roleID);
+                await user.AddRoleAsync(role);
+                await MutedList(user, time, role);
+        }
+        private async Task<string> MutedList(SocketGuildUser user, int time, SocketRole role)
+        {
+            time *= 1000;
+
+            if(!MutedMemeberList.Contains(user))
+            {
+                MutedMemeberList.Add(user);
+
+                var MuteCooldown = Task.Run(async delegate
+                {
+                    await Task .Delay(time);
+                    await user.RemoveRoleAsync(role);
+                    MutedMemeberList.Remove(user);
+
+                });
+                try
+                {
+                    MuteCooldown.GetAwaiter();
+                }
+                catch(Exception ex)
+                {
+                    //throw new Exception(ex.ToString());
+                }
+            }
+            else
+            {
+                return $"user already muted";
+            }
+            return null;
+        }
 
         public async Task<bool> CheckBannedWordsFromFile(string message, ulong guildId)
         {

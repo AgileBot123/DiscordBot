@@ -83,10 +83,11 @@ namespace ModBot.WebClient.Controllers
             if (Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist") != null)
             {
                 var servers = Session.Get<IList<GuildModel>>(HttpContext.Session, "serverlist");
-                foreach(var server in servers)
+                foreach (var server in servers)
                 {
                     server.HasBot = hasbot(server.Id);
                 }
+                servers = servers.OrderBy(x => x.HasBot == false).ToList();
                 return View("ServerList", servers);
             }
             else

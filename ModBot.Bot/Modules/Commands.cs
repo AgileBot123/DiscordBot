@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
@@ -26,7 +27,7 @@ namespace ModBot.Bot.Modules
             if (response == null)
                 await ReplyAsync("pong");
             else
-                await ReplyAsync(response);          
+                await ReplyAsync(response);
         }
 
         private async Task AddMemberToDatabase(IUser user)
@@ -34,7 +35,7 @@ namespace ModBot.Bot.Modules
             await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), "test@gmail.com", user.IsBot, Context.Guild.Id);
         }
 
-        [Command("UserStrike")]      
+        [Command("UserStrike")]
         public async Task UserStrike(SocketGuildUser inputedUser = default)
         {
             var response = _commandLogic.BotResponseCooldown(Context);
@@ -77,7 +78,17 @@ namespace ModBot.Bot.Modules
 
         public async Task AddStrike()
         {
-        
+
         }
+
+        [Command("Mute")]
+        [RequireUserPermission(GuildPermission.KickMembers)]
+        [RequireBotPermission(GuildPermission.KickMembers)]
+        public async Task Mute (SocketGuildUser user, int time)
+        {
+            var roleId = await _commandLogic.CreateMuteRole(Context.Guild);
+            await _commandLogic.MuteMember(user, time, roleId);
+        }
+
     }
 }
