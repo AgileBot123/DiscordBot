@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModBot.DAL.Migrations
 {
-    public partial class InitialCommit : Migration
+    public partial class Initialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -68,6 +68,8 @@ namespace ModBot.DAL.Migrations
                 name: "BannedWord",
                 columns: table => new
                 {
+                    id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Profanity = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Strikes = table.Column<int>(type: "int", nullable: false),
                     Punishment = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -76,6 +78,7 @@ namespace ModBot.DAL.Migrations
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_BannedWord", x => x.id);
                     table.ForeignKey(
                         name: "FK_BannedWord_Guild_GuildId",
                         column: x => x.GuildId,

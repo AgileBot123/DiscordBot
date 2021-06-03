@@ -29,17 +29,7 @@ namespace ModBot.Business.Services
                 createBannedWord.GuildId);
 
 
-            var getAllBannedWordsFromFile = FileSaving.LoadFromFile<BannedWordForFileDto>();
-
-            var createBannedWordForFile = new BannedWordForFileDto
-            {
-                Profanity = createBannedWord.Profanity,
-                GuildId = createBannedWord.GuildId
-            };
-
-            getAllBannedWordsFromFile.Add(createBannedWordForFile);
-
-            FileSaving.SaveToFile(getAllBannedWordsFromFile);
+    
 
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
@@ -75,6 +65,7 @@ namespace ModBot.Business.Services
             try
             {
                 var bannedWordList = await _databaseRepository.GetAllBannedWords();
+                var getAllBannedWordsFromFile = FileSaving.LoadFromFile<BannedWordForFileDto>();
                 var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
                 BannedWord changedBannedWord = null;
 
@@ -90,6 +81,10 @@ namespace ModBot.Business.Services
                                                      updatedBannedWord.GuildId);
 
 
+                        getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
+
+                        FileSaving.SaveToFile(getAllBannedWordsFromFile);
+
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
                     }
                     else
@@ -98,6 +93,12 @@ namespace ModBot.Business.Services
                                                      updatedBannedWord.Strikes,
                                                      updatedBannedWord.Punishment, 
                                                      updatedBannedWord.GuildId);
+
+                       
+
+                       getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
+
+                        FileSaving.SaveToFile(getAllBannedWordsFromFile);
 
                         _databaseRepository.CreateBannedWord(changedBannedWord);
                     }
