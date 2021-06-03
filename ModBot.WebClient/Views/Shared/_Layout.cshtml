@@ -12,44 +12,47 @@
 <body>
     <header>
 
-       <div class="navbarLeft">
-        <nav>
-            @ViewBag.Test
-            <br />
-
-            <input type="image" src="~/images/Icon.png" name="Icon" width="100" height="100" alt="Home" onclick="location.href='@Url.Action("Start", "Home")'" />
-
-            <br />
-            @if (User.Identity.IsAuthenticated)
-            {
-
-                <button  id="layoutButton" class="btn btn-secondary"  onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
+        <div class="navbarLeft">
+            <nav>
+                @ViewBag.Test
                 <br />
-                <button id="layoutButton" class="btn btn-secondary"  onclick="location.href='@Url.Action("ServerList", "Authentication")'">Servers</button>
 
-            }
-
-            @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
-            {
+                <input type="image" src="~/images/Icon.png" name="Icon" width="100" height="100" alt="Home" onclick="location.href='@Url.Action("Start", "Home")'" />
 
                 <br />
-                <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
+                @if (User.Identity.IsAuthenticated)
+                {
 
-            }
-        </nav>
+                    <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
+                    <br />
+                    <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'">Servers</button>
+
+                }
+
+                @if ((Context.Request.Cookies["ServerIsSelected"]) == "true")
+                {
+
+                    <br />
+                    <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
+
+                }
+            </nav>
 
     </header>
 
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            
         </main>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    
     @RenderSection("Scripts", required: false)
+    
 
 </body>
 </html>
