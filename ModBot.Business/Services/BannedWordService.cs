@@ -1,4 +1,5 @@
-﻿using ModBot.DAL.Repository;
+﻿using ModBot.DAL.FileSaving;
+using ModBot.DAL.Repository;
 using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces.ModelsInterfaces;
 using ModBot.Domain.Interfaces.ServiceInterface;
@@ -24,8 +25,21 @@ namespace ModBot.Business.Services
             var createdBannedWord = new BannedWord(
                 word: createBannedWord.Profanity,
                 strikes: createBannedWord.Strikes,
-                punishment: createBannedWord.Punishment
-                , createBannedWord.GuildId);
+                punishment: createBannedWord.Punishment, 
+                createBannedWord.GuildId);
+
+
+            var getAllBannedWordsFromFile = FileSaving.LoadFromFile<BannedWordForFileDto>();
+
+            var createBannedWordForFile = new BannedWordForFileDto
+            {
+                Profanity = createBannedWord.Profanity,
+                GuildId = createBannedWord.GuildId
+            };
+
+            getAllBannedWordsFromFile.Add(createBannedWordForFile);
+
+            FileSaving.SaveToFile(getAllBannedWordsFromFile);
 
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
@@ -68,11 +82,13 @@ namespace ModBot.Business.Services
                 {
                     if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Profanity)))
                     {
+
                         changedBannedWord = new BannedWord(                                                   
                                                      updatedBannedWord.Profanity,
                                                      updatedBannedWord.Strikes,
                                                      updatedBannedWord.Punishment,
                                                      updatedBannedWord.GuildId);
+
 
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
                     }
@@ -96,7 +112,9 @@ namespace ModBot.Business.Services
                                                      bannedWord.Punishment,
                                                      bannedWord.GuildId);
 
-                       _databaseRepository.DeleteBannedWord(changedBannedWord);
+
+
+                        _databaseRepository.DeleteBannedWord(changedBannedWord);
                     }
                 }
 
@@ -107,5 +125,16 @@ namespace ModBot.Business.Services
                 return false;
             }
         }
+
+
+        private BannedWordForFileDto InformationForFile(string profanity, ulong guildId)
+        {
+            return new BannedWordForFileDto
+            {
+                Profanity = profanity,
+                GuildId = guildId
+            };
+        }
+
     }
 }

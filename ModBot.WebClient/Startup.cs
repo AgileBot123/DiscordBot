@@ -62,7 +62,7 @@ namespace ModBot.WebClient
                         options.ClaimActions.MapJsonKey(Claims.AvatarHash, "avatar");
                         options.ClaimActions.MapJsonKey(Claims.Discriminator, "discriminator");
 
-                        options.SaveTokens = true; // ???? wat this, how long save yes?
+                        options.SaveTokens = true;
                         options.Events = new OAuthEvents
                         {
                             OnCreatingTicket = async context =>

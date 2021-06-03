@@ -7,6 +7,7 @@ namespace ModBot.Domain.Models
 {
     public class BannedWord : IBannedWord
     {
+        private int _id;
         private readonly string _profanity;
         private readonly int _strikes;
         private readonly string _punishment;
@@ -43,7 +44,22 @@ namespace ModBot.Domain.Models
 
         public Guild Guild { get; private set; }
 
+        public int id
+        {
+            get { return _id; }
+            private set { }
+        }
+
+
         public BannedWord(){}
+
+
+        public BannedWord(string word, ulong guildId)
+        {
+            this._profanity = word;
+            this._guildId = guildId;
+        }
+
 
         public BannedWord(string word, string punishment, int strikes)
         {
