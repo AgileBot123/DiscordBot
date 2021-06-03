@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModBot.Domain.DTO;
 using ModBot.Domain.DTO.BannedWordDtos;
@@ -29,26 +30,31 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
-
+        [Authorize(AuthenticationSchemes = "Discord")]
         [HttpGet]
         public async Task<IActionResult> Settings()
         {
-            HandleCookie("ServerIsSelected", "true");
-
-            var  allBannedWords = await GetAllBannedWord();
-            var PunishmentLevels = await GetPunishmentLevels();
-
-            var settings = new SettingsDTO()
+            var guildId = Session.Get<ulong>(HttpContext.Session, "guild");
+            if (guildId != 0)
             {
-                BannedWordList = allBannedWords,
-                TimeOutLevel = PunishmentLevels.TimeOutLevel,
-                KickLevel = PunishmentLevels.KickLevel,
-                BanLevel = PunishmentLevels.BanLevel,
-                SpamMuteTime = PunishmentLevels.SpamMuteTime,
-                StrikeMuteTime = PunishmentLevels.StrikeMuteTime
-            };
+                HandleCookie("ServerIsSelected", "true");
+                var allBannedWords = await GetAllBannedWord(guildId);
+                var PunishmentLevels = await GetPunishmentLevels(guildId);
 
-            return View(settings);
+                var settings = new SettingsDTO()
+                {
+                    BannedWordList = allBannedWords,
+                    TimeOutLevel = PunishmentLevels.TimeOutLevel,
+                    KickLevel = PunishmentLevels.KickLevel,
+                    BanLevel = PunishmentLevels.BanLevel,
+                    SpamMuteTime = PunishmentLevels.SpamMuteTime,
+                    StrikeMuteTime = PunishmentLevels.StrikeMuteTime
+                };
+
+                return View(settings);
+            }
+            else 
+                return RedirectToAction("ServerList", "Authentication");
         }
 
         //[HttpPost]
@@ -85,12 +91,11 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
         [HttpPost]
-        public async Task<PunishmentSettingsDto> GetPunishmentLevels()
+        public async Task<PunishmentSettingsDto> GetPunishmentLevels(ulong guildId)
         {
 
             using (HttpClient client = new HttpClient())
             {
-                var guildId = Session.Get<ulong>(HttpContext.Session, "guild");
                 var punishmentSettings = new PunishmentSettingsDto() { GuildId = guildId };
                 var JsonString = JsonConvert.SerializeObject(punishmentSettings);
                 var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
@@ -193,12 +198,11 @@ namespace ModBot.WebClient.Controllers
         }
         
         [HttpPost]
-        public async Task<List<BannedWordDto>> GetAllBannedWord()
+        public async Task<List<BannedWordDto>> GetAllBannedWord(ulong guildId)
         {
             var bannedWords = new List<BannedWordDto>();
             using(HttpClient client = new HttpClient())
             {
-                var guildId = Session.Get<ulong>(HttpContext.Session, "guild");
                 var bannedwordDto = new BannedWordDto() { GuildId = guildId };
                 var JsonString = JsonConvert.SerializeObject(bannedwordDto);
                 var stringContent = new StringContent(JsonString, Encoding.UTF8, "application/json");
