@@ -17,5 +17,7 @@ namespace ModBot.Domain.Interfaces
         void AddStrikeToUser(int amount, ulong UserId, ulong GuildId);
         string BotResponseCooldown(SocketCommandContext context);
         Task AddMemberToDatabase(ulong UserId, string username, string avatar, string email, bool isBot, ulong guildId);
+        Task MuteMember(SocketGuildUser user, int time, ulong roleID);
+        Task<ulong> CreateMuteRole(SocketGuild guild);
     }
 }
