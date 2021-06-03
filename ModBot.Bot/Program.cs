@@ -15,6 +15,7 @@ using System.Linq;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using ModBot.Domain.Models;
+using ModBot.Bot.Handler;
 
 namespace ChatFilterBot
 {
@@ -26,9 +27,14 @@ namespace ChatFilterBot
         private DiscordSocketClient _client;
         private CommandService _commandsServices;
         private IServiceProvider _services;
+        private BotHandler _botHandler; 
+
+   
 
         public async Task RunBotAsync()
         {
+            _botHandler = new BotHandler();
+
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 
@@ -40,7 +46,7 @@ namespace ChatFilterBot
                  .AddSingleton(_commandsServices)
                  .BuildServiceProvider();
 
-            string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.YFxf6PAcFRZws3hbx8YYE8KuLWs";
+            string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.roVdg5b6DaNLn6PF_ULep5UWOK4";
 
             _client.Log += _client_Log;
             await RegisterComamndsAsync();
@@ -102,6 +108,11 @@ namespace ChatFilterBot
         public async Task RegisterComamndsAsync()
         {
             _client.MessageReceived += HandleCommandsAsync;
+            _client.MessageReceived += _botHandler.CheckIfMessagesIsBannedWord;
+
+
+
+
             await _commandsServices.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
             _client.LeftGuild += LeftGuild;
             _client.JoinedGuild += JoinedGuild;
@@ -120,6 +131,7 @@ namespace ChatFilterBot
                 if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
               
             }
-        }
+        }     
+
     }
 }

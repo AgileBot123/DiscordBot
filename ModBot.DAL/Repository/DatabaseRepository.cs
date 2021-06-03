@@ -170,9 +170,10 @@ namespace ModBot.DAL.Repository
         {
             try
             {
+                _context.Add(createBannedWord);
                 return _context.SaveChanges() > 0;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 return false;
             }

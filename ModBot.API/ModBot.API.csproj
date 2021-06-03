@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <Folder Include="log\" />
+    <Folder Include="Words\" />
   </ItemGroup>
 
 

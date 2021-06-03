@@ -18,12 +18,12 @@ namespace ModBot.Business.Services
 
         public void Error(Exception ex, string className)
         {
-            _logger.Error(ex);
+            _logger.Error(ex, className);
         }
 
         public void Info(string info, string className)
         {
-            _logger.Info(info);
+            _logger.Info(info, className);
         }
     }
 }
