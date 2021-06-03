@@ -10,11 +10,14 @@
     }
     h2, label {
         color: white;
-        font-family: "Consolas";
+       
     }
     h1 {
         background-color: #2F3136;
         color:white;
+    }
+    * {
+        font-family: "Consolas";
     }
     
     input[type=text], select {
@@ -27,7 +30,7 @@
     }
     
 
-    .startPage {
+    #startPage {
         background-color: #2F3136;
         height: 800px;
         width: 1000px;
@@ -38,7 +41,7 @@
         align-items: center;
         position: absolute;
         top: 50%;
-        left: 55%;
+        left: 45%;
         margin-right: -45%;
         transform: translate(-40%, -50%)
     }
@@ -71,6 +74,7 @@
 
 
 </style>
+
 
 <div id="HeaderText">
     <h1>Settings</h1>
@@ -115,6 +119,7 @@
         <h2 id="textPunishment">Punishment</h2>
    </div>
     <div>
+
         <form>
             <input id="inputProfanity" value="" type="text" size="22">
 
