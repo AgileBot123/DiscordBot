@@ -72,96 +72,82 @@
 
 </style>
 
-<div>
+<div id="HeaderText">
     <h1>Settings</h1>
 </div>
 
 <div class="startPage">
-    
-        <table class="table">
-            <tr>
-                <th>
-                    <label for="Mute">Mute Level</label>
-                    <input type="text" id="Mute" value="@Model.TimeOutLevel">
-                </th>
-                <th>
-                    <button class="button" value="Save Settings">Save Settings</button>
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <label for="Kick">Kick Level</label>
-                    <input type="text" id="Kick" value="@Model.KickLevel">
-                </th>
-                <th>
-                    <label for="Spam">Spam Mute Timer</label>
-                     <input type="text" id="Spam" value="@Model.SpamMuteTime">
-                </th>
-            </tr>
-            <tr>
-                <th>
-                    <label for="Ban">Ban Level</label>
-                    <input type="text" id="Ban" value="@Model.BanLevel">
-                </th>
-                <th>
-                    <label for="Strike">Strike Mute Timer</label>
-                     <input type="text" id="Strike" value="@Model.StrikeMuteTime">
-                </th>
-            </tr>
 
-        </table>
-   
+    <div id="row1">
 
-    <table class="table">
-        <tr>
-            <th>
-                <h2>Profanity</h2>
-            </th>
-            <th>
-                <h2>Strikes</h2>
-            </th>
-            <th>
-                <h2>Punishment</h2>
-            </th>
-        </tr>
+        <div id="row2item1">
+            <label for="Mute">Mute Level</label>
+            <input type="text" id="Mute" value="@Model.TimeOutLevel">
+        </div>
+        <div id="row2item2">
+            <label for="Kick">Kick Level</label>
+            <input type="text" id="Kick" value="@Model.KickLevel">
+        </div>      
+        <div id="row2item1">
+            <label for="Ban">Ban Level</label>
+            <input type="text" id="Ban" value="@Model.BanLevel">
+        </div>
+    </div>
+    <div id="row2">
+        <div id="row2item1">
+            <button class="button" value="Save Settings">Save Settings</button>
+        </div>
+        <div id="row2item2">
+            <label for="Spam">Spam Mute Timer</label>
+            <input type="text" id="Spam" value="@Model.SpamMuteTime">
+        </div>
+        <div id="row2item3">
+            <label for="Strike">Strike Mute Timer</label>
+            <input type="text" id="Strike" value="@Model.StrikeMuteTime">
+        </div>
+    </div>
+
+    <div>
+        <h2 id="textProfanity">Profanity</h2>
+
+        <h2 id="textStrikes">Strikes</h2>
+
+        <h2 id="textPunishment">Punishment</h2>
+   </div>
+    <div>
         <form>
-            <tr>
-                <th>
-                    <input value="" type="text" size="22">
-                </th>
-                <th>
-                    <input value="" type="text" size="10">
-                </th>
-                <th>
-                    <select size="15"  id="select">
-                        <option value="None">None</option>
-                        <option value="Mute">Mute</option>
-                        <option value="Kick">Kick</option>
-                        <option value="Ban">Ban</option>
-                    </select>
-                </th>
-                <th>
-                    <input class="button" value="Add" type="button" size="10">
-                </th>
-            </tr>
+            <input id="inputProfanity" value="" type="text" size="22">
+
+            <input id="inputStrikes" value="" type="text" size="10">
+
+            <select id="inputPunishment" size="15" id="select">
+                <option value="None">None</option>
+                <option value="Mute">Mute</option>
+                <option value="Kick">Kick</option>
+                <option value="Ban">Ban</option>
+            </select>
+
+            <input input="add" class="button" value="Add" type="button" size="10">
         </form>
-    </table>
-    <table>
+    </div>
+
+
+    <table id="list">
         <tbody>
             @foreach (var item in Model.BannedWordList)
             {
                 <tr>
                     <td>
-                        <input value="@item.Profanity">
+                        <input id="listProfanity" value="@item.Profanity">
                     </td>
                     <td>
-                        <input value="@item.Strikes">
+                        <input id="listStrikes" value="@item.Strikes">
                     </td>
                     <td>
-                        <input value="@item.Punishment">
+                        <input id="listPunishment" value="@item.Punishment">
                     </td>
                     <th>
-                        <input value="Remove" type="button" size="15">
+                        <input id="remove" value="Remove" type="button" size="15">
                     </th>
                 </tr>
             }
