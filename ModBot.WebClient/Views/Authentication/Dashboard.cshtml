@@ -10,38 +10,58 @@
     p {
         background: #2F3136;
         color: white;
-        border-block-color: #2F3136
+        border-block-color: #2F3136;
+        min-height: calc(100% - 15px);
+        margin-bottom: 1px;
+        margin-top: 1px;
+        max-height: 170px;
+        
     }
 
     .jumbotron {
-        padding: 15px;
+        padding: 10px;
         border-radius: 25px;
         background: #2F3136;
-        width: 330px;
-        height 10px;
-        border-inline-color: #2F3136
+        /*width: 330px;
+        height 10px;*/
+        border-inline-color: #2F3136;
+        height: calc(100% - 15px);
+        margin: auto;
     }
 
     .card {
         background: #2F3136;
         border-block-color: #2F3136;
         border-inline-color: #2F3136;
-        margin: 2rem;
-        width: 220px;
-        height 10px;
-        margin-bottom: 4px;
+        min-height: calc(100% - 15px);
+        margin-bottom: 1px;
+        height: 200px;
+    }
+    .col-sm {
+        height: calc(100% - 15px);
+        margin-bottom: 1px;
     }
 
     h3 {
         color: white;
+        min-height: calc(100% - 15px);
+        margin-bottom: 1px;
     }
 
     .btn-success {
         border-radius: 25px;
         background-color: darkslateblue;
         border-color: #575777;
-        margin: auto;
+        align-content:flex-end;
+        margin: 5px;
         
+    }
+    .row {
+        min-height: calc(100% - 15px);
+        margin-bottom: 1px;
+    }
+    .h1{
+        margin-bottom: 10px;
     }
 </style>
 <a>@ViewBag.message</a>
@@ -56,8 +76,8 @@
 
             <h3> Servers </h3>
 
-            <div class="col-sm d-flex">
-                <div class="card card-body">
+            <div class="col-sm">
+                <div class="card card-body row-match-height">
                     <p>
                         "here you can pick a server you're an admin for and  add Box bot to it. 
                         or pick which server bot you whant to edit."
@@ -72,8 +92,8 @@
 
             <h3> Settings </h3>
 
-            <div class="col-sm d-flex">
-                <div class="card card-body">
+            <div class="col-sm ">
+                <div class="card card-body row-match-height">
                     <p>
                         "Here you can edit, Box Bots settings,
                         for your Server. Add, Delete, Uppdate Words in your list of censored Word.
@@ -89,8 +109,8 @@
 
             <h3> Statistics </h3>
 
-            <div class="col-sm d-flex">
-                <div class="card card-body">
+            <div class="col-sm ">
+                <div class="card card-body ">
                     <p>
                         "Here You can see an overview of box bots, influence on your server through statistics"
                     </p>
