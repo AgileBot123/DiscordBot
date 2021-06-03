@@ -71,7 +71,24 @@
         margin: 4px 2px;
         cursor: pointer;
     }
-
+    #row1 
+    {
+        float: left;
+        margin-left: 20px;
+    }
+    #row1text
+    {
+        width: 200px;
+        text-align: left;
+    }
+    #row2
+    {
+        float: right;
+    }
+    #addprofanity
+    {
+        top: 800px;
+    }
 
 </style>
 
@@ -80,22 +97,20 @@
     <h1>Settings</h1>
 </div>
 
-<div class="startPage">
+<div id="startPage">
 
     <div id="row1">
+        <label id="row1text" for="Mute">Mute Level</label>
 
-        <div id="row2item1">
-            <label for="Mute">Mute Level</label>
-            <input type="text" id="Mute" value="@Model.TimeOutLevel">
-        </div>
-        <div id="row2item2">
-            <label for="Kick">Kick Level</label>
-            <input type="text" id="Kick" value="@Model.KickLevel">
-        </div>      
-        <div id="row2item1">
-            <label for="Ban">Ban Level</label>
-            <input type="text" id="Ban" value="@Model.BanLevel">
-        </div>
+        <input id="inputbox" type="text" value="@Model.TimeOutLevel">
+        <br>
+        <label id="row1text" for="Kick">Kick Level</label>
+
+        <input id="inputbox" type="text" value="@Model.KickLevel">
+        <br>
+        <label id="row1text" for="Ban">Ban Level</label>
+
+        <input id="inputbox" type="text" value="@Model.BanLevel">
     </div>
     <div id="row2">
         <div id="row2item1">
@@ -111,29 +126,31 @@
         </div>
     </div>
 
-    <div>
-        <h2 id="textProfanity">Profanity</h2>
-
-        <h2 id="textStrikes">Strikes</h2>
-
-        <h2 id="textPunishment">Punishment</h2>
-   </div>
-    <div>
-
-        <form>
-            <input id="inputProfanity" value="" type="text" size="22">
-
-            <input id="inputStrikes" value="" type="text" size="10">
-
-            <select id="inputPunishment" size="15" id="select">
-                <option value="None">None</option>
-                <option value="Mute">Mute</option>
-                <option value="Kick">Kick</option>
-                <option value="Ban">Ban</option>
-            </select>
-
-            <input input="add" class="button" value="Add" type="button" size="10">
-        </form>
+    <div id="addprofanity">
+        <div>
+            <h2 id="textProfanity">Profanity</h2>
+        
+            <h2 id="textStrikes">Strikes</h2>
+        
+            <h2 id="textPunishment">Punishment</h2>
+        </div>
+        <div>
+        
+            <form>
+                <input id="inputProfanity" value="" type="text" size="22">
+        
+                <input id="inputStrikes" value="" type="text" size="10">
+        
+                <select id="inputPunishment" size="15" id="select">
+                    <option value="None">None</option>
+                    <option value="Mute">Mute</option>
+                    <option value="Kick">Kick</option>
+                    <option value="Ban">Ban</option>
+                </select>
+        
+                <input input="add" class="button" value="Add" type="button" size="10">
+            </form>
+        </div>
     </div>
 
 
