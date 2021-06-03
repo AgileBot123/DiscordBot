@@ -87,7 +87,13 @@ namespace ChatFilterBot
             if (fetchedGuild == null)
             {
                 var createGuild = new Guild(guild.Id, true, guild.IconUrl, guild.Name);
-                databaseRepo.CreateGuild(createGuild);       
+                databaseRepo.CreateGuild(createGuild);
+                var punishmentsLevels = await databaseRepo.GetPunishmentLevels(guild.Id);
+                if (punishmentsLevels == null)
+                {
+                    punishmentsLevels = new PunishmentSettings(5, 15, 20, 5, 20, guild.Id);
+                    databaseRepo.CreatePunishmentSetting(punishmentsLevels);
+                }
             }
             else
             {
