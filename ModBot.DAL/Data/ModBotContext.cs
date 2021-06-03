@@ -50,7 +50,9 @@ namespace ModBot.DAL.Data
 
             ////BannedWord
             modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
-            modelBuilder.Entity<BannedWord>().HasNoKey();
+            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.id });
+
+
 
             ////ChangedLogs
             modelBuilder.Entity<Changelog>().ToTable("Changelog");

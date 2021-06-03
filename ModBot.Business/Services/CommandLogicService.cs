@@ -1,11 +1,16 @@
 ﻿using Discord.Commands;
 using Discord.WebSocket;
+using ModBot.DAL.FileSaving;
 using ModBot.DAL.Repository;
+using ModBot.Domain.DTO.BannedWordDtos;
 using ModBot.Domain.Interfaces;
 using ModBot.Domain.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ModBot.Business.Services
@@ -16,12 +21,13 @@ namespace ModBot.Business.Services
         public static List<DateTimeOffset> stackCooldownTimer = new List<DateTimeOffset>();
         public static List<SocketGuildUser> stackCooldownTarget = new List<SocketGuildUser>();
 
+
+
         private readonly DatabaseRepository _databaseRepository;
         public CommandLogicService(DatabaseRepository databaseRepository)
         {
             _databaseRepository = databaseRepository;
         }
-
 
 
         public async Task<int> GetUserStrikes(ulong memberID, ulong guildId)
@@ -69,9 +75,7 @@ namespace ModBot.Business.Services
 
                     await _databaseRepository.CreateGuildPunishment(punishment.Id, guildId);
                 }
-            }
-                            
-
+            }                
         }
 
         public void AddStrikeToUser(int amount, ulong UserId, ulong GuildId)
@@ -114,6 +118,23 @@ namespace ModBot.Business.Services
                     return null;
                 }
             }
+        }
+
+
+        public async Task<bool> CheckBannedWordsFromFile(string message, ulong guildId)
+        {
+            var allBannedWords = await _databaseRepository.GetAllBannedWords();
+
+          //var allBannedWords = FileSaving.LoadFromFile<BannedWordForFileDto>();
+
+            var specificWord = allBannedWords.Any(x => x.Profanity.ToLower() == message.ToLower() && x.GuildId == guildId);
+
+            if (specificWord)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }
