@@ -14,10 +14,12 @@ namespace ModBot.Domain.Interfaces
     {
         Task<int> GetUserStrikes(ulong memberID, ulong guildId);
 
-        Task<bool> AddStrikeToUser(int amount, ulong UserId);
+        Task<bool> AddStrikeToUser(int amount, ulong UserId, ulong guildId);
         string BotResponseCooldown(SocketCommandContext context);
         Task AddMemberToDatabase(ulong UserId, string username, string avatar, bool isBot, ulong guildId);
         Task MuteMember(SocketGuildUser user, int time, ulong roleID);
         Task<ulong> CreateMuteRole(SocketGuild guild);
+        Task<bool> RemoveStrike(int amount, ulong UserId, ulong guilId);
+        void ResetAllStrikes();
     }
 }

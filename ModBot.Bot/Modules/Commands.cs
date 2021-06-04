@@ -60,25 +60,32 @@ namespace ModBot.Bot.Modules
                 await ReplyAsync(response);
         }
 
-        [Command("Strike")] //checkar själva användares egna strikes
 
-        public async Task Strike(SocketMessage arg)
-        {
-            await AddMemberToDatabase(Context.User);
+
+        [RequireUserPermission(GuildPermission.Administrator)]
+        [Command("ResetServerStrikes")]
+
+        public async Task ResetAllStrike()
+        {  
+             _commandLogic.ResetAllStrikes();
         }
 
         [Command("RemoveStrike")]
 
-        public async Task RemoveStrike()
+        public async Task RemoveStrike(SocketGuildUser user, int amount)
         {
-            await AddMemberToDatabase(Context.User);
+            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
+
+            await _commandLogic.RemoveStrike(amount, user.Id, Context.Guild.Id);
         }
 
         [Command("AddStrike")]
 
-        public async Task AddStrike()
+        public async Task AddStrike(SocketGuildUser user, int amount)
         {
+            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
 
+            await _commandLogic.AddStrikeToUser(amount, user.Id, Context.Guild.Id);
         }
 
         [Command("Mute")]
