@@ -52,12 +52,11 @@ namespace ModBot.Domain.Models
         #region Constructors
         private Member() { }
 
-        public Member(ulong id, string username, string avatar, string email, bool isBot)
+        public Member(ulong id, string username, string avatar,bool isBot)
         {
             this._id = id;
             _username = username;
             _avatar = avatar;
-            _email = email;
             _isBot = isBot;
         }
         #endregion

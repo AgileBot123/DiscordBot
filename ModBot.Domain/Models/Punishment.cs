@@ -21,7 +21,7 @@ namespace ModBot.Domain.Models
         public int StrikesAmount
         {
             get { return _strikesAmount; }
-            private set { }
+            set { _strikesAmount = value; }
         }
 
         public int TimeOutUntil
@@ -34,17 +34,15 @@ namespace ModBot.Domain.Models
         #region COnstructors
         private Punishment() { }
 
-        public Punishment(int id, int strikesAmount, int timeOutUntil)
+        public Punishment(int id, int strikesAmount)
         {
             this._id = id;
             this._strikesAmount = strikesAmount;
-            this._timeOutUntil = timeOutUntil;
         }
 
-        public Punishment(int strikesAmount = 0, int timeOutUntil = 0)
+        public Punishment(int strikesAmount = 0)
         {
             this._strikesAmount = strikesAmount;
-            this._timeOutUntil = timeOutUntil;
         }
         #endregion
 
