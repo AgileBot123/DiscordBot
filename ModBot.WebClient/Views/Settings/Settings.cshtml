@@ -8,16 +8,18 @@
     {
         height: 30px;
     }
-    h2, label {
-        color: white;
-       
-    }
+  
     h1 {
-        background-color: #2F3136;
-        color:white;
+        background-color: #36393F;
+        color: white;
+        position: center;
+        top: 5%;
+        width: 100%;
+        text-align: center;
     }
     * {
         font-family: "Consolas";
+        color:white;
     }
     
     input[type=text], select {
@@ -40,7 +42,7 @@
         font-size: 25px;
         align-items: center;
         position: absolute;
-        top: 50%;
+        top: 70%;
         left: 45%;
         margin-right: -45%;
         transform: translate(-40%, -50%)
@@ -81,14 +83,59 @@
         width: 200px;
         text-align: left;
     }
+    #row2text {
+        width: 200px;
+        text-align: left;
+    }
     #row2
     {
         float: right;
     }
-    #addprofanity
-    {
-        top: 800px;
+    #addprofanity {
+        position: absolute;
+        top: 30%;
+        width: 100%;
+       
     }
+    #textProfanity {
+        position: relative;
+        top: 50%;
+        left: -20%;
+        
+    }
+
+    #textStrikes {
+        position: relative;
+        top: 50%;
+        left: -5%;
+        
+    }
+
+    #textPunishment {
+        position: relative;
+        top: 50%;
+        left: 10%;
+       
+    }
+    #inputProfanity {
+        position: relative;
+      
+        left: -20%;
+    }
+    #inputStrikes {
+        position: relative;
+       
+        left: -10%;
+    }
+    #inputPunishment {
+        position: relative;
+     
+        left: 10%;
+    }
+   
+   
+
+   
 
 </style>
 
@@ -112,12 +159,13 @@
 
         <input id="inputbox" type="text" value="@Model.BanLevel">
     </div>
+
     <div id="row2">
         <div id="row2item1">
             <button class="button" value="Save Settings">Save Settings</button>
         </div>
         <div id="row2item2">
-            <label for="Spam">Spam Mute Timer</label>
+            <label id="rto" for="Spam">Spam Mute Timer</label>
             <input type="text" id="Spam" value="@Model.SpamMuteTime">
         </div>
         <div id="row2item3">
@@ -128,11 +176,11 @@
 
     <div id="addprofanity">
         <div>
-            <h2 id="textProfanity">Profanity</h2>
+            <label  id="textProfanity">Profanity</label>
         
-            <h2 id="textStrikes">Strikes</h2>
+            <label  id="textStrikes">Strikes</label>
         
-            <h2 id="textPunishment">Punishment</h2>
+            <label  id="textPunishment">Punishment</label>
         </div>
         <div>
         
