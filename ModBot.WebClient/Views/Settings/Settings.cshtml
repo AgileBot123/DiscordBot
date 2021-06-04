@@ -4,17 +4,13 @@
     ViewData["Title"] = "Settings";
 }
 <style>
-    #select
-    {
-        height: 30px;
-    }
-  
-    h1 {
+
+
+    #HeaderText {
         background-color: #36393F;
         color: white;
-        position: center;
-        top: 5%;
-        width: 100%;
+        position: relative;
+        top: 50px;
         text-align: center;
     }
     * {
@@ -47,31 +43,39 @@
         margin-right: -45%;
         transform: translate(-40%, -50%)
     }
-    .button {
+    #buttonSettings {
+        position: relative;
         background-color: #44877f;
         border: none;
         color: white;
         border-radius: 1em;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
+        padding: 15px 100px;  
         display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
     }
-    .button2 {
-        background-color: #824444;
+    #buttonadd {
+        position: relative;
+        background-color: #44877f;
         border: none;
         color: white;
         border-radius: 1em;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
+        height: 50px;
+        width: 130px;
+        left: 15%;
         display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
+    }
+   #buttonRemove {
+        position: relative;
+        background-color: #44877f;
+        border: none;
+        color: white;
+        border-radius: 1em;
+        height: 50px;
+        width: 130px;
+        left: 15%;
+        display: inline-block;
+        font-size: 16px;
     }
     #row1 
     {
@@ -90,6 +94,10 @@
     #row2
     {
         float: right;
+    }
+    #row2item2, row2item3 {
+        position: relative;
+        text-align: right;
     }
     #addprofanity {
         position: absolute;
@@ -162,14 +170,14 @@
 
     <div id="row2">
         <div id="row2item1">
-            <button class="button" value="Save Settings">Save Settings</button>
+            <button id="buttonSettings" value="Save Settings">Save Settings</button>
         </div>
         <div id="row2item2">
-            <label id="rto" for="Spam">Spam Mute Timer</label>
+            <label for="Spam">Spam Mute Timer</label>
             <input type="text" id="Spam" value="@Model.SpamMuteTime">
         </div>
         <div id="row2item3">
-            <label for="Strike">Strike Mute Timer</label>
+            <label  for="Strike">Strike Mute Timer</label>
             <input type="text" id="Strike" value="@Model.StrikeMuteTime">
         </div>
     </div>
@@ -189,14 +197,14 @@
         
                 <input id="inputStrikes" value="" type="text" size="10">
         
-                <select id="inputPunishment" size="15" id="select">
+                <select id="inputPunishment" type="text" size="15" >
                     <option value="None">None</option>
                     <option value="Mute">Mute</option>
                     <option value="Kick">Kick</option>
                     <option value="Ban">Ban</option>
                 </select>
         
-                <input input="add" class="button" value="Add" type="button" size="10">
+                <input input="add" id="buttonadd" value="Add" type="button" size="10">
             </form>
         </div>
     </div>
@@ -217,7 +225,7 @@
                         <input id="listPunishment" value="@item.Punishment">
                     </td>
                     <th>
-                        <input id="remove" value="Remove" type="button" size="15">
+                        <input id="buttonRemove" value="Remove" type="button" size="15">
                     </th>
                 </tr>
             }
