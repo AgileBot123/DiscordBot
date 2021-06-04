@@ -1,1 +1,0 @@
-[{"Profanity":"Fuck","GuildId":838707761067982888},{"Profanity":"Slut","GuildId":838707761067982888},{"Profanity":"Dammit","GuildId":838707761067982888},{"Profanity":"helvete","GuildId":838707761067982888}]

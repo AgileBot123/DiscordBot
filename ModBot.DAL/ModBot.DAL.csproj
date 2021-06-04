@@ -4,16 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Words\BannedWords.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="Words\BannedWords.txt">
-      <CustomToolNamespace>ModBot.DAL</CustomToolNamespace>
-    </EmbeddedResource>
-  </ItemGroup>
-
 
 
   <ItemGroup>
