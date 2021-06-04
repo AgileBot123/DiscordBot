@@ -41,8 +41,8 @@ namespace ChatFilterBot
             _services = new ServiceCollection()
                  .AddSingleton(_client)
                  .AddDbContext<ModBotContext>(o => o.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True"))
-                 .AddSingleton<ICommandLogic, CommandLogicService>()
-                 .AddTransient<DatabaseRepository>()
+                 .AddScoped<ICommandLogic, CommandLogicService>()
+                 .AddScoped<DatabaseRepository>()
                  .AddSingleton(_commandsServices)
                  .BuildServiceProvider();
 
