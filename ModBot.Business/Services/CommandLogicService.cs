@@ -86,15 +86,20 @@ namespace ModBot.Business.Services
         public async Task<bool> AddStrikeToUser(int amount, ulong UserId, ulong guildId)
         {
             var guildPunishmentsList = await _databaseRepository.GetAllGuildPunishments();
-            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildId).Select(x => x.PunishmentId).Single();
+            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildId).Select(x => x.PunishmentId).ToList();
+
+            var getMemberList = await _databaseRepository.GetAllMemberPunishments();
+            var selectspecifcmember = getMemberList.Where(x => x.MemberId == UserId).Select(x => x.PunishmentId).ToList();
+
+            var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
+
 
             var punishmentList = _databaseRepository.GetAllPunishments();
-            var selectPunish = punishmentList.Where(x => x.Id == getGuildPunishmentID).FirstOrDefault();
+            var Punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
 
-
-            selectPunish.StrikesAmount += amount;
+            Punishment.StrikesAmount += amount;
             //TODO ADD TIMEOUTUNTIL
-            var result = await _databaseRepository.UpdatePunishment(selectPunish);
+            var result = await _databaseRepository.UpdatePunishment(Punishment);
 
             if (result)           
                 return true;
@@ -240,15 +245,28 @@ namespace ModBot.Business.Services
         public async Task<bool> RemoveStrike(int amount, ulong UserId, ulong guildID)
         {
             var guildPunishmentsList = await _databaseRepository.GetAllGuildPunishments();
-            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildID).Select(x => x.PunishmentId).Single();
+            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildID).Select(x => x.PunishmentId).ToList();
+
+            var getMemberList = await _databaseRepository.GetAllMemberPunishments();
+            var selectspecifcmember = getMemberList.Where(x => x.MemberId == UserId).Select(x => x.PunishmentId).ToList();
+
+            var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
+
 
             var punishmentList = _databaseRepository.GetAllPunishments();
-            var selectPunish = punishmentList.Where(x => x.Id == getGuildPunishmentID).FirstOrDefault();
+            var punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
+
+            if (amount > punishment.StrikesAmount)
+            {
+                punishment.StrikesAmount -= punishment.StrikesAmount;
+            } 
+            else
+            {
+                punishment.StrikesAmount -= amount;
+            }
 
 
-            selectPunish.StrikesAmount -= amount;
-            //TODO ADD TIMEOUTUNTIL
-            var result = await _databaseRepository.UpdatePunishment(selectPunish);
+            var result = await _databaseRepository.UpdatePunishment(punishment);
 
             if (result)
                 return true;
