@@ -4,10 +4,7 @@
     ViewData["Title"] = "Settings";
 }
 <style>
-    #inputPunishment
-    {
-        height: 30px;
-    }
+
     h2, label {
         color: white;
        
@@ -136,19 +133,21 @@
         </div>
         <div>
         
-            <form>
-                <input id="inputProfanity" value="" type="text" size="22">
+            <form action="reloadsettings" method="post">
+                <input id="inputProfanity" value="" name="profanity" required type="text" size="22">
         
-                <input id="inputStrikes" value="" type="text" size="10">
+                <input id="inputStrikes" value="" name="strikes" required type="text" size="10">
         
-                <select id="inputPunishment" size="15">
+                <select id="inputPunishment" name="punishment" required>
                     <option value="None">None</option>
                     <option value="Mute">Mute</option>
                     <option value="Kick">Kick</option>
                     <option value="Ban">Ban</option>
                 </select>
+
+                <input hidden name="model" value="@Model" />
         
-                <input input="add" class="button" value="Add" type="button" size="10">
+                <input input="add" class="button" value="Add" type="submit" size="10">
             </form>
         </div>
     </div>
