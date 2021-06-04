@@ -15,8 +15,11 @@ namespace ModBot.Business.Services
     {
         private readonly DatabaseRepository _databaseRepository;
         private static readonly NLog.Logger _log = NLog.LogManager.GetCurrentClassLogger();
+
+        private FileSaving _fileSaving;
         public BannedWordService(DatabaseRepository databaseRepository)
         {
+            _fileSaving = new FileSaving();
             _databaseRepository = databaseRepository;
         }
 
@@ -65,7 +68,7 @@ namespace ModBot.Business.Services
             try
             {
                 var bannedWordList = await _databaseRepository.GetAllBannedWords();
-                var getAllBannedWordsFromFile = FileSaving.LoadFromFile<BannedWordForFileDto>();
+                var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
                 var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
                 BannedWord changedBannedWord = null;
 
@@ -83,7 +86,7 @@ namespace ModBot.Business.Services
 
                         getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
 
-                        FileSaving.SaveToFile(getAllBannedWordsFromFile);
+                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
 
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
                     }
@@ -98,7 +101,7 @@ namespace ModBot.Business.Services
 
                        getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
 
-                        FileSaving.SaveToFile(getAllBannedWordsFromFile);
+                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
 
                         _databaseRepository.CreateBannedWord(changedBannedWord);
                     }

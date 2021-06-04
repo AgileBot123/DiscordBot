@@ -25,10 +25,11 @@ namespace ModBot.Business.Services
         public static List<SocketGuildUser> MutedMemeberList = new List<SocketGuildUser>();
 
 
-
+        private FileSaving _fileSaving;
         private readonly DatabaseRepository _databaseRepository;
         public CommandLogicService(DatabaseRepository databaseRepository)
         {
+            _fileSaving = new FileSaving();
             _databaseRepository = databaseRepository;
         }
 
@@ -201,9 +202,9 @@ namespace ModBot.Business.Services
 
         public async Task<bool> CheckBannedWordsFromFile(string message, ulong guildId)
         {
-           //var allBannedWords = await _databaseRepository.GetAllBannedWords();
+           var allBannedWords = await _databaseRepository.GetAllBannedWords();
 
-           var allBannedWords = FileSaving.LoadFromFile<BannedWordForFileDto>();
+           //var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
             var specificWord = allBannedWords.Any(x => x.Profanity.ToLower() == message.ToLower() && x.GuildId == guildId);
 
