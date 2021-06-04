@@ -30,6 +30,26 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
+        public IActionResult ReloadSettings(BannedWordDto addedBannedWord)
+        {
+            var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
+
+            addedBannedWord.BannedWordUsedCount = 0;
+            addedBannedWord.GuildId = Session.Get<ulong>(HttpContext.Session, "guild");
+
+            if(Settings.BannedWordList.Any(w => w.Profanity.ToLower() == addedBannedWord.Profanity.ToLower()))
+            {
+                var removedBannedWord = Settings.BannedWordList.Where(
+                    w => w.Profanity.ToLower() == addedBannedWord.Profanity.ToLower()).Single();
+                Settings.BannedWordList.Remove(removedBannedWord);
+            }
+            Settings.BannedWordList.Add(addedBannedWord);
+
+            Session.Set<SettingsDTO>(HttpContext.Session, "settings", Settings);
+            
+            return View("Settings", Settings);
+        }
+
         [Authorize(AuthenticationSchemes = "Discord")]
         [HttpGet]
         public async Task<IActionResult> Settings()
@@ -50,6 +70,8 @@ namespace ModBot.WebClient.Controllers
                     SpamMuteTime = PunishmentLevels.SpamMuteTime,
                     StrikeMuteTime = PunishmentLevels.StrikeMuteTime
                 };
+
+                Session.Set<SettingsDTO>(HttpContext.Session, "settings", settings);
 
                 return View(settings);
             }
