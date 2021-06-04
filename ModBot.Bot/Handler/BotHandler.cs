@@ -21,6 +21,7 @@ namespace ModBot.Bot.Handler
         {
             _client = new DiscordSocketClient();
             var databaseRepo = DatabaseRepo();
+            punishmentsLevelsService = new PunishmentsLevelsService(databaseRepo);
             commandLogicService = new CommandLogicService(databaseRepo);
         }
 
@@ -36,19 +37,10 @@ namespace ModBot.Bot.Handler
                 if (IsBannedWord)
                 {
                     await message.DeleteAsync();
-                    await message.Channel.SendMessageAsync($"Not allowed {message}");
+                    await HandleMemeberStrikes(message);
                 }
             }
-
-            if (message.Author.IsBot)
-            {
-                var times = 10000;
-                await Task.Delay(times);
-                await message.DeleteAsync();
-            }
-
         }
-
 
         private static DatabaseRepository DatabaseRepo()
         {
@@ -64,17 +56,17 @@ namespace ModBot.Bot.Handler
         public async Task HandleMemeberStrikes(SocketMessage message)
         {
             var user = message.Author as SocketGuildUser;
-            var userStrikes = await commandLogicService.GetUserStrikes(user.Guild.Id, user.Id);
+            var userStrikes = await commandLogicService.GetUserStrikes(user.Id, user.Guild.Id);
             var punishmentSettings = await punishmentsLevelsService.GetPunishmentLevels(user.Guild.Id);
 
             switch(userStrikes)
             {
                 case var x when x >= punishmentSettings.BanLevel:
-                    BanMember(user, message);
+                    await BanMember(user, message);
                     break;
 
                 case var x when x >= punishmentSettings.KickLevel:
-                    KickMember(user, message);
+                    await KickMember(user, message);
                     break;
 
                 case var x when x >= punishmentSettings.TimeOutLevel:
@@ -86,24 +78,25 @@ namespace ModBot.Bot.Handler
             }
         }
 
-        public void BanMember(SocketGuildUser user, SocketMessage message)
+        public async Task BanMember(SocketGuildUser user, SocketMessage message)
         {
-            user.Guild.AddBanAsync(user);
-            user.SendMessageAsync($"You have been banned for the following message: {message}");
+            await user.SendMessageAsync($"You have been banned for the following message: {message}");
 
+            await user.Guild.AddBanAsync(user);          
         }
 
-        public void KickMember(SocketGuildUser user, SocketMessage message)
+        public async Task KickMember(SocketGuildUser user, SocketMessage message)
         {
-            user.KickAsync();
-            user.SendMessageAsync($"You have been kicked for the following message: {message}");
+            await user.SendMessageAsync($"You have been kicked for the following message: {message}");
+            await user.KickAsync();
+          
         }
 
         public async Task TimeOutMember(SocketGuildUser user, SocketMessage message, int time)
         {
            var roleId =  await commandLogicService.CreateMuteRole(user.Guild);
-           await commandLogicService.MuteMember(user, time, roleId);
-           await user.SendMessageAsync($"You have been muted for {time} amount of seconds, for the following message: {message}");
+            await user.SendMessageAsync($"You have been muted for {time} of seconds, for the following message: {message}");
+            await commandLogicService.MuteMember(user, time, roleId);
         }
 
 

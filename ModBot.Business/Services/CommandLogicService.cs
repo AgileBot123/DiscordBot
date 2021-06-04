@@ -31,6 +31,7 @@ namespace ModBot.Business.Services
         {
             _fileSaving = new FileSaving();
             _databaseRepository = databaseRepository;
+            
         }
 
 
@@ -82,19 +83,23 @@ namespace ModBot.Business.Services
             }                
         }
                                                        
-        public async Task<bool> AddStrikeToUser(int amount, ulong UserId)
+        public async Task<bool> AddStrikeToUser(int amount, ulong UserId, ulong guildId)
         {
-            var allMemberPunishments = await _databaseRepository.GetAllMemberPunishments();
-            var allPunishments =  _databaseRepository.GetAllPunishments();
+            var guildPunishmentsList = await _databaseRepository.GetAllGuildPunishments();
+            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildId).Select(x => x.PunishmentId).ToList();
 
-            var takeSpecificPunishment = allMemberPunishments.Where(x => x.MemberId == UserId).FirstOrDefault();
+            var getMemberList = await _databaseRepository.GetAllMemberPunishments();
+            var selectspecifcmember = getMemberList.Where(x => x.MemberId == UserId).Select(x => x.PunishmentId).ToList();
+
+            var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
 
 
-            var membersPunishment =  allPunishments.Where(x => x.Id == takeSpecificPunishment.PunishmentId).Single();
+            var punishmentList = _databaseRepository.GetAllPunishments();
+            var Punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
 
-            membersPunishment.StrikesAmount += amount;
+            Punishment.StrikesAmount += amount;
             //TODO ADD TIMEOUTUNTIL
-            var result = await _databaseRepository.UpdatePunishment(membersPunishment);
+            var result = await _databaseRepository.UpdatePunishment(Punishment);
 
             if (result)           
                 return true;
@@ -186,7 +191,7 @@ namespace ModBot.Business.Services
         }
         private async Task<string> MutedList(SocketGuildUser user, int time, SocketRole role)
         {
-            time *= 1000;
+            time *= 1000 * 60;
 
             if(!MutedMemeberList.Contains(user))
             {
@@ -228,12 +233,55 @@ namespace ModBot.Business.Services
             {
                 await AddMemberToDatabase(message.Author.Id, message.Author.Username, message.Author.AvatarId, message.Author.IsBot, guildId);
 
-                var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id);
+                var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id, guildId);
 
                 if (strikeAdded)
                     return true;
             }
             return false;
+        }
+
+
+        public async Task<bool> RemoveStrike(int amount, ulong UserId, ulong guildID)
+        {
+            var guildPunishmentsList = await _databaseRepository.GetAllGuildPunishments();
+            var getGuildPunishmentID = guildPunishmentsList.Where(x => x.GuildId == guildID).Select(x => x.PunishmentId).ToList();
+
+            var getMemberList = await _databaseRepository.GetAllMemberPunishments();
+            var selectspecifcmember = getMemberList.Where(x => x.MemberId == UserId).Select(x => x.PunishmentId).ToList();
+
+            var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
+
+
+            var punishmentList = _databaseRepository.GetAllPunishments();
+            var punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
+
+            if (amount > punishment.StrikesAmount)
+            {
+                punishment.StrikesAmount -= punishment.StrikesAmount;
+            } 
+            else
+            {
+                punishment.StrikesAmount -= amount;
+            }
+
+
+            var result = await _databaseRepository.UpdatePunishment(punishment);
+
+            if (result)
+                return true;
+
+            return false;
+        }
+
+        public void ResetAllStrikes()
+        {
+           var usersFromDatabase =  _databaseRepository.GetAllPunishments();
+
+            foreach (var users in usersFromDatabase)
+            {
+                users.StrikesAmount = 0;
+            }        
         }
     }
 }

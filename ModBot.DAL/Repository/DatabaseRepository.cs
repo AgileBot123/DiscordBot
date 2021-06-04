@@ -341,7 +341,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                var punishmentlevel = _context.PunishmentsLevels.AsNoTracking().Where(x => x.GuildId == guildId).FirstOrDefault();
+                var punishmentlevel = await _context.PunishmentsLevels.AsNoTracking().Where(x => x.GuildId == guildId).FirstOrDefaultAsync();
                 
                 return punishmentlevel;
             }
