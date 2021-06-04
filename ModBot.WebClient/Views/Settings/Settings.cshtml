@@ -130,6 +130,7 @@
       
         left: -20%;
     }
+
     #inputStrikes {
         position: relative;
        
@@ -140,10 +141,15 @@
      
         left: 10%;
     }
-   
-   
+    #failure
+    {
+        color: red;
+    }
+    #success 
+    {
+        color: green;
+    }
 
-   
 
 </style>
 
@@ -153,83 +159,87 @@
 </div>
 
 <div id="startPage">
+    <p id="failure">@ViewBag.succesResponse</p>
+    <p id="success">@ViewBag.failureResponse</p>
+    <form action="savesettings" method="post">
+        <div id="row1">
+            <label id="row1text" for="Mute">Mute Level</label>
 
-    <div id="row1">
-        <label id="row1text" for="Mute">Mute Level</label>
+            <input id="inputbox" type="text" value="@Model.TimeOutLevel">
+            <br>
+            <label id="row1text" for="Kick">Kick Level</label>
 
-        <input id="inputbox" type="text" value="@Model.TimeOutLevel">
-        <br>
-        <label id="row1text" for="Kick">Kick Level</label>
-
-        <input id="inputbox" type="text" value="@Model.KickLevel">
-        <br>
-        <label id="row1text" for="Ban">Ban Level</label>
-
-        <input id="inputbox" type="text" value="@Model.BanLevel">
-    </div>
-
-    <div id="row2">
-        <div id="row2item1">
-            <button id="buttonSettings" value="Save Settings">Save Settings</button>
+            <input id="inputbox" type="text" value="@Model.KickLevel">
+            <br>
+            <label id="row1text" for="Ban">Ban Level</label>
+            <input id="inputbox" type="text" value="@Model.BanLevel">
         </div>
-        <div id="row2item2">
-            <label for="Spam">Spam Mute Timer</label>
-            <input type="text" id="Spam" value="@Model.SpamMuteTime">
+        <div id="row2">
+            <div id="row2item1">
+                <input id="buttonSettings" class="button" type="submit" value="Save Settings">
+            </div>
+            <div id="row2item2">
+                <label for="Spam">Spam Mute Timer</label>
+                <input type="text" id="Spam" value="@Model.SpamMuteTime">
+            </div>
+            <div id="row2item3">
+                <label for="Strike">Strike Mute Timer</label>
+                <input type="text" id="Strike" value="@Model.StrikeMuteTime">
+            </div>
         </div>
-        <div id="row2item3">
-            <label  for="Strike">Strike Mute Timer</label>
-            <input type="text" id="Strike" value="@Model.StrikeMuteTime">
-        </div>
-    </div>
-
-    <div id="addprofanity">
-        <div>
-            <label  id="textProfanity">Profanity</label>
-        
-            <label  id="textStrikes">Strikes</label>
-        
-            <label  id="textPunishment">Punishment</label>
-        </div>
-        <div>
-        
-            <form>
-                <input id="inputProfanity" value="" type="text" size="22">
-        
-                <input id="inputStrikes" value="" type="text" size="10">
-        
-                <select id="inputPunishment" type="text" size="15" >
-                    <option value="None">None</option>
-                    <option value="Mute">Mute</option>
-                    <option value="Kick">Kick</option>
-                    <option value="Ban">Ban</option>
-                </select>
-        
-                <input input="add" id="buttonadd" value="Add" type="button" size="10">
-            </form>
-        </div>
-    </div>
 
 
-    <table id="list">
-        <tbody>
-            @foreach (var item in Model.BannedWordList)
-            {
-                <tr>
-                    <td>
-                        <input id="listProfanity" value="@item.Profanity">
-                    </td>
-                    <td>
-                        <input id="listStrikes" value="@item.Strikes">
-                    </td>
-                    <td>
-                        <input id="listPunishment" value="@item.Punishment">
-                    </td>
-                    <th>
-                        <input id="buttonRemove" value="Remove" type="button" size="15">
-                    </th>
-                </tr>
-            }
-        </tbody>
-    </table>
+        <div id="addprofanity">
+            <div>
+                <h2 id="textProfanity">Profanity</h2>
+
+                <h2 id="textStrikes">Strikes</h2>
+
+                <h2 id="textPunishment">Punishment</h2>
+            </div>
+            <div>
+
+                <form action="reloadsettings" method="post">
+                    <input id="inputProfanity" value="" name="profanity" required type="text" size="22">
+
+                    <input id="inputStrikes" value="" name="strikes" required type="text" size="10">
+
+                    <select id="inputPunishment" name="punishment" required>
+                        <option value="None">None</option>
+                        <option value="Mute">Mute</option>
+                        <option value="Kick">Kick</option>
+                        <option value="Ban">Ban</option>
+                    </select>
+
+                    <input hidden name="model" value="@Model" />
+
+                    <input input="add" id="buttonadd" value="Add" type="submit" size="10">
+                </form>
+            </div>
+        </div>
+
+
+        <table id="list">
+            <tbody>
+                @foreach (var item in Model.BannedWordList)
+                {
+                    <tr>
+                        <td>
+                            <input id="listProfanity" value="@item.Profanity">
+                        </td>
+                        <td>
+                            <input id="listStrikes" value="@item.Strikes">
+                        </td>
+                        <td>
+                            <input id="listPunishment" value="@item.Punishment">
+                        </td>
+                        <th>
+                            <input id="buttonRemove" value="Remove" type="button" size="15">
+                        </th>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </form>
 </div>
 

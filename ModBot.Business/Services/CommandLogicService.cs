@@ -40,30 +40,30 @@ namespace ModBot.Business.Services
             return Punishment.StrikesAmount;
         }
 
-        // Ska vi flytta nedan metod till datalageret. Den uppfyller CRUD.
+
         private async Task<Punishment> GetPunishment(ulong memberID, ulong guildId)
         {
             var Allmemberpunishment = await _databaseRepository.GetAllMemberPunishments();
-            var memberPunishmentIdList = Allmemberpunishment.Where(x => x.MemberId == memberID)
+            var memberPunishmentIdList =  Allmemberpunishment.Where(x => x.MemberId == memberID)
                                                         .Select(mp => mp.PunishmentId).ToList();
 
             var AllguildPunishments = await _databaseRepository.GetAllGuildPunishments();
-            var guildPunishmentIdList = AllguildPunishments.Where(x => x.GuildId == guildId)
+            var guildPunishmentIdList =  AllguildPunishments.Where(x => x.GuildId == guildId)
                                                        .Select(gp => gp.PunishmentId).ToList();
 
-            var AllPunishments = await _databaseRepository.GetAllPunishments();
+            var AllPunishments =  await _databaseRepository.GetAllPunishmentsAsync();
             var PunishmentID = guildPunishmentIdList.Intersect(memberPunishmentIdList).FirstOrDefault();
-            var Punishment = AllPunishments.Where(p => p.Id == PunishmentID).FirstOrDefault();
+            var Punishment =  AllPunishments.Where(p => p.Id == PunishmentID).FirstOrDefault();
             return Punishment;
         }
 
-        public async Task AddMemberToDatabase(ulong memberId, string username, string avatar, string email, bool isBot, ulong guildId)
+        public async Task AddMemberToDatabase(ulong memberId, string username, string avatar, bool isBot, ulong guildId)
         {
             var allMembers = await _databaseRepository.GetAllMembers();
 
             if (!allMembers.Any(x => x.Id == memberId))
             {
-                var createMember = new Member(memberId, username, avatar, email, isBot);
+                var createMember = new Member(memberId, username, avatar, isBot);
                 _databaseRepository.AddMember(createMember);
             }
 
@@ -81,10 +81,25 @@ namespace ModBot.Business.Services
                 }
             }                
         }
-
-        public void AddStrikeToUser(int amount, ulong UserId, ulong GuildId)
+                                                       
+        public async Task<bool> AddStrikeToUser(int amount, ulong UserId)
         {
-            throw new NotImplementedException();
+            var allMemberPunishments = await _databaseRepository.GetAllMemberPunishments();
+            var allPunishments =  _databaseRepository.GetAllPunishments();
+
+            var takeSpecificPunishment = allMemberPunishments.Where(x => x.MemberId == UserId).FirstOrDefault();
+
+
+            var membersPunishment =  allPunishments.Where(x => x.Id == takeSpecificPunishment.PunishmentId).Single();
+
+            membersPunishment.StrikesAmount += amount;
+            //TODO ADD TIMEOUTUNTIL
+            var result = await _databaseRepository.UpdatePunishment(membersPunishment);
+
+            if (result)           
+                return true;
+            
+            return false;
         }
 
 
@@ -200,19 +215,24 @@ namespace ModBot.Business.Services
             return null;
         }
 
-        public async Task<bool> CheckBannedWordsFromFile(string message, ulong guildId)
+        public async Task<bool> CheckBannedWordsFromUsersMessage(SocketUserMessage message, ulong guildId)
         {
-           var allBannedWords = await _databaseRepository.GetAllBannedWords();
+            var allBannedWords = await _databaseRepository.GetAllBannedWords();
 
            //var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
-            var specificWord = allBannedWords.Any(x => x.Profanity.ToLower() == message.ToLower() && x.GuildId == guildId);
+            var specificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId);
+            var strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId).Select(x => x.Strikes).FirstOrDefault();
 
             if (specificWord)
             {
-                return true;
-            }
+                await AddMemberToDatabase(message.Author.Id, message.Author.Username, message.Author.AvatarId, message.Author.IsBot, guildId);
 
+                var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id);
+
+                if (strikeAdded)
+                    return true;
+            }
             return false;
         }
     }

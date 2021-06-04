@@ -107,7 +107,6 @@ namespace ModBot.DAL.Repository
                     var member = new Member(_member.Id,
                                               _member.Username,
                                               _member.Avatar,
-                                              _member.Email,
                                               _member.IsBot);
                     members.Add(member);
                 }
@@ -391,18 +390,49 @@ namespace ModBot.DAL.Repository
                 throw ex;
             }
         }
-        public async Task<List<Punishment>> GetAllPunishments()
+        public List<Punishment> GetAllPunishments()
+        {
+            try
+            {
+               return _context.Punishments.ToList();
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+        public async Task<List<Punishment>> GetAllPunishmentsAsync()
         {
             try
             {
                 return await _context.Punishments.AsNoTracking().ToListAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
-                throw;
+                throw ex;
             }
         }
+
+
+        public async Task<bool> UpdatePunishment(Punishment memberPunishment)
+        {
+            try
+            {
+               
+                _context.Update(memberPunishment);
+                return _context.SaveChanges() > 0;
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+        }
+
+
+
         #endregion
 
         #region Member Punishment
@@ -464,6 +494,7 @@ namespace ModBot.DAL.Repository
                 throw;
             }
         }
+
 
 
 

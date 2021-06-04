@@ -32,7 +32,7 @@ namespace ModBot.Bot.Modules
 
         private async Task AddMemberToDatabase(IUser user)
         {
-            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), "test@gmail.com", user.IsBot, Context.Guild.Id);
+            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
         }
 
         [Command("UserStrike")]

@@ -16,20 +16,37 @@ namespace ModBot.Bot.Handler
     {
         public CommandLogicService commandLogicService;
         public PunishmentsLevelsService punishmentsLevelsService;
+        private DiscordSocketClient _client;
         public BotHandler()
         {
+            _client = new DiscordSocketClient();
             var databaseRepo = DatabaseRepo();
             commandLogicService = new CommandLogicService(databaseRepo);
         }
 
         public async Task CheckIfMessagesIsBannedWord(SocketMessage message)
         {
-            var IsBannedWord = await commandLogicService.CheckBannedWordsFromFile(message.Content, 838707761067982888);
+            var user = message as SocketUserMessage;
+            var context = new SocketCommandContext(_client, user);
 
-            if (IsBannedWord)
+            if (!message.Author.IsBot)
             {
-                await message.Channel.SendMessageAsync("Not allowed word");
+                var IsBannedWord = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
+
+                if (IsBannedWord)
+                {
+                    await message.DeleteAsync();
+                    await message.Channel.SendMessageAsync($"Not allowed {message}");
+                }
             }
+
+            if (message.Author.IsBot)
+            {
+                var times = 10000;
+                await Task.Delay(times);
+                await message.DeleteAsync();
+            }
+
         }
 
 
