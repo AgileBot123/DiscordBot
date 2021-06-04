@@ -5,16 +5,17 @@
 }
 <style>
 
-    h2, label {
+
+    #HeaderText {
+        background-color: #36393F;
         color: white;
-       
-    }
-    h1 {
-        background-color: #2F3136;
-        color:white;
+        position: relative;
+        top: 50px;
+        text-align: center;
     }
     * {
         font-family: "Consolas";
+        color:white;
     }
     
     input[type=text], select {
@@ -37,36 +38,44 @@
         font-size: 25px;
         align-items: center;
         position: absolute;
-        top: 50%;
+        top: 70%;
         left: 45%;
         margin-right: -45%;
         transform: translate(-40%, -50%)
     }
-    .button {
+    #buttonSettings {
+        position: relative;
         background-color: #44877f;
         border: none;
         color: white;
         border-radius: 1em;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
+        padding: 15px 100px;  
         display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
     }
-    .button2 {
-        background-color: #824444;
+    #buttonadd {
+        position: relative;
+        background-color: #44877f;
         border: none;
         color: white;
         border-radius: 1em;
-        padding: 15px 32px;
-        text-align: center;
-        text-decoration: none;
+        height: 50px;
+        width: 130px;
+        left: 15%;
         display: inline-block;
         font-size: 16px;
-        margin: 4px 2px;
-        cursor: pointer;
+    }
+   #buttonRemove {
+        position: relative;
+        background-color: #44877f;
+        border: none;
+        color: white;
+        border-radius: 1em;
+        height: 50px;
+        width: 130px;
+        left: 15%;
+        display: inline-block;
+        font-size: 16px;
     }
     #row1 
     {
@@ -78,13 +87,59 @@
         width: 200px;
         text-align: left;
     }
+    #row2text {
+        width: 200px;
+        text-align: left;
+    }
     #row2
     {
         float: right;
     }
-    #addprofanity
-    {
-        top: 800px;
+    #row2item2, row2item3 {
+        position: relative;
+        text-align: right;
+    }
+    #addprofanity {
+        position: absolute;
+        top: 30%;
+        width: 100%;
+       
+    }
+    #textProfanity {
+        position: relative;
+        top: 50%;
+        left: -20%;
+        
+    }
+
+    #textStrikes {
+        position: relative;
+        top: 50%;
+        left: -5%;
+        
+    }
+
+    #textPunishment {
+        position: relative;
+        top: 50%;
+        left: 10%;
+       
+    }
+    #inputProfanity {
+        position: relative;
+      
+        left: -20%;
+    }
+
+    #inputStrikes {
+        position: relative;
+       
+        left: -10%;
+    }
+    #inputPunishment {
+        position: relative;
+     
+        left: 10%;
     }
     #failure
     {
@@ -94,6 +149,7 @@
     {
         color: green;
     }
+
 
 </style>
 
@@ -116,12 +172,11 @@
             <input id="inputbox" type="text" value="@Model.KickLevel">
             <br>
             <label id="row1text" for="Ban">Ban Level</label>
-
             <input id="inputbox" type="text" value="@Model.BanLevel">
         </div>
         <div id="row2">
             <div id="row2item1">
-                <input class="button" type="submit" value="Save Settings">
+                <input id="buttonSettings" class="button" type="submit" value="Save Settings">
             </div>
             <div id="row2item2">
                 <label for="Spam">Spam Mute Timer</label>
@@ -132,6 +187,7 @@
                 <input type="text" id="Strike" value="@Model.StrikeMuteTime">
             </div>
         </div>
+
 
         <div id="addprofanity">
             <div>
@@ -157,7 +213,7 @@
 
                     <input hidden name="model" value="@Model" />
 
-                    <input input="add" class="button" value="Add" type="submit" size="10">
+                    <input input="add" id="buttonadd" value="Add" type="submit" size="10">
                 </form>
             </div>
         </div>
@@ -178,7 +234,7 @@
                             <input id="listPunishment" value="@item.Punishment">
                         </td>
                         <th>
-                            <input id="remove" value="Remove" type="button" size="15">
+                            <input id="buttonRemove" value="Remove" type="button" size="15">
                         </th>
                     </tr>
                 }
