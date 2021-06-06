@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ModBot.DAL.Migrations
 {
@@ -7,20 +6,6 @@ namespace ModBot.DAL.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Changelog",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    ChangedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Changed = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Changelog", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Guild",
                 columns: table => new
@@ -41,7 +26,6 @@ namespace ModBot.DAL.Migrations
                 {
                     Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     Avatar = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Username = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsBot = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -56,8 +40,7 @@ namespace ModBot.DAL.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StrikesAmount = table.Column<int>(type: "int", nullable: false),
-                    TimeOutUntil = table.Column<int>(type: "int", nullable: false)
+                    StrikesAmount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -105,32 +88,6 @@ namespace ModBot.DAL.Migrations
                     table.PrimaryKey("PK_PunishmentsLevel", x => x.Id);
                     table.ForeignKey(
                         name: "FK_PunishmentsLevel_Guild_GuildId",
-                        column: x => x.GuildId,
-                        principalTable: "Guild",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Statistics",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    NumberOfMembers = table.Column<int>(type: "int", nullable: false),
-                    NumberOfBannedWords = table.Column<int>(type: "int", nullable: false),
-                    TotalStrikesInDatabase = table.Column<int>(type: "int", nullable: false),
-                    AverageNumberOfStrikes = table.Column<double>(type: "float", nullable: false),
-                    MedianNumberOfStrikes = table.Column<double>(type: "float", nullable: false),
-                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    NumberOfTimesBannedWordBeenUsed = table.Column<int>(type: "int", nullable: false),
-                    NumberOfTimesEachCommandoBeenUsed = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Statistics", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Statistics_Guild_GuildId",
                         column: x => x.GuildId,
                         principalTable: "Guild",
                         principalColumn: "Id",
@@ -204,20 +161,12 @@ namespace ModBot.DAL.Migrations
                 name: "IX_PunishmentsLevel_GuildId",
                 table: "PunishmentsLevel",
                 column: "GuildId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Statistics_GuildId",
-                table: "Statistics",
-                column: "GuildId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
                 name: "BannedWord");
-
-            migrationBuilder.DropTable(
-                name: "Changelog");
 
             migrationBuilder.DropTable(
                 name: "GuildPunishment");
@@ -227,9 +176,6 @@ namespace ModBot.DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "PunishmentsLevel");
-
-            migrationBuilder.DropTable(
-                name: "Statistics");
 
             migrationBuilder.DropTable(
                 name: "Member");
