@@ -5,21 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Textfiles\BannedWords.txt" />
-    <None Remove="Textfiles\FileSaving.txt" />
     <None Remove="Textfile\BannedWords.txt" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Textfiles\BannedWords.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </EmbeddedResource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Textfiles\FileSaving.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Textfile\BannedWords.txt" />
   </ItemGroup>
 
