@@ -8,7 +8,6 @@ namespace ModBot.Domain.interfaces
     {
         ulong Id { get;}
         string Avatar { get; }
-        string Email { get;  }
         string Username { get; }
         bool IsBot { get; }
     }

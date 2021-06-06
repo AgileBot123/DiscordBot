@@ -8,6 +8,5 @@ namespace ModBot.Domain.Interfaces.ModelsInterfaces
     {
         int Id { get; }
         int StrikesAmount {get;}
-        int TimeOutUntil { get;  }
     }
 }

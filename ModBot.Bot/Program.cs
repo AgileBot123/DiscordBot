@@ -10,43 +10,63 @@ using ModBot.Domain.Interfaces;
 using ModBot.DAL.Repository;
 using ModBot.DAL.Data;
 using Microsoft.EntityFrameworkCore;
-using ModBot.Bot;
-using System.Linq;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using ModBot.Domain.Models;
 using ModBot.Bot.Handler;
+using System.Configuration;
+using System.IO;
 
 namespace ChatFilterBot
 {
     public class Program
     {
-       
-        public static void Main(string[] args) => new Program().RunBotAsync().GetAwaiter().GetResult();
+        public static IConfigurationRoot Configuration;
+        public static string Token { get; set; }
+        public static string DatabaseString { get; set; }
+        public static void Main(string[] args)
+        {
+
+            var builder = new ConfigurationBuilder()
+                   .SetBasePath(Directory.GetCurrentDirectory())
+                   .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+
+            Token = configuration["DiscordToken:Token"];
+            DatabaseString = configuration["ConnectionStrings:ModBotDatabase"];
+
+            new Program().RunBotAsync().GetAwaiter().GetResult();
+        }
 
         private DiscordSocketClient _client;
         private CommandService _commandsServices;
         private IServiceProvider _services;
-        private BotHandler _botHandler; 
+        private BotHandler _botHandler;
 
-   
-
+        public DatabaseRepository DatabaseRepo()
+        {
+            var optionsBuilder = new DbContextOptionsBuilder<ModBotContext>();
+            optionsBuilder.UseSqlServer(DatabaseString);
+            var _context = new ModBotContext(optionsBuilder.Options);
+            var databaseRepo = new DatabaseRepository(_context);
+            return databaseRepo;
+        }
+  
         public async Task RunBotAsync()
         {
-            _botHandler = new BotHandler();
-
+      
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 
             _services = new ServiceCollection()
                  .AddSingleton(_client)
-                 .AddDbContext<ModBotContext>(o => o.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True"))
+                 .AddDbContext<ModBotContext>(o => o.UseSqlServer(DatabaseString))
                  .AddScoped<ICommandLogic, CommandLogicService>()
                  .AddScoped<DatabaseRepository>()
                  .AddSingleton(_commandsServices)
                  .BuildServiceProvider();
 
-            string Token = "ODQ0NTM1Nzg5ODgyODM0OTU1.YKT1Pw.roVdg5b6DaNLn6PF_ULep5UWOK4";
+            _botHandler = new BotHandler();
 
             _client.Log += _client_Log;
             await RegisterComamndsAsync();
@@ -56,6 +76,7 @@ namespace ChatFilterBot
             await _client.StartAsync();
            
             await Task.Delay(-1);
+
 
         }
 
@@ -69,15 +90,7 @@ namespace ChatFilterBot
             databaseRepo.UpdateGuild(update);
         }
 
-        private static DatabaseRepository DatabaseRepo()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<ModBotContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True");
-            var _context = new ModBotContext(optionsBuilder.Options);
-            var databaseRepo = new DatabaseRepository(_context);
-            return databaseRepo;
-        }
-
+      
 
         public async Task JoinedGuild(SocketGuild guild)
         {

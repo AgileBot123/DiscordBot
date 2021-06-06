@@ -26,14 +26,6 @@ namespace ModBot.Domain.Extensions.Routes
             public const string UpdateBannedWord = Base + "UpdateBannedWordList";
 
         }
-        public class ChangeLog
-        {
-            public const string GetLog = Base + "GetLog/{id}";
-            public const string GetAllLogs = Base + "GetAllLogs";
-            public const string CreateLog = Base + "CreateLog";
-            public const string UpdateLog = Base + "Updatelog";
-            public const string DeleteLog = Base + "DeleteLog";      
-        }
 
         public class PunishmentLevels
         {
@@ -47,13 +39,6 @@ namespace ModBot.Domain.Extensions.Routes
         {
             public const string GetMember = Base + "GetMember";
             public const string GetMembers = Base + "GetMembers";
-        }
-
-        public class Statistisc
-        {
-            public const string GetAllStats = Base + "GetAllStats";
-            public const string GetSpecificStats = Base + "GetStat/{id}";
-            public const string RefreshStats = Base + "RefreshStats/{guildId}";
         }
     }
 }
