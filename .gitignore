@@ -349,3 +349,5 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 /ModBot.WebClient/appsettings.Production.json
+/ModBot.WebClient/appsettings.Development.json
+/ModBot.API/appsettings.Development.json

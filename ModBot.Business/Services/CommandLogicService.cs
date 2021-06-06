@@ -222,9 +222,7 @@ namespace ModBot.Business.Services
 
         public async Task<bool> CheckBannedWordsFromUsersMessage(SocketUserMessage message, ulong guildId)
         {
-            var allBannedWords = await _databaseRepository.GetAllBannedWords();
-
-            //var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>();
+            var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
             var specificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId);
             var strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId).Select(x => x.Strikes).FirstOrDefault();

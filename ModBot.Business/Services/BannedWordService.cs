@@ -128,6 +128,11 @@ namespace ModBot.Business.Services
 
 
 
+                        getAllBannedWordsFromFile.Add(InformationForFile(bannedWord.Profanity, bannedWord.GuildId));
+
+                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
+
+
                         _databaseRepository.DeleteBannedWord(changedBannedWord);
                     }
                 }
