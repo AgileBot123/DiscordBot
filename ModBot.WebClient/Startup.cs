@@ -19,6 +19,7 @@ using System.Text.Json;
 using System.Globalization;
 using System.Security.Claims;
 using static AspNet.Security.OAuth.Discord.DiscordAuthenticationConstants;
+using ModBot.WebClient.Extensions;
 
 namespace ModBot.WebClient
 {
@@ -44,61 +45,9 @@ namespace ModBot.WebClient
             services.AddAuthorization();
             services.AddControllers();
             services.AddControllersWithViews();
-            services.AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-            })
-                   .AddCookie(o => o.LoginPath = new PathString("/Account/Login"))
-                   .AddDiscord(options =>
-                    {
-                        options.ClientId = Configuration["DiscordClientId:ClientId"];
-                        options.ClientSecret = Configuration["DiscordClientId:ClientSecret"];
-                        options.Scope.Add("guilds");
-                        options.Scope.Add("guilds.join");
-
-                        options.ClaimActions.MapJsonKey(ClaimTypes.NameIdentifier, "id");
-                        options.ClaimActions.MapJsonKey(ClaimTypes.Name, "username");
-                        options.ClaimActions.MapJsonKey(ClaimTypes.Email, "email");
-                        options.ClaimActions.MapJsonKey(Claims.AvatarHash, "avatar");
-                        options.ClaimActions.MapJsonKey(Claims.Discriminator, "discriminator");
-
-                        options.SaveTokens = true;
-                        options.Events = new OAuthEvents
-                        {
-                            OnCreatingTicket = async context =>
-                            {
-                                var request = new HttpRequestMessage(HttpMethod.Get, context.Options.UserInformationEndpoint);
-                                request.Headers.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-                                request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", context.AccessToken);
-
-                                var response = await context.Backchannel.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, context.HttpContext.RequestAborted);
-                                response.EnsureSuccessStatusCode();
-
-                                var user = JsonDocument.Parse(await response.Content.ReadAsStringAsync()).RootElement;
-
-                                context.RunClaimActions(user);
-
-                                List<AuthenticationToken> tokens = context.Properties.GetTokens().ToList();
-                                tokens.Add(new AuthenticationToken()
-                                {
-                                    Name = "TicketCreated",
-                                    Value = DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)
-                                });
-
-                                context.Properties.StoreTokens(tokens);
-                            }
-                        };
-                        services.AddHealthChecks();
-
-                    });
+            services.AuthenticationConfig(Configuration);
             services.AddDistributedMemoryCache();
-            services.AddSession(options =>
-            {
-                options.Cookie.Name = "Guild.Session";
-                options.IdleTimeout = TimeSpan.FromMinutes(30);
-                options.Cookie.HttpOnly = true;
-                options.Cookie.IsEssential = true;
-            });
+            services.SessionConfig();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
