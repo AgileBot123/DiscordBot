@@ -12,22 +12,19 @@ namespace ModBot.DAL.FileSaving
     public class FileSaving
     {
 
-        //C:\Users\Admin\Documents\GitHub\DiscordBot\DiscordBot\ModBot.API\Textfiles\BannedWords.txt
         public string SetDirectoryAndFilePath()
         {
-            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            return @$"{solutionDirectory}\DiscordBot\ModBot.API\Textfiles\BannedWords.txt";
+            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            return @$"{solutionDirectory}\DiscordBot\ModBot.DAL\Textfiles\BannedWords.txt";
         }
 
         public List<T> LoadFromFile<T>()
         {
             CheckFileStatus();
 
-            var assembly = Assembly.GetExecutingAssembly();
-            using (Stream stream = assembly.GetManifestResourceStream("ModBot.API.BannedWords.txt"))
-            using (StreamReader reader = new StreamReader(stream))
+            using (StreamReader file = File.OpenText(SetDirectoryAndFilePath()))
             {
-                var fetchedValue = JsonConvert.DeserializeObject<List<T>>(reader.ReadToEnd());
+                var fetchedValue = JsonConvert.DeserializeObject<List<T>>(file.ReadToEnd());
                 if (fetchedValue == null)
                 {
                     return new List<T>();
@@ -39,8 +36,9 @@ namespace ModBot.DAL.FileSaving
 
         private void CheckFileStatus()
         {
-            var fileName = "Textfiles\\BannedWords.txt";
-            var directory = "Textfiles";
+            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            var fileName = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles\\BannedWords.txt";
+            var directory = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles";
             if (!Directory.Exists(directory))
             {              
                 Directory.CreateDirectory(directory);

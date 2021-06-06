@@ -31,12 +31,13 @@ namespace ModBot.Business.Services
                 punishment: createBannedWord.Punishment, 
                 createBannedWord.GuildId);
 
-            var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
+           var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
             var newBannedWordFromFile = new BannedWordForFileDto
             {
                 GuildId = createBannedWord.GuildId,
-                Profanity = createBannedWord.Profanity
+                Profanity = createBannedWord.Profanity,
+                Strikes = createBannedWord.Strikes
             };
 
             getAllBannedWordsFromFile.Add(newBannedWordFromFile);
