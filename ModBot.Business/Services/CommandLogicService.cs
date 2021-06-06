@@ -274,14 +274,16 @@ namespace ModBot.Business.Services
             return false;
         }
 
-        public void ResetAllStrikes()
+        public async Task ResetAllStrikes()
         {
            var usersFromDatabase =  _databaseRepository.GetAllPunishments();
 
-            foreach (var users in usersFromDatabase)
+            foreach (var user in usersFromDatabase)
             {
-                users.StrikesAmount = 0;
+                user.StrikesAmount = 0;
+               await _databaseRepository.UpdatePunishment(user);
             }        
+
         }
     }
 }

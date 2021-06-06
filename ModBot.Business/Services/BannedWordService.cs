@@ -31,8 +31,17 @@ namespace ModBot.Business.Services
                 punishment: createBannedWord.Punishment, 
                 createBannedWord.GuildId);
 
+            var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
-    
+            var newBannedWordFromFile = new BannedWordForFileDto
+            {
+                GuildId = createBannedWord.GuildId,
+                Profanity = createBannedWord.Profanity
+            };
+
+            getAllBannedWordsFromFile.Add(newBannedWordFromFile);
+
+            _fileSaving.SaveToFile(getAllBannedWordsFromFile);
 
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
@@ -124,7 +133,7 @@ namespace ModBot.Business.Services
 
                 return true;
             }
-            catch(Exception)
+            catch(Exception ex)
             {
                 return false;
             }

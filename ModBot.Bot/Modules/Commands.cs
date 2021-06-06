@@ -67,7 +67,7 @@ namespace ModBot.Bot.Modules
 
         public async Task ResetAllStrike()
         {  
-             _commandLogic.ResetAllStrikes();
+             await _commandLogic.ResetAllStrikes();
         }
 
         [Command("RemoveStrike")]
