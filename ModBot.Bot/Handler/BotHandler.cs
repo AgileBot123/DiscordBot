@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using ChatFilterBot;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.EntityFrameworkCore;
@@ -17,14 +18,14 @@ namespace ModBot.Bot.Handler
         public CommandLogicService commandLogicService;
         public PunishmentsLevelsService punishmentsLevelsService;
         private DiscordSocketClient _client;
+        public Program program;
         public BotHandler()
         {
             _client = new DiscordSocketClient();
-            var databaseRepo = DatabaseRepo();
-            punishmentsLevelsService = new PunishmentsLevelsService(databaseRepo);
-            commandLogicService = new CommandLogicService(databaseRepo);
+            program = new Program();
+            punishmentsLevelsService = new PunishmentsLevelsService(program.DatabaseRepo());
+            commandLogicService = new CommandLogicService(program.DatabaseRepo());
         }
-
         public async Task CheckIfMessagesIsBannedWord(SocketMessage message)
         {
             var user = message as SocketUserMessage;
@@ -42,15 +43,7 @@ namespace ModBot.Bot.Handler
             }
         }
 
-        private static DatabaseRepository DatabaseRepo()
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<ModBotContext>();
-            optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=ModBotDatabase;Trusted_Connection=True");
-            var _context = new ModBotContext(optionsBuilder.Options);
-            var databaseRepo = new DatabaseRepository(_context);
-            return databaseRepo;
-        }
-
+        
         #region GrantDivinePunishment
 
         public async Task HandleMemeberStrikes(SocketMessage message)
