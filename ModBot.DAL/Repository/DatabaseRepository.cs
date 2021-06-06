@@ -14,9 +14,8 @@ using System.Threading.Tasks;
 
 namespace ModBot.DAL.Repository
 {
-   public class DatabaseRepository :  IBannedWordRepository, IChangeLogRepository, IPunishmentsLevelsRepository, 
-                                      IMemberRepository, IStatisticsRepository, IPunishmentRepository, 
-                                      IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
+   public class DatabaseRepository :  IBannedWordRepository,IPunishmentsLevelsRepository, IMemberRepository,
+              IPunishmentRepository, IMemberPunishmentRepository, IGuildPunishmentRepository, IGuildRepository
     {
      
         private readonly ModBotContext _context;
@@ -118,52 +117,7 @@ namespace ModBot.DAL.Repository
             }
         }
         #endregion
-
-        #region Statistics
-        public bool AddToStatistics(IStatistics stats)
-        {
-            try
-            {
-                _context.Add(stats);
-                return _context.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public async Task<IEnumerable<IStatistics>> GetAllStatistics()
-        {
-            try
-            {
-                var newList = new List<IStatistics>();
-                foreach (var item in await _context.Statistics.AsNoTracking().ToListAsync())
-                {
-                    newList.Add(new Statistics(
-                        item.Id,
-                        item.NumberOfMembers,
-                        item.NumberOfBannedWords,
-                        item.NumberOfTimesBannedWordBeenUsed,
-                        item.NumberOfTimesEachCommandoBeenUsed,
-                        item.TotalStrikesInDatabase,
-                        item.AverageNumberOfStrikes,
-                        item.MedianNumberOfStrikes));
-                }
-                return newList;
-            }
-            catch (Exception)
-            {
-
-                return null;
-            }
-        }
-
-        public async Task<IStatistics> GetStatistics(int id)
-        {
-            return await _context.Statistics.AsNoTracking().SingleAsync(x => x.Id == id);
-        }
-        #endregion
-
+ 
         #region Banned Word
         public virtual bool CreateBannedWord(IBannedWord createBannedWord)
         {
@@ -238,79 +192,7 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
-        #endregion
-
-        #region Logs
-        public virtual bool CreateChangelog(IChangelog createLog)
-        {
-            try
-            {
-                _context.Add(createLog);
-                return _context.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public virtual bool DeleteChangelog(IChangelog changelog)
-        {
-            try
-            {
-                _context.Remove(changelog);
-                return _context.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-        }
-        public virtual async Task<IEnumerable<IChangelog>> GetAllChangelogs()
-        {
-
-            try
-            {
-                var changeLogs = new List<IChangelog>();
-                foreach (var log in await _context.Changelogs.AsNoTracking().ToListAsync())
-                {
-                    var changelog = new Changelog(log.Id,
-                                                   log.ChangedDate,
-                                                   log.Changed
-                                                   );
-                    changeLogs.Add(changelog);
-                }
-                return changeLogs;
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-        public virtual async Task<IChangelog> GetChangelog(int id)
-        {
-            try
-            {
-                return await _context.Changelogs.AsNoTracking().SingleAsync(x => x.Id == id);
-            }
-            catch (Exception)
-            {
-                return null;
-            }
-        }
-        public virtual bool UpdateChangelog(int id, IChangelog changelog)
-        {
-            try
-            {
-                _context.Update(changelog);
-                return _context.SaveChanges() > 0;
-            }
-            catch (Exception)
-            {
-                return false;
-            }
-
-        }
-        #endregion
+        #endregion    
 
         #region Punishment Settings
         public virtual bool CreatePunishmentSetting(IPunishmentsLevels createPunished)

@@ -10,7 +10,6 @@ namespace ModBot.Domain.Models
         #region Properties
         private int _id;
         private int _strikesAmount;
-        private int _timeOutUntil;
 
         public int Id
         {
@@ -24,11 +23,6 @@ namespace ModBot.Domain.Models
             set { _strikesAmount = value; }
         }
 
-        public int TimeOutUntil
-        {
-            get { return _timeOutUntil; }
-            private set { }
-        }
         #endregion
 
         #region COnstructors

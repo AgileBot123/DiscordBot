@@ -17,6 +17,12 @@
         font-family: "Consolas";
         color:white;
     }
+
+    input[type=text] {
+        background-color: #36393F;
+    }
+
+    
     
     input[type=text], select {
         height: 50px;
@@ -26,7 +32,7 @@
         border-radius: 9px;
         box-sizing: border-box;
     }
-    
+
 
     #startPage {
         background-color: #2F3136;
@@ -225,16 +231,16 @@
                 {
                     <tr>
                         <td>
-                            <input id="listProfanity" value="@item.Profanity">
+                            <input id="listProfanity" type="text" value="@item.Profanity">
                         </td>
                         <td>
-                            <input id="listStrikes" value="@item.Strikes">
+                            <input id="listStrikes" type="text" value="@item.Strikes">
                         </td>
                         <td>
-                            <input id="listPunishment" value="@item.Punishment">
+                            <input id="listPunishment" type="text" value="@item.Punishment">
                         </td>
                         <th>
-                            <input id="buttonRemove" value="Remove" type="button" size="15">
+                            <input id="buttonRemove"  value="Remove" type="button" size="15">
                         </th>
                     </tr>
                 }

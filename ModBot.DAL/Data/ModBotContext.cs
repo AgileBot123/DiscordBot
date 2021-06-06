@@ -15,13 +15,11 @@ namespace ModBot.DAL.Data
 
         public DbSet<Member> Members { get; set; }
         public DbSet<BannedWord> BannedWords { get; set; }
-        public DbSet<Changelog> Changelogs { get; set; }
         public DbSet<PunishmentSettings> PunishmentsLevels { get; set; }
         public DbSet<Punishment> Punishments { get; set; }
         public DbSet<Guild> Guilds { get; set; }
         public DbSet<GuildPunishment> GuildPunishment { get; set; }
         public DbSet<MemberPunishment> MemberPunishments { get; set; }
-        public DbSet<Statistics> Statistics { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -52,11 +50,6 @@ namespace ModBot.DAL.Data
             modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
             modelBuilder.Entity<BannedWord>().HasKey(p => new { p.id });
 
-
-
-            ////ChangedLogs
-            modelBuilder.Entity<Changelog>().ToTable("Changelog");
-            modelBuilder.Entity<Changelog>().HasKey(p => new { p.Id });
 
             ////PunishmentLevels
             modelBuilder.Entity<PunishmentSettings>().HasKey(p => new { p.Id });
