@@ -14,7 +14,6 @@ namespace ModBot.Domain.Models
         private readonly ulong _id;
         private string _username;
         private string _avatar;
-        private string _email;
         private bool _isBot;
 
         public ulong Id
@@ -29,11 +28,6 @@ namespace ModBot.Domain.Models
             private set { }
         }
 
-        public string Email
-        {
-            get { return _email; }
-            private set { }
-        }
 
         public string Username
         {
