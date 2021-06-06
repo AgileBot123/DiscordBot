@@ -30,6 +30,46 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
+        public IActionResult SaveSettings()
+        {
+            var settings = Session.Get<BannedWordDto>(HttpContext.Session, "settings");
+            try
+            {
+                //UpdateBannedWordList();
+                //UpdatePunishmentSettings();
+
+                ViewBag.successResponse = "Your settings have been saved!";
+                ViewBag.failureResponse = "";
+                return View("Settings", settings);
+            }
+            catch (Exception ex)
+            {
+                ViewBag.successResponse = "";
+                ViewBag.failureResponse = "Your settings failed to save.";
+                return View("Settings", settings);
+            }
+        }
+
+        public IActionResult ReloadSettings(BannedWordDto addedBannedWord)
+        {
+            var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
+
+            addedBannedWord.BannedWordUsedCount = 0;
+            addedBannedWord.GuildId = Session.Get<ulong>(HttpContext.Session, "guild");
+
+            if(Settings.BannedWordList.Any(w => w.Profanity.ToLower() == addedBannedWord.Profanity.ToLower()))
+            {
+                var removedBannedWord = Settings.BannedWordList.Where(
+                    w => w.Profanity.ToLower() == addedBannedWord.Profanity.ToLower()).Single();
+                Settings.BannedWordList.Remove(removedBannedWord);
+            }
+            Settings.BannedWordList.Add(addedBannedWord);
+
+            Session.Set<SettingsDTO>(HttpContext.Session, "settings", Settings);
+            
+            return View("Settings", Settings);
+        }
+
         [Authorize(AuthenticationSchemes = "Discord")]
         [HttpGet]
         public async Task<IActionResult> Settings()
@@ -50,6 +90,8 @@ namespace ModBot.WebClient.Controllers
                     SpamMuteTime = PunishmentLevels.SpamMuteTime,
                     StrikeMuteTime = PunishmentLevels.StrikeMuteTime
                 };
+
+                Session.Set<SettingsDTO>(HttpContext.Session, "settings", settings);
 
                 return View(settings);
             }
@@ -177,24 +219,18 @@ namespace ModBot.WebClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdatePunishment(PunishmentSettingsDto update)
+        public void UpdatePunishmentSettings(PunishmentSettingsDto punishmentSettingsDto)
         {
-            if (ModelState.IsValid)
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
+                var jsonString = JsonConvert.SerializeObject(punishmentSettingsDto);
+                var stringContent = new StringContent(jsonString, Encoding.UTF8, "Application/json");
+                var response = client.PutAsync(endpoints.UpdatePunishmentLevel, stringContent).Result;
+                if (!response.IsSuccessStatusCode)
                 {
-                    var updatePunishment = JsonConvert.SerializeObject(update);
-                    var content = new StringContent(updatePunishment, Encoding.UTF8, "Application/json");
-                    var requestUrl = endpoints.UpdatePunishmentLevel;
-                    var response = client.PutAsync(requestUrl, content).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction("Settings");
-                    }
+                    throw new Exception("Punishment settings failed to update in database");
                 }
             }
-            HandleCookie("ServerIsSelected", "true");
-            return View();
         }
         
         [HttpPost]
@@ -312,28 +348,23 @@ namespace ModBot.WebClient.Controllers
         }
 
         [HttpPost]
-        public IActionResult UpdateBannedWord(BannedWordListDto update)
+        public void UpdateBannedWordList(BannedWordListDto update)
         {
-            if (ModelState.IsValid)
+            using (HttpClient client = new HttpClient())
             {
-                using (HttpClient client = new HttpClient())
+
+                var bannedWord = new BannedWordDto();
+                update.BannedWordList.Add(bannedWord);
+
+                var updateBannedWord = JsonConvert.SerializeObject(update);
+                var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
+                var requestUrl = endpoints.UpdateBannedWordList;
+                var response = client.PutAsync(requestUrl, content).Result;
+                if (response.IsSuccessStatusCode)
                 {
-
-                    var bannedWord = new BannedWordDto();
-                    update.BannedWordList.Add(bannedWord);
-
-                    var updateBannedWord = JsonConvert.SerializeObject(update);
-                    var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
-                    var requestUrl = endpoints.UpdateBannedWordList;
-                    var response = client.PutAsync(requestUrl, content).Result;
-                    if (response.IsSuccessStatusCode)
-                    {
-                        return RedirectToAction();
-                    }
+                    throw new Exception("Banned word list failed to update in database");
                 }
             }
-            HandleCookie("ServerIsSelected", "true");
-            return View();
         }
 
         public void HandleCookie(string name, string content)
