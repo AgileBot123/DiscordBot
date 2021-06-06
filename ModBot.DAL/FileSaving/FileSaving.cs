@@ -5,29 +5,29 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Xml.Linq;
 
 namespace ModBot.DAL.FileSaving
 {
     public class FileSaving
     {
-        public string fileName = "FileSaving.txt";
 
+        //C:\Users\Admin\Documents\GitHub\DiscordBot\DiscordBot\ModBot.API\Textfiles\BannedWords.txt
+        public string SetDirectoryAndFilePath()
+        {
+            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            return @$"{solutionDirectory}\DiscordBot\ModBot.API\Textfiles\BannedWords.txt";
+        }
 
-
-        /// <summary>
-        /// Loads the file and returns a List of T which could be any Type.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
         public List<T> LoadFromFile<T>()
         {
             CheckFileStatus();
 
-            var assembly = this.GetType().Assembly;
-            var resourceStream = assembly.GetManifestResourceStream($"{this.GetType().Namespace}.{fileName}");
-            using (StreamReader file = new StreamReader(resourceStream))
+            var assembly = Assembly.GetExecutingAssembly();
+            using (Stream stream = assembly.GetManifestResourceStream("ModBot.API.BannedWords.txt"))
+            using (StreamReader reader = new StreamReader(stream))
             {
-                var fetchedValue = JsonConvert.DeserializeObject<List<T>>(file.ReadToEnd());
+                var fetchedValue = JsonConvert.DeserializeObject<List<T>>(reader.ReadToEnd());
                 if (fetchedValue == null)
                 {
                     return new List<T>();
@@ -37,19 +37,13 @@ namespace ModBot.DAL.FileSaving
                  
         }
 
-
-        /// <summary>
-        /// Checks if the Directory exist, if not creates one.
-        /// Checks if the file exists. If not, creates one.
-        /// </summary>
         private void CheckFileStatus()
         {
-            var path = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-
-
-            if (!Directory.Exists(path))
-            {
-                Directory.CreateDirectory(path);
+            var fileName = "Textfiles\\BannedWords.txt";
+            var directory = "Textfiles";
+            if (!Directory.Exists(directory))
+            {              
+                Directory.CreateDirectory(directory);
             }
             if (!File.Exists(fileName))
             {
@@ -58,22 +52,11 @@ namespace ModBot.DAL.FileSaving
             }
                  
         }
-
-
-        /// <summary>
-        /// This method saves to a file and overrides its content.
-        /// There for you ALWAYS have to fetch the information inside the file first and then append the information to that list
-        /// before saving again.. 
-        /// 
-        /// Check BannedWordService -> CreateBannedWord for example
-        /// 
-        /// <typeparam name="T"></typeparam>
-        /// <param name="objectToBeSaved"></param>
         public void SaveToFile<T>(T objectToBeSaved)
         {
             CheckFileStatus();
 
-            using (StreamWriter file = File.CreateText(fileName))
+            using (StreamWriter file = File.CreateText(SetDirectoryAndFilePath()))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, objectToBeSaved);
