@@ -3,6 +3,8 @@
 @{
     ViewData["Title"] = "Settings";
 }
+
+
 <style>
 
 
@@ -13,17 +15,18 @@
         top: 50px;
         text-align: center;
     }
+
     * {
         font-family: "Consolas";
-        color:white;
+        color: white;
     }
 
     input[type=text] {
         background-color: #36393F;
     }
 
-    
-    
+
+
     input[type=text], select {
         height: 50px;
         width: 130px;
@@ -42,7 +45,7 @@
         box-sizing: border-box;
         margin: 5px;
     }
-    
+
 
 
     #startPage {
@@ -60,16 +63,18 @@
         margin-right: -45%;
         transform: translate(-40%)
     }
+
     #buttonSettings {
         position: relative;
         background-color: #44877f;
         border: none;
         color: white;
         border-radius: 1em;
-        padding: 15px 100px;  
+        padding: 15px 100px;
         display: inline-block;
         font-size: 16px;
     }
+
     #buttonadd {
         position: relative;
         background-color: #44877f;
@@ -82,7 +87,8 @@
         display: inline-block;
         font-size: 16px;
     }
-   #buttonRemove {
+
+    #buttonRemove {
         position: relative;
         background-color: #44877f;
         border: none;
@@ -94,84 +100,96 @@
         display: inline-block;
         font-size: 16px;
     }
-    #row1 
-    {
+    #buttonUpdate {
+        position: relative;
+        background-color: #53538C;
+        border: none;
+        color: white;
+        border-radius: 1em;
+        height: 50px;
+        width: 130px;
+        left: 15%;
+        display: inline-block;
+        font-size: 16px;
+    }
+
+    #row1 {
         float: left;
         margin-left: 20px;
     }
-    #row1text
-    {
+
+    #row1text {
         width: 200px;
         text-align: left;
     }
+
     #row2text {
         width: 200px;
         text-align: left;
     }
-    #row2
-    {
+
+    #row2 {
         float: right;
         margin-right: 20px;
         margin-left: 100px;
     }
+
     #row2item2, row2item3 {
         position: relative;
         text-align: right;
     }
+
     #addprofanity {
-        top: 30%; 
+        top: 30%;
         height: 300px;
         width: 100%;
     }
-    #addText{
+
+    #addText {
         height: 50px;
     }
-    #addInput{
+
+    #addInput {
         top: 50%;
         height: 50px;
         margin-top: 30px;
     }
+
     #textProfanity {
         width: 300px;
-        
     }
 
     #textStrikes {
-        width: 100px; 
-        
+        width: 100px;
     }
 
     #textPunishment {
-       width: 100px;
+        width: 100px;
     }
+
     #inputProfanity {
         float: left;
         margin-left: 20px;
         width: 300px;
     }
 
-    #inputStrikes 
-    {
+    #inputStrikes {
+    }
 
-       
-        
-    }
     #inputPunishment {
-      
     }
-    #failure
-    {
+
+    #failure {
         color: red;
     }
-    #success 
-    {
+
+    #success {
         color: green;
     }
-    #list
-    {
+
+    #list {
         top: 80%;
     }
-
 </style>
 
 
@@ -215,77 +233,78 @@
         <div id="addprofanity">
             <form action="addprofanity" method="post">
                 <table>
-                <tr id="addText">
-                    <td>
-                        <label id="textProfanity">Profanity</label>
-                    </td>
-                    <td>
-                        <label id="textStrikes">Strikes</label>
-                    </td>
-                    <td>
-                        <label id="textPunishment">Punishment</label>
-                    </td>
-                </tr>
-                <tr id="addInput">
-                    <td>
-                        <input id="inputProfanity" value="" name="profanity" required type="text" size="22">
-                    </td>
-                    <td>
-                        <input id="inputStrikes" value="" name="strikes" required type="number" min="0" size="10">
-                    </td>
-                    <td>
-                        <select id="inputPunishment" name="punishment" required>
-                            <option value="None">None</option>
-                            <option value="Mute">Mute</option>
-                            <option value="Kick">Kick</option>
-                            <option value="Ban">Ban</option>
-                        </select>
-                    </td>
-                    <td>
-                        <input input="add" id="buttonadd" value="Add" type="submit" size="10">
-                    </td>
-                </tr>
-                </table>
-            </form>
-        </div>
-
-        
-            
-                
-    @for (var rotation = 0; rotation < Model.BannedWordList.Count; rotation++)
-    {
-        var item = Model.BannedWordList[rotation];
-        <form action="removeprofanity" method="post">
-            <table id="list">
-                <tbody>
-                    <tr>
+                    <tr id="addText">
                         <td>
-                            <input id="listProfanity @rotation" name="profanity" type="text" value="@item.Profanity" required>
+                            <label id="textProfanity">Profanity</label>
                         </td>
                         <td>
-                            <input id="listStrikes @rotation" name="strikes" type="number" min="0" value="@item.Strikes" required>
+                            <label id="textStrikes">Strikes</label>
                         </td>
                         <td>
-                            <select id="listPunishment @rotation" name="punishment" required>
-                                <option hidden selected value="@item.Punishment">@item.Punishment</option>
+                            <label id="textPunishment">Punishment</label>
+                        </td>
+                    </tr>
+                    <tr id="addInput">
+                        <td>
+                            <input id="inputProfanity" value="" name="profanity" required type="text" size="22">
+                        </td>
+                        <td>
+                            <input id="inputStrikes" value="" name="strikes" required type="number" min="0" size="10">
+                        </td>
+                        <td>
+                            <select id="inputPunishment" name="punishment" required>
                                 <option value="None">None</option>
                                 <option value="Mute">Mute</option>
                                 <option value="Kick">Kick</option>
                                 <option value="Ban">Ban</option>
                             </select>
                         </td>
-                        <th>
-                            <input id="buttonRemove" value="Remove" type="submit">
-
-                        </th>
-
+                        <td>
+                            <input input="add" id="buttonadd" value="Add" type="submit" size="10">
+                        </td>
                     </tr>
-                </tbody>
-            </table>
-        </form>
-    }
-                
-            
+                </table>
+            </form>
+        </div>
+
+
+
+        @for (var rotation = 0; rotation < Model.BannedWordList.Count; rotation++)
+        {
+            var item = Model.BannedWordList[rotation];
+            <form action="updateprofanity" method="post">
+                <table id="list">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <input id="listProfanity @rotation" name="@item.Profanity" type="text" value="@item.Profanity" required readonly>
+                            </td>
+                            <td>
+                                <input id="listStrikes @rotation" name="@item.Profanity" type="number" min="0" value="@item.Strikes" required>
+                            </td>
+                            <td>
+                                <select id="listPunishment @rotation" name="@item.Profanity" required>
+                                    <option hidden selected value="@item.Punishment">@item.Punishment</option>
+                                    <option value="None">None</option>
+                                    <option value="Mute">Mute</option>
+                                    <option value="Kick">Kick</option>
+                                    <option value="Ban">Ban</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input id="buttonRemove" name="submittype" value="remove" type="submit">
+                            </td>
+                            <td>
+                                <input id="buttonUpdate" name="submittype" value="update" type="submit">
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </form>
+        }
+
+
+
 
     </div>
 </div>

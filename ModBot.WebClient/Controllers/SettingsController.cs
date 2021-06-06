@@ -85,15 +85,25 @@ namespace ModBot.WebClient.Controllers
             return View("Settings", Settings);
         }
 
-        public IActionResult RemoveProfanity(BannedWordDto inputBannedWord)
+        public IActionResult UpdateProfanity(BannedWordDto inputBannedWord)
         {
             var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
-            inputBannedWord.GuildId = Session.Get<ulong>(HttpContext.Session, "guild");
-
-            var removedBannedWord = Settings.BannedWordList.Where(
+            var BannedWord = Settings.BannedWordList.Where(
                     w => w.Profanity.ToLower() == inputBannedWord.Profanity.ToLower()).Single();
 
-            Settings.BannedWordList.Remove(removedBannedWord);
+            if (inputBannedWord.SubmitType.Equals("remove"))
+            {
+                Settings.BannedWordList.Remove(BannedWord);
+            }
+            else
+            {
+                var updatedBannedWord = BannedWord;
+                updatedBannedWord.Strikes = inputBannedWord.Strikes;
+                updatedBannedWord.Punishment = inputBannedWord.Punishment;
+
+                Settings.BannedWordList.Remove(BannedWord);
+                Settings.BannedWordList.Add(updatedBannedWord);
+            }
             Session.Set<SettingsDTO>(HttpContext.Session, "settings", Settings);
 
             return View("Settings", Settings);
