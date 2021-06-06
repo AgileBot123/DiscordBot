@@ -1,4 +1,11 @@
 ﻿<!DOCTYPE html>
+<style>
+    #img {
+        position: relative;
+        left: 17%;
+        top: -5%;
+    }
+</style>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -13,17 +20,11 @@
     <header>
 
         <div class="navbarLeft">
-            <nav>
-                @ViewBag.Test
-                <br />
-
-                <input type="image" src="~/images/Icon.png" name="Icon" width="100" height="100" alt="Home" onclick="location.href='@Url.Action("Start", "Home")'" />
-
-                <br />
+                <input type="image" src="~/images/Icon.png" name="Icon" width="100" height="100" alt="Home" id="img" onclick="location.href='@Url.Action("Start", "Home")'" />
                 @if (User.Identity.IsAuthenticated)
                 {
 
-                    <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
+                    <button id="layoutButton" class="btn btn-secondary"  onclick="location.href='@Url.Action("Logout", "Authentication")'">Logout</button>
                     <br />
                     <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("ServerList", "Authentication")'">Servers</button>
 
@@ -36,8 +37,7 @@
                     <button id="layoutButton" class="btn btn-secondary" onclick="location.href='@Url.Action("Settings", "Settings")'">Settings</button>
 
                 }
-            </nav>
-
+            </div>
     </header>
 
     <div class="container">

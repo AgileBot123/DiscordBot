@@ -56,17 +56,31 @@
         align-items: center;
     }
     #ButtonText {
-        left: 50%;
-        top: 50%;
+        position: relative;
+        left: 15%;
+        top: -11%;
         font-size: 25px;
+        color: white;
     }
-    #Button {
+    #ButtonA {
+        position: relative;
+        float: right;
+        left: 52%;
+        color: #fff;
+        background-color: #575777;
+        font-size: 25px;
+        width: 17%;
+        height: 40px;
+        letter-spacing: 0.05em;
+        border-radius: 25px;
+    }
+    #ButtonE {
         position: relative;
         float: right;
         left: 50%;
         color: #fff;
         background-color: #44877F;
-        font-weight: bold;
+        font-size: 25px;
         width: 20%;
         height: 40px;
         letter-spacing: 0.05em;
@@ -101,9 +115,7 @@
                                 <p id="Text">
                                     @item.Name
                                 </p>
-                                <div id="Button">
-                                    <a class="btn" id="ButtonText" asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id">Edit bot</a>
-                                </div>
+                                    <a class="btn" id="ButtonE" asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id">Edit bot</a>
                             }
                             else
                             {
@@ -118,9 +130,7 @@
                                 <p id="Text">
                                     @item.Name
                                 </p>
-                                <div id="Button">
-                                    <a href=@AddDiscordBot@item.Id class="btn btn-dark">Add bot</a>
-                                </div>
+                                    <a href=@AddDiscordBot@item.Id class="btn" id="ButtonA">Add bot</a>
                             }
 
                         </div>
