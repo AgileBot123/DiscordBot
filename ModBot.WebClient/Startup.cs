@@ -51,8 +51,8 @@ namespace ModBot.WebClient
                    .AddCookie(o => o.LoginPath = new PathString("/Account/Login"))
                    .AddDiscord(options =>
                     {
-                        options.ClientId = "844535789882834955";
-                        options.ClientSecret = "8aAbAg5Ehox_npB16UU2EyEJE5tGs6HS";
+                        options.ClientId = Configuration["DiscordClientId:ClientId"];
+                        options.ClientSecret = Configuration["DiscordClientId:ClientSecret"];
                         options.Scope.Add("guilds");
                         options.Scope.Add("guilds.join");
 
