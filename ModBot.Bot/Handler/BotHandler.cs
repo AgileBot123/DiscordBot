@@ -33,18 +33,48 @@ namespace ModBot.Bot.Handler
 
             if (!message.Author.IsBot)
             {
-                var IsBannedWord = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
+                var punishmentValue = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
 
-                if (IsBannedWord)
+                if (!string.IsNullOrEmpty(punishmentValue))
                 {
                     await message.DeleteAsync();
-                    await HandleMemeberStrikes(message);
+
+                    var result = await WordSpecificPunish(user, punishmentValue, context);
+
+                    if (!result)
+                    {
+                        await HandleMemeberStrikes(message);
+                    }
                 }
             }
         }
 
-        
+
         #region GrantDivinePunishment
+
+        private async Task<bool> WordSpecificPunish(SocketMessage message, string wordPunish, SocketCommandContext context)
+        {
+            var user = message.Author as SocketGuildUser;
+
+            switch (wordPunish)
+            {
+                case var x when x.Equals("Ban"):
+                    await BanMember(user, message);
+                    return true;
+
+                case var x when x.Equals("Kick"):
+                    await KickMember(user, message);
+                    return true;
+
+                case var x when x.Equals("Mute"):
+                    await TimeOutMember(user, message, await commandLogicService.GetStrikeMuteTime(context.Guild.Id));
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
 
         public async Task HandleMemeberStrikes(SocketMessage message)
         {

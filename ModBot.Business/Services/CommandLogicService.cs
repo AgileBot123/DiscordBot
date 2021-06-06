@@ -220,23 +220,31 @@ namespace ModBot.Business.Services
             return null;
         }
 
-        public async Task<bool> CheckBannedWordsFromUsersMessage(SocketUserMessage message, ulong guildId)
+        public async Task<string> CheckBannedWordsFromUsersMessage(SocketUserMessage message, ulong guildId)
         {
             var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>();
 
-            var specificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId);
-            var strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == message.Content.ToString().ToLower() && x.GuildId == guildId).Select(x => x.Strikes).FirstOrDefault();
+            var specificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() == 
+                                            message.Content.ToString().ToLower() && x.GuildId == guildId);
+
+            var specificWordPunishment = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == 
+                                            message.Content.ToString().ToLower() && x.GuildId == guildId)
+                                                    .Select(x => x.Punishment).FirstOrDefault();
+
+            var strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == 
+                                            message.Content.ToString().ToLower() && x.GuildId == guildId)
+                                                            .Select(x => x.Strikes).FirstOrDefault();
 
             if (specificWord)
             {
                 await AddMemberToDatabase(message.Author.Id, message.Author.Username, message.Author.AvatarId, message.Author.IsBot, guildId);
 
                 var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id, guildId);
-
-                if (strikeAdded)
-                    return true;
+                                       
+                if (strikeAdded)               
+                    return specificWordPunishment;              
             }
-            return false;
+            return null;
         }
 
 
@@ -282,6 +290,13 @@ namespace ModBot.Business.Services
                await _databaseRepository.UpdatePunishment(user);
             }        
 
+        }
+
+        public async Task<int> GetStrikeMuteTime(ulong guildId)
+        {
+            var strikeMuteTime = await _databaseRepository.GetPunishmentLevels(guildId);
+
+            return strikeMuteTime.StrikeMuteTime;
         }
     }
 }
