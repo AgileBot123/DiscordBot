@@ -32,11 +32,26 @@ namespace ModBot.WebClient.Controllers
 
         public IActionResult SaveSettings()
         {
-            var settings = Session.Get<BannedWordDto>(HttpContext.Session, "settings");
+            var settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
             try
             {
-                //UpdateBannedWordList();
-                //UpdatePunishmentSettings();
+                var bannedWordListDto = new BannedWordListDto();
+                foreach(var bannedWord in settings.BannedWordList)
+                {
+                    bannedWordListDto.BannedWordList.Add(bannedWord);
+                }
+                UpdateBannedWordList(bannedWordListDto);
+
+                var punishmentSettingsDto = new PunishmentSettingsDto()
+                {
+                    TimeOutLevel = settings.TimeOutLevel,
+                    KickLevel = settings.KickLevel,
+                    BanLevel = settings.BanLevel,
+                    SpamMuteTime = settings.SpamMuteTime,
+                    StrikeMuteTime = settings.StrikeMuteTime,
+                    GuildId = Session.Get<ulong>(HttpContext.Session, "guild")
+                };
+                UpdatePunishmentSettings(punishmentSettingsDto);
 
                 ViewBag.successResponse = "Your settings have been saved!";
                 ViewBag.failureResponse = "";
@@ -50,7 +65,7 @@ namespace ModBot.WebClient.Controllers
             }
         }
 
-        public IActionResult ReloadSettings(BannedWordDto addedBannedWord)
+        public IActionResult AddProfanity(BannedWordDto addedBannedWord)
         {
             var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
 
@@ -67,6 +82,20 @@ namespace ModBot.WebClient.Controllers
 
             Session.Set<SettingsDTO>(HttpContext.Session, "settings", Settings);
             
+            return View("Settings", Settings);
+        }
+
+        public IActionResult RemoveProfanity(BannedWordDto inputBannedWord)
+        {
+            var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
+            inputBannedWord.GuildId = Session.Get<ulong>(HttpContext.Session, "guild");
+
+            var removedBannedWord = Settings.BannedWordList.Where(
+                    w => w.Profanity.ToLower() == inputBannedWord.Profanity.ToLower()).Single();
+
+            Settings.BannedWordList.Remove(removedBannedWord);
+            Session.Set<SettingsDTO>(HttpContext.Session, "settings", Settings);
+
             return View("Settings", Settings);
         }
 
