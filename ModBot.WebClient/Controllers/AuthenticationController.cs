@@ -70,7 +70,6 @@ namespace ModBot.WebClient.Controllers
             HandleCookie("ServerIsSelected", "false");
             var token = await _logic.DiscordGetToken();
             Session.Set<string>(HttpContext.Session, "token", token);
-            ViewBag.Test = HttpContext.User.Identity.Name;
             var servers = await _logic.GetUserServerAsync(Session.Get<string>(HttpContext.Session, "token"));
             Session.Set(HttpContext.Session, "serverlist", servers);
             return View("ServerList", servers);
