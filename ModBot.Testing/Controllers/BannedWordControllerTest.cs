@@ -56,18 +56,6 @@ namespace ModBot.Testing.Controllers
             vehicle.Count().Should().Be(2);
         }
    
-        [TestMethod]
-        public async Task GetAllBannedWords_ShouldReturnStatusCode500IfListIsNull()
-        {
-            //Arrange
-            List<IBannedWord> listIsNull = null;
-            _mockBannedWord.Setup(x => x.GetAllBannedWords(It.IsAny<ulong>())).ReturnsAsync(listIsNull);
-            //Act
-            var response = await _bannedWordsController.GetAllBannedWords(bannedWordDto);
-            //Assert
-            var result = response.Should().BeOfType<OkObjectResult>().Subject;
-            result.Value.Should().BeNull();
-        }
 
 
         [TestMethod]
@@ -94,17 +82,7 @@ namespace ModBot.Testing.Controllers
             //Assert
             response.Should().BeOfType<NotFoundObjectResult>();
         }
-        [TestMethod]
-        public async Task GetBannedWord_ShouldReturnBadRequest()
-        {
-            //Arrange
-            var word = string.Empty;
-            //Act
-            var response = await _bannedWordsController.GetBannedWord(bannedWordDto);
-            //Assert
-            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be("word is null or empty");
-        }
+
         [TestMethod]
         public void CreateBannedWord_ShouldReturnNoContent()
         {
@@ -242,8 +220,8 @@ namespace ModBot.Testing.Controllers
             //Act
             var response = await _bannedWordsController.DeleteBannedWord(null);
             //Assert
-            var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be("word cannot be empty or null");
+            var result = response.Should().BeOfType<ObjectResult>().Subject;
+            result.Value.Should().Be("internal server error");
         }
     }
 }
