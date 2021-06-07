@@ -9,7 +9,6 @@ namespace ModBot.Domain.Models
     public class PunishmentSettings : IPunishmentsLevels
     {
         #region Properties
-        private readonly int _id;
         private readonly int _timeOutLevel;
         private readonly int _kickLevel;
         private readonly int _banLevel;
@@ -17,11 +16,7 @@ namespace ModBot.Domain.Models
         private readonly int _strikeMuteTime;
         private readonly ulong _guildId; 
 
-        public int Id
-        {
-            get { return _id; }
-            private set { }
-        }
+
         public int TimeOutLevel
         {
             get { return _timeOutLevel; }
@@ -74,9 +69,8 @@ namespace ModBot.Domain.Models
         }
 
 
-        public PunishmentSettings(int id, int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel)
+        public PunishmentSettings(int timeoutLevel, int kickLevel, int banLevel, int spamMuteLevel, int strikeMuteLevel)
         {
-            this._id = id;
             this._timeOutLevel = timeoutLevel;
             this._kickLevel = kickLevel;
             this._banLevel = banLevel;

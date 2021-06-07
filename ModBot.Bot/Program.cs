@@ -15,6 +15,7 @@ using ModBot.Domain.Models;
 using ModBot.Bot.Handler;
 using System.Configuration;
 using System.IO;
+using Interactivity;
 
 namespace ChatFilterBot
 {
@@ -42,7 +43,6 @@ namespace ChatFilterBot
         private CommandService _commandsServices;
         private IServiceProvider _services;
         private BotHandler _botHandler;
-
         public DatabaseRepository DatabaseRepo()
         {
             var optionsBuilder = new DbContextOptionsBuilder<ModBotContext>();
@@ -58,11 +58,15 @@ namespace ChatFilterBot
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 
+  
+
             _services = new ServiceCollection()
                  .AddSingleton(_client)
                  .AddDbContext<ModBotContext>(o => o.UseSqlServer(DatabaseString))
                  .AddScoped<ICommandLogic, CommandLogicService>()
                  .AddScoped<DatabaseRepository>()
+                 .AddScoped<InteractivityService>()
+                 .AddSingleton(new InteractivityConfig { DefaultTimeout = TimeSpan.FromSeconds(20) })
                  .AddSingleton(_commandsServices)
                  .BuildServiceProvider();
 
@@ -88,6 +92,7 @@ namespace ChatFilterBot
             var update = new Guild(fetchedGuild.Id, false, fetchedGuild.Avatar, fetchedGuild.GuildName);
 
             databaseRepo.UpdateGuild(update);
+
         }
 
       
@@ -128,7 +133,7 @@ namespace ChatFilterBot
         {
             _client.MessageReceived += HandleCommandsAsync;
             _client.MessageReceived += _botHandler.CheckIfMessagesIsBannedWord;
-
+            _client.MessageReceived += _botHandler.AntiSpam;
 
 
 
