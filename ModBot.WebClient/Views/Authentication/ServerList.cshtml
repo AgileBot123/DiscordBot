@@ -13,7 +13,7 @@
     #HeaderDiv {
         position: absolute;
         top: 5%;
-        left: 27%
+        left: 30%
     }
     #Header {
         font-size: 80px;
@@ -64,25 +64,27 @@
     }
     #ButtonA {
         position: relative;
+        height: 40px;
+        line-height: 30px;
         float: right;
         left: 52%;
         color: #fff;
         background-color: #575777;
         font-size: 25px;
         width: 17%;
-        height: 40px;
         letter-spacing: 0.05em;
         border-radius: 25px;
     }
     #ButtonE {
         position: relative;
+        height: 40px;
+        line-height: 30px;
         float: right;
         left: 50%;
         color: #fff;
         background-color: #44877F;
         font-size: 25px;
         width: 20%;
-        height: 40px;
         letter-spacing: 0.05em;
         border-radius: 25px;
     }
@@ -115,7 +117,7 @@
                                 <p id="Text">
                                     @item.Name
                                 </p>
-                                    <a class="btn" id="ButtonE" asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id">Edit bot</a>
+                                    <a class="btn" id="ButtonE"  asp-area="" asp-controller="Authentication" asp-action="EditGuild" asp-route-guildId="@item.Id">Edit bot</a>
                             }
                             else
                             {
