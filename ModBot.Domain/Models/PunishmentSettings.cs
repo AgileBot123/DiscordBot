@@ -50,7 +50,6 @@ namespace ModBot.Domain.Models
             private set { }
         }
 
-        public Guild Guild { get; private set; }
         #endregion
 
 

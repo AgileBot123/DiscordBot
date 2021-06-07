@@ -13,6 +13,5 @@ namespace ModBot.Domain.Interfaces
         int SpamMuteTime { get;  }
         int StrikeMuteTime { get; }
         ulong GuildId { get; }
-        Guild Guild { get; }
     }
 }
