@@ -1,6 +1,8 @@
 ﻿using ModBot.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Text;
 
 namespace ModBot.Domain.Models
@@ -44,12 +46,15 @@ namespace ModBot.Domain.Models
             get { return _strikeMuteTime; }
             private set { }
         }
+
+
+        [Key, ForeignKey(nameof(Guild))]
         public ulong GuildId
         {
             get { return _guildId; }
             private set { }
         }
-
+        public Guild Guild { get; private set; }
         #endregion
 
 
