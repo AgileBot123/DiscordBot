@@ -4,16 +4,6 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Textfiles\BannedWords.txt" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Textfiles\BannedWords.txt">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
 
 
   <ItemGroup>
