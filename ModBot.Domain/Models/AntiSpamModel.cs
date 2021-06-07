@@ -10,5 +10,6 @@ namespace ModBot.Domain.Models
         public SocketGuildUser User { get; set; }
         public int Counter { get; set; }
         public DateTimeOffset Timer { get; set; }
+        public SocketMessage TempMessage { get; set; }
     }
 }

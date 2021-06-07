@@ -48,6 +48,22 @@ namespace ModBot.DAL.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PunishmentsLevel",
+                columns: table => new
+                {
+                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
+                    TimeOutLevel = table.Column<int>(type: "int", nullable: false),
+                    KickLevel = table.Column<int>(type: "int", nullable: false),
+                    BanLevel = table.Column<int>(type: "int", nullable: false),
+                    SpamMuteTime = table.Column<int>(type: "int", nullable: false),
+                    StrikeMuteTime = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PunishmentsLevel", x => x.GuildId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "BannedWord",
                 columns: table => new
                 {
@@ -62,28 +78,6 @@ namespace ModBot.DAL.Migrations
                     table.PrimaryKey("PK_BannedWord", x => new { x.Profanity, x.GuildId });
                     table.ForeignKey(
                         name: "FK_BannedWord_Guild_GuildId",
-                        column: x => x.GuildId,
-                        principalTable: "Guild",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PunishmentsLevel",
-                columns: table => new
-                {
-                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
-                    TimeOutLevel = table.Column<int>(type: "int", nullable: false),
-                    KickLevel = table.Column<int>(type: "int", nullable: false),
-                    BanLevel = table.Column<int>(type: "int", nullable: false),
-                    SpamMuteTime = table.Column<int>(type: "int", nullable: false),
-                    StrikeMuteTime = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PunishmentsLevel", x => x.GuildId);
-                    table.ForeignKey(
-                        name: "FK_PunishmentsLevel_Guild_GuildId",
                         column: x => x.GuildId,
                         principalTable: "Guild",
                         principalColumn: "Id",
@@ -151,7 +145,7 @@ namespace ModBot.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_MemberPunishment_PunishmentId",
                 table: "MemberPunishment",
-                column: "PunishmentId");   
+                column: "PunishmentId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -169,13 +163,13 @@ namespace ModBot.DAL.Migrations
                 name: "PunishmentsLevel");
 
             migrationBuilder.DropTable(
+                name: "Guild");
+
+            migrationBuilder.DropTable(
                 name: "Member");
 
             migrationBuilder.DropTable(
                 name: "Punishment");
-
-            migrationBuilder.DropTable(
-                name: "Guild");
         }
     }
 }

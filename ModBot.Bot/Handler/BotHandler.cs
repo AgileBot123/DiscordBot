@@ -64,18 +64,21 @@ namespace ModBot.Bot.Handler
                 {
                     User = userGuild,
                     Counter = 0,
-                    Timer = DateTimeOffset.Now
+                    Timer = DateTimeOffset.Now,
+                    TempMessage = message
                 };
-
                 userCooldownList.Add(antispamModel);
             }
 
-            foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())   
-            {
+            if (userCooldownList.Select(x => x.TempMessage == message).Single())
+            {   
+                foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())   
+                {
+            
                 if (usersInfo.Timer >= DateTimeOffset.Now)
                 {
                     usersInfo.Counter++;
-
+                                       
                     if (usersInfo.Counter >= 3)
                     {
                         var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
@@ -88,9 +91,10 @@ namespace ModBot.Bot.Handler
                 {
                     usersInfo.Counter = 0;
                     usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
-                }                
+                }                       
             }
         }
+    }
 
 
 

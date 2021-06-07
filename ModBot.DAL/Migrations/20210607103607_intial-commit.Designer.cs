@@ -9,7 +9,7 @@ using ModBot.DAL.Data;
 namespace ModBot.DAL.Migrations
 {
     [DbContext(typeof(ModBotContext))]
-    [Migration("20210607100526_intial-commit")]
+    [Migration("20210607103607_intial-commit")]
     partial class intialcommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -141,9 +141,6 @@ namespace ModBot.DAL.Migrations
                     b.Property<int>("BanLevel")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("GuildId1")
-                        .HasColumnType("decimal(20,0)");
-
                     b.Property<int>("KickLevel")
                         .HasColumnType("int");
 
@@ -157,8 +154,6 @@ namespace ModBot.DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("GuildId");
-
-                    b.HasIndex("GuildId1");
 
                     b.ToTable("PunishmentsLevel");
                 });
@@ -210,17 +205,6 @@ namespace ModBot.DAL.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("Punishment");
-                });
-
-            modelBuilder.Entity("ModBot.Domain.Models.PunishmentSettings", b =>
-                {
-                    b.HasOne("ModBot.Domain.Models.Guild", "Guild")
-                        .WithMany()
-                        .HasForeignKey("GuildId1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Guild");
                 });
 #pragma warning restore 612, 618
         }
