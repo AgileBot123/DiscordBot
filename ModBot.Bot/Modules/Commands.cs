@@ -159,9 +159,9 @@ namespace ModBot.Bot.Modules
         public async Task AdminHelp()
         {
             await ReplyAsync("These are the commands available: " + "\n" +
-                             "!Mute               ->  To mute a specific user and time in minutes.    Example !mute nahd 10" + "\n" +
-                             "!Addstrikes         ->  To add strikes to specific user.                         Example !addstrikes nahd 5" + "\n" +
-                             "!Removestrikes      ->  To remove strikes from a specific user.      Example !removestrikes nahd 5" + "\n" +
+                             "!Mute               ->  To mute a specific user and time in minutes.    Example !mute " + Context.User.Username + " 10" + "\n" +
+                             "!Addstrikes         ->  To add strikes to specific user.                         Example !addstrikes " + Context.User.Username + " 10" + "\n" +
+                             "!Removestrikes      ->  To remove strikes from a specific user.      Example !removestrikes " + Context.User.Username + " 5" + "\n" +
                              "!ResetServerStrikes ->  To reset all members strikes on the server");
         }
 
