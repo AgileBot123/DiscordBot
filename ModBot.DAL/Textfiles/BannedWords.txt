@@ -1,3 +1,1 @@
-[{"Profanity":"fuck","GuildId":838707761067982888,"Strikes":1, "punishment": "Mute" },
-{"Profanity":"fucked","GuildId":838707761067982888,"Strikes":2, "punishment": "Kick"},
-{"Profanity":"dammit","GuildId":838707761067982888,"Strikes":3, "punishment": "Ban"}]
+[{"Profanity":"Fuck","GuildId":838707761067982888,"Strikes":2,"Punishment":"Timeout"},{"Profanity":"Fucked","GuildId":838707761067982888,"Strikes":3,"Punishment":"Ban"}]
