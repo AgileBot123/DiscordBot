@@ -107,6 +107,8 @@ namespace ModBot.Business.Services
             return false;
         }
 
+        
+
 
         public string BotResponseCooldown(SocketCommandContext context)
         {
@@ -182,6 +184,14 @@ namespace ModBot.Business.Services
             }
             return roleID;
         }
+
+
+        public async Task<int> GetMuteTime(ulong guild)
+        {
+            var punishmentSettings = await _databaseRepository.GetPunishmentLevels(guild);
+            return punishmentSettings.SpamMuteTime;
+        }
+
 
         public async Task MuteMember(SocketGuildUser user, int time, ulong roleID)
         {

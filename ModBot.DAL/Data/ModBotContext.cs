@@ -48,12 +48,11 @@ namespace ModBot.DAL.Data
 
             ////BannedWord
             modelBuilder.Entity<BannedWord>().ToTable("BannedWord");
-            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.id });
-
+            modelBuilder.Entity<BannedWord>().HasKey(p => new { p.Profanity, p.GuildId});
 
             ////PunishmentLevels
-            modelBuilder.Entity<PunishmentSettings>().HasKey(p => new { p.Id });
             modelBuilder.Entity<PunishmentSettings>().ToTable("PunishmentsLevel");
+            modelBuilder.Entity<PunishmentSettings>().HasKey(p => p.GuildId);
         }
     }
 }

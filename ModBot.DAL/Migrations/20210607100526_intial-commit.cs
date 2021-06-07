@@ -2,7 +2,7 @@
 
 namespace ModBot.DAL.Migrations
 {
-    public partial class Initialcommit : Migration
+    public partial class intialcommit : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -51,17 +51,15 @@ namespace ModBot.DAL.Migrations
                 name: "BannedWord",
                 columns: table => new
                 {
-                    id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Profanity = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Profanity = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     Strikes = table.Column<int>(type: "int", nullable: false),
                     Punishment = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BannedWordUsedCount = table.Column<int>(type: "int", nullable: false),
-                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    BannedWordUsedCount = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BannedWord", x => x.id);
+                    table.PrimaryKey("PK_BannedWord", x => new { x.Profanity, x.GuildId });
                     table.ForeignKey(
                         name: "FK_BannedWord_Guild_GuildId",
                         column: x => x.GuildId,
@@ -74,18 +72,16 @@ namespace ModBot.DAL.Migrations
                 name: "PunishmentsLevel",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false),
                     TimeOutLevel = table.Column<int>(type: "int", nullable: false),
                     KickLevel = table.Column<int>(type: "int", nullable: false),
                     BanLevel = table.Column<int>(type: "int", nullable: false),
                     SpamMuteTime = table.Column<int>(type: "int", nullable: false),
-                    StrikeMuteTime = table.Column<int>(type: "int", nullable: false),
-                    GuildId = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    StrikeMuteTime = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PunishmentsLevel", x => x.Id);
+                    table.PrimaryKey("PK_PunishmentsLevel", x => x.GuildId);
                     table.ForeignKey(
                         name: "FK_PunishmentsLevel_Guild_GuildId",
                         column: x => x.GuildId,
@@ -155,12 +151,7 @@ namespace ModBot.DAL.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_MemberPunishment_PunishmentId",
                 table: "MemberPunishment",
-                column: "PunishmentId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PunishmentsLevel_GuildId",
-                table: "PunishmentsLevel",
-                column: "GuildId");
+                column: "PunishmentId");   
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

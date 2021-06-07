@@ -236,7 +236,7 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-                return await _context.PunishmentsLevels.AsNoTracking().SingleAsync(x => x.Id == id && x.GuildId==guilId);
+                return await _context.PunishmentsLevels.AsNoTracking().SingleAsync(x => x.GuildId==guilId);
             }
             catch (Exception)
             {
