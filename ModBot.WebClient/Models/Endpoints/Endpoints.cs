@@ -37,7 +37,7 @@ namespace ModBot.WebClient.Models.Endpoints
         public string GetPunishmentLevel => Base + "getpunishmentlevel";
         public string GetPunishmentLevels => Base + "getpunishmentlevels";
         public string DeletePunishmentLevel => Base + "deletepunishmentlevel/";
-        public string UpdatePunishmentLevel => Base + "updatepunishmentlevel/";
+        public string UpdatePunishmentLevel => Base + "updatepunishmentlevel";
         #endregion
 
         #region Member

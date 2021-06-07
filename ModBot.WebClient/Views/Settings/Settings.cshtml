@@ -254,29 +254,31 @@
         <p id="failure">@ViewBag.failureResponse</p>
     </div>
     <div id="content">
-        <div id="row1">
-            <label id="row1text" for="Mute">Mute Level</label>
+        <form action="savesettings" method="post">
+            <div id="row1">
+                <label id="row1text" for="Mute">Mute Level</label>
 
-            <input id="inputbox" type="text" value="@Model.TimeOutLevel" min="0" required>
-            <br>
-            <label id="row1text" for="Kick">Kick Level</label>
+                <input id="inputbox" name="timeoutlevel" type="text" value="@Model.TimeOutLevel" min="0" required>
+                <br>
+                <label id="row1text" for="Kick">Kick Level</label>
 
-            <input id="inputbox" type="text" value="@Model.KickLevel" min="0" required>
-            <br>
-            <label id="row1text" for="Ban">Ban Level</label>
-            <input id="inputbox" type="text" value="@Model.BanLevel" min="0" required>
-        </div>
-        <div id="row2">
-            <input id="buttonSettings" class="button" type="submit" value="Save Settings">
-            <br>
-            <label id="row2text" for="Spam">Spam Mute Timer</label>
+                <input id="inputbox" name="kicklevel" type="text" value="@Model.KickLevel" min="0" required>
+                <br>
+                <label id="row1text" for="Ban">Ban Level</label>
+                <input id="inputbox" name="banlevel" type="text" value="@Model.BanLevel" min="0" required>
+            </div>
+            <div id="row2">
+                <input id="buttonSettings" class="button" type="submit" value="Save Settings">
+                <br>
+                <label id="row2text" for="Spam">Spam Mute Timer</label>
 
-            <input type="text" id="Spam" value="@Model.SpamMuteTime" min="0" required>
-            <br>
-            <label id="row2text" for="Strike">Strike Mute Timer</label>
+                <input type="text" name="spammutetime" id="Spam" value="@Model.SpamMuteTime" min="0" required>
+                <br>
+                <label id="row2text" for="Strike">Strike Mute Timer</label>
 
-            <input type="text" id="Strike" value="@Model.StrikeMuteTime" min="0" required>
-        </div>
+                <input type="text" name="strikemutetime" id="Strike" value="@Model.StrikeMuteTime" min="0" required>
+            </div>
+        </form>
 
 
         <div id="addprofanity">

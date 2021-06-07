@@ -136,8 +136,8 @@ namespace ModBot.API.Controllers
             }
         }
 
-        [HttpPut]
-        [Route(Routes.PunishmentLevels.DeletePunishmentLevel)]
+        [HttpPost]
+        [Route(Routes.PunishmentLevels.UpdatePunishmentLevel)]
         public async Task<IActionResult> UpdatePunishmentLevel(int id, PunishmentSettingsDto updatePunishment)
         {
             try
