@@ -44,7 +44,7 @@ h3 {
 }
 
 p {
-    color: black;
+    color: white;
 }
 
 /* Sticky footer styles
@@ -93,10 +93,9 @@ row {
 }
 
 .startPage {
-    background-color: darkgray;
+    background-color: #2F3136;
     height: 500px;
     width: 500px;
- 
     border-radius: 1em;
     padding: 1em;
     text-align: center;
@@ -111,6 +110,7 @@ row {
 
 .startPage h5 {
     font-size: 35px;
+    color: white;
 }
 
 
