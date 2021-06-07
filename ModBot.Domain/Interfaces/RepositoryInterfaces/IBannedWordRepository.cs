@@ -11,7 +11,7 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     public interface IBannedWordRepository
     {
         Task<IBannedWord> GetBannedWord(ulong guildId, string banned);
-        Task<IEnumerable<IBannedWord>> GetAllBannedWords();
+        Task<IEnumerable<IBannedWord>> GetAllBannedWords(ulong guildId);
         bool CreateBannedWord(IBannedWord createBannedWord);
         bool DeleteBannedWord(IBannedWord bannedWord);
         bool UpdateBannedWord(IBannedWord updateBannedWord);

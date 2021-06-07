@@ -36,6 +36,7 @@ namespace ModBot.WebClient.Controllers
             try
             {
                 var bannedWordListDto = new BannedWordListDto();
+                bannedWordListDto.GuildId = Session.Get<ulong>(HttpContext.Session, "guild");
                 foreach(var bannedWord in settings.BannedWordList)
                 {
                     bannedWordListDto.BannedWordList.Add(bannedWord);

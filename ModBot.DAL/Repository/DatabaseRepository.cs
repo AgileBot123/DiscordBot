@@ -144,12 +144,12 @@ namespace ModBot.DAL.Repository
                 return false;
             }
         }
-        public virtual async Task<IEnumerable<IBannedWord>> GetAllBannedWords()
+        public virtual async Task<IEnumerable<IBannedWord>> GetAllBannedWords(ulong guildId)
         {
             try
             {
                 var bannedWords = new List<IBannedWord>();
-                foreach (var word in await _context.BannedWords.AsNoTracking().ToListAsync())
+                foreach (var word in await _context.BannedWords.AsNoTracking().Where(x => x.GuildId == guildId).ToListAsync())
                 {
                     var bannedword = new BannedWord(
                                         word.Profanity, word.Strikes,

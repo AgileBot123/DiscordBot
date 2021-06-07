@@ -62,11 +62,11 @@ namespace ModBot.Business.Services
 
         public async Task<IEnumerable<IBannedWord>> GetAllBannedWords(ulong guildId)
         {
-            var allBannedWords = await _databaseRepository.GetAllBannedWords();
+            var allBannedWords = await _databaseRepository.GetAllBannedWords(guildId);
 
-            var getAllBannedWordGuilds = allBannedWords.Where(x => x.GuildId == guildId).ToList();
+            //var getAllBannedWordGuilds = allBannedWords.Where(x => x.GuildId == guildId).ToList();
 
-            return getAllBannedWordGuilds;
+            return allBannedWords; //getAllBannedWordGuilds
         }
 
         public async Task<IBannedWord> GetBannedWord(ulong guildId, string word) =>
@@ -77,7 +77,7 @@ namespace ModBot.Business.Services
         {
             try
             {
-                var bannedWordList = await _databaseRepository.GetAllBannedWords();
+                var bannedWordList = await _databaseRepository.GetAllBannedWords(updatedBannedWordListDto.GuildId);
                 var getAllBannedWordsFromFile = new List<BannedWordForFileDto>();
                 var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
                 BannedWord changedBannedWord = null;

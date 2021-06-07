@@ -114,67 +114,67 @@ namespace ModBot.Testing.Services
             response.Should().BeFalse();
         }
 
-        [TestMethod]
-        public async Task GetAllBannedWords_ShouldReturnAlistWithBannedWords()
-        {
-            //Arrange
-            _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(new List<IBannedWord>()
-            {
-                new BannedWord("Fuck", 4, "Timeout", 12312312312)
-            });
-            //Act
-            var response = await _bannedWordService.GetAllBannedWords(838707761067982888);
-            //Assert
-            var result = response.Should().BeOfType<List<IBannedWord>>().Subject;
-            result.Should().HaveCount(1);
-        }
+        //[TestMethod]
+        //public async Task GetAllBannedWords_ShouldReturnAlistWithBannedWords()
+        //{
+        //    //Arrange
+        //    _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(new List<IBannedWord>()
+        //    {
+        //        new BannedWord("Fuck", 4, "Timeout", 12312312312)
+        //    });
+        //    //Act
+        //    var response = await _bannedWordService.GetAllBannedWords(838707761067982888);
+        //    //Assert
+        //    var result = response.Should().BeOfType<List<IBannedWord>>().Subject;
+        //    result.Should().HaveCount(1);
+        //}
 
-        [TestMethod]
-        public async Task GetAllBannedWords_ShouldReturnNullIfNoBannedWordsExistInDatabase()
-        {
-            //Arrange
-            List<IBannedWord> bannedWord = new List<IBannedWord>();
-            _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(bannedWord);
-            //Act
-            var response = await _bannedWordService.GetAllBannedWords(838707761067982881);
-            //Assert
-            response.Should().BeEmpty();
-        }
+        //[TestMethod]
+        //public async Task GetAllBannedWords_ShouldReturnNullIfNoBannedWordsExistInDatabase()
+        //{
+        //    //Arrange
+        //    List<IBannedWord> bannedWord = new List<IBannedWord>();
+        //    _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(bannedWord);
+        //    //Act
+        //    var response = await _bannedWordService.GetAllBannedWords(838707761067982881);
+        //    //Assert
+        //    response.Should().BeEmpty();
+        //}
 
-        public async Task UpdateBannedWord_ShouldReturnTrue()
-        {
-            //Arrange
-            BannedWordListDto BannedWordDtoList = new BannedWordListDto();
-            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "Fuck" });
-            _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
-            _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(true);
-            _mockRepo.Setup(x => x.DeleteBannedWord(It.IsAny<IBannedWord>())).Returns(true);
-            //Act
+        //public async Task UpdateBannedWord_ShouldReturnTrue()
+        //{
+        //    //Arrange
+        //    BannedWordListDto BannedWordDtoList = new BannedWordListDto();
+        //    BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "Fuck" });
+        //    _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
+        //    _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(true);
+        //    _mockRepo.Setup(x => x.DeleteBannedWord(It.IsAny<IBannedWord>())).Returns(true);
+        //    //Act
 
-            var response = await _bannedWordService.UpdateBannedWordList(BannedWordDtoList);
+        //    var response = await _bannedWordService.UpdateBannedWordList(BannedWordDtoList);
 
-            //Assert
-            response.Should().BeTrue();
-        }
+        //    //Assert
+        //    response.Should().BeTrue();
+        //}
 
         
-        public async Task UpdateBannedWord_ShouldReturnFalse()
-        {
-            //Arrange
-            BannedWordListDto BannedWordDtoList = new BannedWordListDto();
-            BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "FuckFuck" });
-            _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
-            _mockRepo.Setup(x => x.CreateBannedWord(It.IsAny<IBannedWord>())).Returns(true);
-            _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(false);
-            _mockRepo.Setup(x => x.DeleteBannedWord(It.IsAny<IBannedWord>())).Returns(false);
-            //Act
+        //public async Task UpdateBannedWord_ShouldReturnFalse()
+        //{
+        //    //Arrange
+        //    BannedWordListDto BannedWordDtoList = new BannedWordListDto();
+        //    BannedWordDtoList.BannedWordList.Add(new BannedWordDto { Punishment = "Timeout", Strikes = 2, Profanity = "FuckFuck" });
+        //    _mockRepo.Setup(x => x.GetAllBannedWords()).ReturnsAsync(BannedWordList);
+        //    _mockRepo.Setup(x => x.CreateBannedWord(It.IsAny<IBannedWord>())).Returns(true);
+        //    _mockRepo.Setup(x => x.UpdateBannedWord(It.IsAny<BannedWord>())).Returns(false);
+        //    _mockRepo.Setup(x => x.DeleteBannedWord(It.IsAny<IBannedWord>())).Returns(false);
+        //    //Act
 
-            var response = await _bannedWordService.UpdateBannedWordList(BannedWordDtoList);
+        //    var response = await _bannedWordService.UpdateBannedWordList(BannedWordDtoList);
 
-            //Assert
-           // _mockRepo.Verify(x => x.DeleteBannedWord(It.IsAny<IBannedWord>(), Times.Once));
-            response.Should().BeFalse();
-        }
+        //    //Assert
+        //   // _mockRepo.Verify(x => x.DeleteBannedWord(It.IsAny<IBannedWord>(), Times.Once));
+        //    response.Should().BeFalse();
+        //}
 
     }
 }
