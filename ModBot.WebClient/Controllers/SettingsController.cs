@@ -30,7 +30,7 @@ namespace ModBot.WebClient.Controllers
             return View();
         }
 
-        public IActionResult SaveSettings()
+        public IActionResult SaveSettings(SettingsDTO settingsDTO)
         {
             var settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
             try
@@ -44,14 +44,21 @@ namespace ModBot.WebClient.Controllers
 
                 var punishmentSettingsDto = new PunishmentSettingsDto()
                 {
-                    TimeOutLevel = settings.TimeOutLevel,
-                    KickLevel = settings.KickLevel,
-                    BanLevel = settings.BanLevel,
-                    SpamMuteTime = settings.SpamMuteTime,
-                    StrikeMuteTime = settings.StrikeMuteTime,
+                    TimeOutLevel = settingsDTO.TimeOutLevel,
+                    KickLevel = settingsDTO.KickLevel,
+                    BanLevel = settingsDTO.BanLevel,
+                    SpamMuteTime = settingsDTO.SpamMuteTime,
+                    StrikeMuteTime = settingsDTO.StrikeMuteTime,
                     GuildId = Session.Get<ulong>(HttpContext.Session, "guild")
                 };
                 UpdatePunishmentSettings(punishmentSettingsDto);
+
+                settings.TimeOutLevel = settingsDTO.TimeOutLevel;
+                settings.KickLevel = settingsDTO.KickLevel;
+                settings.BanLevel = settingsDTO.BanLevel;
+                settings.SpamMuteTime = settingsDTO.SpamMuteTime;
+                settings.StrikeMuteTime = settingsDTO.StrikeMuteTime;
+                Session.Set<SettingsDTO>(HttpContext.Session, "settings", settings);
 
                 ViewBag.successResponse = "Your settings have been saved!";
                 ViewBag.failureResponse = "";
@@ -89,7 +96,7 @@ namespace ModBot.WebClient.Controllers
         {
             var Settings = Session.Get<SettingsDTO>(HttpContext.Session, "settings");
             var BannedWord = Settings.BannedWordList.Where(
-                    w => w.Profanity.ToLower() == inputBannedWord.Profanity.ToLower()).Single();
+                    w => w.Profanity.ToLower() == inputBannedWord.Profanity.ToLower()).FirstOrDefault();
 
             if (inputBannedWord.SubmitType.Equals("remove"))
             {
@@ -264,7 +271,7 @@ namespace ModBot.WebClient.Controllers
             {
                 var jsonString = JsonConvert.SerializeObject(punishmentSettingsDto);
                 var stringContent = new StringContent(jsonString, Encoding.UTF8, "Application/json");
-                var response = client.PutAsync(endpoints.UpdatePunishmentLevel, stringContent).Result;
+                var response = client.PostAsync(endpoints.UpdatePunishmentLevel, stringContent).Result;
                 if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception("Punishment settings failed to update in database");
@@ -387,19 +394,14 @@ namespace ModBot.WebClient.Controllers
         }
 
         [HttpPost]
-        public void UpdateBannedWordList(BannedWordListDto update)
+        public void UpdateBannedWordList(BannedWordListDto bannedWordListDto)
         {
             using (HttpClient client = new HttpClient())
             {
-
-                var bannedWord = new BannedWordDto();
-                update.BannedWordList.Add(bannedWord);
-
-                var updateBannedWord = JsonConvert.SerializeObject(update);
-                var content = new StringContent(updateBannedWord, Encoding.UTF8, "Application/json");
-                var requestUrl = endpoints.UpdateBannedWordList;
-                var response = client.PutAsync(requestUrl, content).Result;
-                if (response.IsSuccessStatusCode)
+                var jsonString = JsonConvert.SerializeObject(bannedWordListDto);
+                var stringContent = new StringContent(jsonString, Encoding.UTF8, "Application/json");
+                var response = client.PutAsync(endpoints.UpdateBannedWordList, stringContent).Result;
+                if (!response.IsSuccessStatusCode)
                 {
                     throw new Exception("Banned word list failed to update in database");
                 }

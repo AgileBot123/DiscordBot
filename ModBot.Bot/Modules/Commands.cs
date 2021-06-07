@@ -1,19 +1,21 @@
 
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
+using Interactivity;
+using Interactivity.Confirmation;
 using ModBot.Domain.Interfaces;
 
 namespace ModBot.Bot.Modules
 {
     public class Commands : ModuleBase<SocketCommandContext>
     {
+        public InteractivityService InteractivityService { get; set; }
+
+
         private readonly ICommandLogic _commandLogic;
         public Commands(ICommandLogic commandLogic)
         {
@@ -63,20 +65,34 @@ namespace ModBot.Bot.Modules
 
 
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Command("ResetServerStrikes")]
-
+        [Command("ResetServerStrikes", RunMode = RunMode.Async)]
         public async Task ResetAllStrike()
-        {  
-             await _commandLogic.ResetAllStrikes();
+        {
+            var request = new ConfirmationBuilder()
+                                 .WithContent(new PageBuilder().WithText("Are you sure you wanna do this?"))
+                                                 .Build();
+
+            var result = await InteractivityService.SendConfirmationAsync(request, Context.Channel);
+
+            if (result.Value)
+            {
+                await Context.Channel.SendMessageAsync("Confirmed :thumbsup:!");
+                await _commandLogic.ResetAllStrikes();
+            }
+            else
+            {
+                await Context.Channel.SendMessageAsync("Declined :thumbsup:!");
+            }
         }
 
+        [RequireUserPermission(GuildPermission.Administrator)]
         [Command("RemoveStrike")]
-
         public async Task RemoveStrike(SocketGuildUser user, int amount)
         {
             await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
 
             await _commandLogic.RemoveStrike(amount, user.Id, Context.Guild.Id);
+
         }
 
         [Command("AddStrike")]

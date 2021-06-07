@@ -14,7 +14,7 @@ namespace ModBot.DAL.FileSaving
 
         public string SetDirectoryAndFilePath()
         {
-            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             return @$"{solutionDirectory}\DiscordBot\ModBot.DAL\Textfiles\BannedWords.txt";
         }
 
@@ -36,7 +36,7 @@ namespace ModBot.DAL.FileSaving
 
         private void CheckFileStatus()
         {
-            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
             var fileName = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles\\BannedWords.txt";
             var directory = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles";
             if (!Directory.Exists(directory))

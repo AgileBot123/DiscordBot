@@ -96,7 +96,7 @@ namespace ModBot.Testing.Controllers
             //Assert
             var result = response.Should().BeOfType<OkObjectResult>().Subject;
             var okValue = result.Value.Should().BeOfType<PunishmentSettings>().Subject;
-            okValue.Id.Should().Be(1);
+            okValue.GuildId.Should().Be(1);
         }
 
         [TestMethod]

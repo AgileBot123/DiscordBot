@@ -6,8 +6,10 @@ using Microsoft.EntityFrameworkCore;
 using ModBot.Business.Services;
 using ModBot.DAL.Data;
 using ModBot.DAL.Repository;
+using ModBot.Domain.Models;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,6 +21,7 @@ namespace ModBot.Bot.Handler
         public PunishmentsLevelsService punishmentsLevelsService;
         private DiscordSocketClient _client;
         public Program program;
+        private List<AntiSpamModel> userCooldownList = new List<AntiSpamModel>();
         public BotHandler()
         {
             _client = new DiscordSocketClient();
@@ -33,18 +36,93 @@ namespace ModBot.Bot.Handler
 
             if (!message.Author.IsBot)
             {
-                var IsBannedWord = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
+                var punishmentValue = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
 
-                if (IsBannedWord)
+                if (!string.IsNullOrEmpty(punishmentValue))
                 {
                     await message.DeleteAsync();
-                    await HandleMemeberStrikes(message);
+
+                    var result = await WordSpecificPunish(user, punishmentValue, context);
+
+                    if (!result)
+                    {
+                        await HandleMemeberStrikes(message);
+                    }
                 }
             }
         }
 
-        
+        public async Task AntiSpam(SocketMessage message)
+        {
+            var user = message as SocketUserMessage;
+            var userGuild = message.Author as SocketGuildUser;
+            var context = new SocketCommandContext(_client, user);
+
+            if (!userCooldownList.Any(x => x.User == userGuild))
+            {
+                var antispamModel = new AntiSpamModel
+                {
+                    User = userGuild,
+                    Counter = 0,
+                    Timer = DateTimeOffset.Now,
+                    TempMessage = message
+                };
+                userCooldownList.Add(antispamModel);
+            }
+
+            if (userCooldownList.Select(x => x.TempMessage == message).Single())
+            {   
+                foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())   
+                {
+            
+                if (usersInfo.Timer >= DateTimeOffset.Now)
+                {
+                    usersInfo.Counter++;
+                                       
+                    if (usersInfo.Counter >= 3)
+                    {
+                        var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
+                        var spamMuteTime = await commandLogicService.GetMuteTime(context.Guild.Id);
+                        await commandLogicService.MuteMember(userGuild, spamMuteTime, roleId);
+                        await message.DeleteAsync();
+                    }
+                }
+                else
+                {
+                    usersInfo.Counter = 0;
+                    usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
+                }                       
+            }
+        }
+    }
+
+
+
         #region GrantDivinePunishment
+
+        private async Task<bool> WordSpecificPunish(SocketMessage message, string wordPunish, SocketCommandContext context)
+        {
+            var user = message.Author as SocketGuildUser;
+
+            switch (wordPunish)
+            {
+                case var x when x.Equals("Ban"):
+                    await BanMember(user, message);
+                    return true;
+
+                case var x when x.Equals("Kick"):
+                    await KickMember(user, message);
+                    return true;
+
+                case var x when x.Equals("Mute"):
+                    await TimeOutMember(user, message, await commandLogicService.GetStrikeMuteTime(context.Guild.Id));
+                    return true;
+
+                default:
+                    return false;
+            }
+        }
+
 
         public async Task HandleMemeberStrikes(SocketMessage message)
         {

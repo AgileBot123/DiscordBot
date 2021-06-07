@@ -78,12 +78,15 @@ namespace ModBot.Business.Services
             try
             {
                 var bannedWordList = await _databaseRepository.GetAllBannedWords();
-                var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
+                var getAllBannedWordsFromFile = new List<BannedWordForFileDto>();
                 var updatedBannedWordList = updatedBannedWordListDto.BannedWordList;
                 BannedWord changedBannedWord = null;
 
                 foreach (var updatedBannedWord in updatedBannedWordList)
                 {
+                    getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId, updatedBannedWord.Strikes, updatedBannedWord.Punishment));
+                    _fileSaving.SaveToFile(getAllBannedWordsFromFile);
+
                     if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Profanity)))
                     {
 
@@ -94,9 +97,7 @@ namespace ModBot.Business.Services
                                                      updatedBannedWord.GuildId);
 
 
-                        getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
 
-                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
 
                         _databaseRepository.UpdateBannedWord(changedBannedWord);
                     }
@@ -108,10 +109,6 @@ namespace ModBot.Business.Services
                                                      updatedBannedWord.GuildId);
 
                        
-
-                       getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId));
-
-                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
 
                         _databaseRepository.CreateBannedWord(changedBannedWord);
                     }
@@ -126,13 +123,6 @@ namespace ModBot.Business.Services
                                                      bannedWord.Punishment,
                                                      bannedWord.GuildId);
 
-
-
-                        getAllBannedWordsFromFile.Add(InformationForFile(bannedWord.Profanity, bannedWord.GuildId));
-
-                        _fileSaving.SaveToFile(getAllBannedWordsFromFile);
-
-
                         _databaseRepository.DeleteBannedWord(changedBannedWord);
                     }
                 }
@@ -146,12 +136,14 @@ namespace ModBot.Business.Services
         }
 
 
-        private BannedWordForFileDto InformationForFile(string profanity, ulong guildId)
+        private BannedWordForFileDto InformationForFile(string profanity, ulong guildId, int strikes, string punishment)
         {
             return new BannedWordForFileDto
             {
                 Profanity = profanity,
-                GuildId = guildId
+                GuildId = guildId,
+                Strikes = strikes,
+                Punishment = punishment
             };
         }
 

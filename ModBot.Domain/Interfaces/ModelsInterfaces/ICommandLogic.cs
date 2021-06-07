@@ -13,7 +13,6 @@ namespace ModBot.Domain.Interfaces
     public interface ICommandLogic
     {
         Task<int> GetUserStrikes(ulong memberID, ulong guildId);
-
         Task<bool> AddStrikeToUser(int amount, ulong UserId, ulong guildId);
         string BotResponseCooldown(SocketCommandContext context);
         Task AddMemberToDatabase(ulong UserId, string username, string avatar, bool isBot, ulong guildId);
@@ -21,5 +20,7 @@ namespace ModBot.Domain.Interfaces
         Task<ulong> CreateMuteRole(SocketGuild guild);
         Task<bool> RemoveStrike(int amount, ulong UserId, ulong guilId);
         Task ResetAllStrikes();
+        Task<int> GetStrikeMuteTime(ulong guildId);
+        Task<int> GetMuteTime(ulong guild);
     }
 }
