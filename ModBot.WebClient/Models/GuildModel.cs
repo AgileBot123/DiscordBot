@@ -11,16 +11,8 @@ namespace ModBot.WebClient.Models
         public string Name { get; set; }
         public string Icon { get; set; }
         public bool HasBot { get; set; }
-        //public ulong Id => id;
-        //public string Name => name;
-        //public string Icon => icon;
-        //public bool HasBot => hasbot;
 
-
-        public GuildModel()
-        {
-
-        }
+        public GuildModel() {}
 
         public GuildModel(ulong id, string name, string icon, bool hasbot)
         {

@@ -1,1 +1,0 @@
-[{"Profanity":"fuck","GuildId":838707761067982888,"Strikes":3,"Punishment":"Mute"}]

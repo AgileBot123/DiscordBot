@@ -45,59 +45,15 @@ namespace ModBot.Testing.Controllers
             GuildId = 12312312321
         };
 
-        //[TestMethod]
-        //public async Task GetAllPunishedLevels_ShouldReturnOk()
-        //{
-        //    //Arrange
-        //    _mockPunish.Setup(x => x.GetPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(_punishmentsList);
-        //    //Act
-        //    var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
-        //    //Assert
-        //    var result = response.Should().BeOfType<OkObjectResult>().Subject;
-        //    var punishmentsLevel = result.Value.Should().BeOfType<List<IPunishmentsLevels>>().Subject;
-        //    punishmentsLevel.Count().Should().Be(1);
-        //}
+        private PunishmentSettings punishment = new PunishmentSettings(1,2,3,4,5, 12312312321);
+       
 
 
 
-        //[TestMethod]
-        //public async Task GetAllPunishedLevels_ShouldReturnNotFound()
-        //{
-        //    //Arrange
-        //    IEnumerable<IPunishmentsLevels> punishmentLevelsListIsEmpty = new List<IPunishmentsLevels>();
-        //    _mockPunish.Setup(x => x.GetPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(punishmentLevelsListIsEmpty);
-        //    //Act
-        //    var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
-        //    //Assert
-        //    response.Should().BeOfType<NotFoundObjectResult>();
-        //}
 
-        //[TestMethod]
-        //public async Task GetAllPunishedLevels_ShouldReturnInternalServerError()
-        //{
-        //    //Arrange
-        //        IEnumerable<IPunishmentsLevels> punishmentLevelsIsNull = null;
-        //     _mockPunish.Setup(x => x.GetPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(punishmentLevelsIsNull);
-        //    //Act
-        //    var response = await punishedLevelsController.GetPunishmentLevels(838707761067982881);
-        //    //Assert
-        //    var result = response.Should().BeOfType<ObjectResult>().Subject;
-        //    result.Value.Should().Be("internal server error");
-        //}
 
-        [TestMethod]
-        public async Task GetPunishedLevel_ShouldReturnOk()
-        {
-            //Arrange
-            var id = 1;
-            _mockPunish.Setup(x => x.GetPunishmentLevels(It.IsAny<ulong>())).ReturnsAsync(new PunishmentSettings(1, 2, 3, 1, default, default));
-            //Act
-            var response = await punishedLevelsController.GetPunishmentLevel(1231231, id);
-            //Assert
-            var result = response.Should().BeOfType<OkObjectResult>().Subject;
-            var okValue = result.Value.Should().BeOfType<PunishmentSettings>().Subject;
-            okValue.GuildId.Should().Be(1);
-        }
+
+
 
         [TestMethod]
         public async Task GetPunishedLevel_ShouldReturnNotFound()
@@ -239,7 +195,7 @@ namespace ModBot.Testing.Controllers
             var response = await punishedLevelsController.DeletePunishmentLevel(punishmentDto);
             //Assert
             var result = response.Should().BeOfType<BadRequestObjectResult>().Subject;
-            result.Value.Should().Be("Id cannot be 0");
+            result.Value.Should().Be("PunishedLevel was not created");
         }
 
         [TestMethod]
