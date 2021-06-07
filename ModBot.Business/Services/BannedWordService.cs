@@ -31,7 +31,7 @@ namespace ModBot.Business.Services
                 punishment: createBannedWord.Punishment, 
                 createBannedWord.GuildId);
 
-           var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>();
+           var getAllBannedWordsFromFile = _fileSaving.LoadFromFile<BannedWordForFileDto>(createBannedWord.GuildId);
 
             var newBannedWordFromFile = new BannedWordForFileDto
             {
@@ -42,7 +42,7 @@ namespace ModBot.Business.Services
 
             getAllBannedWordsFromFile.Add(newBannedWordFromFile);
 
-            _fileSaving.SaveToFile(getAllBannedWordsFromFile);
+            _fileSaving.SaveToFile(getAllBannedWordsFromFile, createBannedWord.GuildId);
 
             return _databaseRepository.CreateBannedWord(createdBannedWord);
         }
@@ -85,7 +85,7 @@ namespace ModBot.Business.Services
                 foreach (var updatedBannedWord in updatedBannedWordList)
                 {
                     getAllBannedWordsFromFile.Add(InformationForFile(updatedBannedWord.Profanity, updatedBannedWord.GuildId, updatedBannedWord.Strikes, updatedBannedWord.Punishment));
-                    _fileSaving.SaveToFile(getAllBannedWordsFromFile);
+                    _fileSaving.SaveToFile(getAllBannedWordsFromFile, updatedBannedWord.GuildId);
 
                     if (bannedWordList.Any(b => b.Profanity.Equals(updatedBannedWord.Profanity)))
                     {
