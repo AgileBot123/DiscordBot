@@ -53,6 +53,13 @@ namespace ModBot.WebClient.Controllers
                 };
                 UpdatePunishmentSettings(punishmentSettingsDto);
 
+                settings.TimeOutLevel = settingsDTO.TimeOutLevel;
+                settings.KickLevel = settingsDTO.KickLevel;
+                settings.BanLevel = settingsDTO.BanLevel;
+                settings.SpamMuteTime = settingsDTO.SpamMuteTime;
+                settings.StrikeMuteTime = settingsDTO.StrikeMuteTime;
+                Session.Set<SettingsDTO>(HttpContext.Session, "settings", settings);
+
                 ViewBag.successResponse = "Your settings have been saved!";
                 ViewBag.failureResponse = "";
                 return View("Settings", settings);
