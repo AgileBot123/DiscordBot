@@ -59,49 +59,72 @@ namespace ModBot.Bot.Modules
                 }
             }
             else
+            {
                 await ReplyAsync(response);
+            }
         }
 
 
 
-        [RequireUserPermission(GuildPermission.Administrator)]
         [Command("ResetServerStrikes", RunMode = RunMode.Async)]
         public async Task ResetAllStrike()
         {
-            var request = new ConfirmationBuilder()
-                                 .WithContent(new PageBuilder().WithText("Are you sure you wanna do this?"))
-                                                 .Build();
+            var commandUser = Context.User as SocketGuildUser;
 
-            var result = await InteractivityService.SendConfirmationAsync(request, Context.Channel);
-
-            if (result.Value)
+            if (commandUser.GuildPermissions.Administrator)
             {
-                await Context.Channel.SendMessageAsync("Confirmed :thumbsup:!");
-                await _commandLogic.ResetAllStrikes();
+                var request = new ConfirmationBuilder()
+                                .WithContent(new PageBuilder().WithText("Are you sure you wanna do this?"))
+                                                .Build();
+
+                var result = await InteractivityService.SendConfirmationAsync(request, Context.Channel);
+
+                if (result.Value)
+                {
+                    await Context.Channel.SendMessageAsync("Confirmed :thumbsup:!");
+                    await _commandLogic.ResetAllStrikes();
+                }
+                else
+                {
+                    await Context.Channel.SendMessageAsync("Declined :thumbsdown:!");
+                }
             }
             else
             {
-                await Context.Channel.SendMessageAsync("Declined :thumbsup:!");
-            }
+                await ReplyAsync("You don't have permission to use this command");
+            }         
         }
 
         [RequireUserPermission(GuildPermission.Administrator)]
-        [Command("RemoveStrike")]
+        [Command("RemoveStrikes")]
         public async Task RemoveStrike(SocketGuildUser user, int amount)
         {
-            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
-
-            await _commandLogic.RemoveStrike(amount, user.Id, Context.Guild.Id);
-
+            var commandUser = Context.User as SocketGuildUser;
+            if (commandUser.GuildPermissions.Administrator)
+            {
+                await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
+                await _commandLogic.RemoveStrike(amount, user.Id, Context.Guild.Id);
+            }
+            else
+            {
+                await ReplyAsync("You don't have permission to use this command");
+            }         
         }
 
-        [Command("AddStrike")]
+        [Command("AddStrikes")]
 
         public async Task AddStrike(SocketGuildUser user, int amount)
         {
-            await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
-
-            await _commandLogic.AddStrikeToUser(amount, user.Id, Context.Guild.Id);
+            var commandUser = Context.User as SocketGuildUser;
+            if (commandUser.GuildPermissions.Administrator)
+            {
+                await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
+                await _commandLogic.AddStrikeToUser(amount, user.Id, Context.Guild.Id);
+            }
+            else
+            {
+                await ReplyAsync("You don't have permission to use this command");
+            }
         }
 
         [Command("Mute")]
@@ -109,8 +132,37 @@ namespace ModBot.Bot.Modules
         [RequireBotPermission(GuildPermission.KickMembers)]
         public async Task Mute (SocketGuildUser user, int time)
         {
-            var roleId = await _commandLogic.CreateMuteRole(Context.Guild);
-            await _commandLogic.MuteMember(user, time, roleId);
+            var commandUser = Context.User as SocketGuildUser;
+            if (commandUser.GuildPermissions.Administrator)
+            {
+                var roleId = await _commandLogic.CreateMuteRole(Context.Guild);
+                await _commandLogic.MuteMember(user, time, roleId);
+            }else
+            {
+                await ReplyAsync("You don't have permission to use this command");
+            }
+          
+        }
+
+        [Command("Help")]
+        public async Task Help()
+        {
+            await ReplyAsync("These are the commands available: " + "\n" + 
+                             "!Ping       ->  will give you access to Pong" + "\n" + 
+                             "!Userstrike ->  Check your strikes"   + "\n" +
+                             "!AdminHelp  ->  To check admin commnads");
+        }
+
+        
+        [Command("AdminHelp")]
+        [RequireBotPermission(GuildPermission.Administrator)]
+        public async Task AdminHelp()
+        {
+            await ReplyAsync("These are the commands available: " + "\n" +
+                             "!Mute               ->  To mute a specific user and time in minutes.    Example !mute nahd 10" + "\n" +
+                             "!Addstrikes         ->  To add strikes to specific user.                         Example !addstrikes nahd 5" + "\n" +
+                             "!Removestrikes      ->  To remove strikes from a specific user.      Example !removestrikes nahd 5" + "\n" +
+                             "!ResetServerStrikes ->  To reset all members strikes on the server");
         }
 
     }

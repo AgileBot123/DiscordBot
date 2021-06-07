@@ -31,11 +31,12 @@ namespace ModBot.Bot.Handler
         }
         public async Task CheckIfMessagesIsBannedWord(SocketMessage message)
         {
-            var user = message as SocketUserMessage;
-            var context = new SocketCommandContext(_client, user);
-
+           
             if (!message.Author.IsBot)
             {
+                var user = message as SocketUserMessage;
+                var context = new SocketCommandContext(_client, user);
+
                 var punishmentValue = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
 
                 if (!string.IsNullOrEmpty(punishmentValue))
@@ -54,48 +55,50 @@ namespace ModBot.Bot.Handler
 
         public async Task AntiSpam(SocketMessage message)
         {
-            var user = message as SocketUserMessage;
-            var userGuild = message.Author as SocketGuildUser;
-            var context = new SocketCommandContext(_client, user);
-
-            if (!userCooldownList.Any(x => x.User == userGuild))
+            if (!message.Author.IsBot)
             {
-                var antispamModel = new AntiSpamModel
-                {
-                    User = userGuild,
-                    Counter = 0,
-                    Timer = DateTimeOffset.Now,
-                    TempMessage = message
-                };
-                userCooldownList.Add(antispamModel);
-            }
+                var user = message as SocketUserMessage;
+                var userGuild = message.Author as SocketGuildUser;
+                var context = new SocketCommandContext(_client, user);
 
-            if (userCooldownList.Select(x => x.TempMessage == message).Single())
-            {   
-                foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())   
+                if (!userCooldownList.Any(x => x.User == userGuild))
                 {
-            
-                if (usersInfo.Timer >= DateTimeOffset.Now)
-                {
-                    usersInfo.Counter++;
-                                       
-                    if (usersInfo.Counter >= 3)
+                    var antispamModel = new AntiSpamModel
                     {
-                        var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
-                        var spamMuteTime = await commandLogicService.GetMuteTime(context.Guild.Id);
-                        await commandLogicService.MuteMember(userGuild, spamMuteTime, roleId);
-                        await message.DeleteAsync();
+                        User = userGuild,
+                        Counter = 0,
+                        Timer = DateTimeOffset.Now,
+                        TempMessage = message.Content
+                    };
+                    userCooldownList.Add(antispamModel);
+                }
+
+                if (userCooldownList.Any(x => x.TempMessage == message.Content))
+                {
+                    foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())
+                    {
+
+                        if (usersInfo.Timer >= DateTimeOffset.Now)
+                        {
+                            usersInfo.Counter++;
+
+                            if (usersInfo.Counter >= 3)
+                            {
+                                var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
+                                var spamMuteTime = await commandLogicService.GetMuteTime(context.Guild.Id);
+                                await commandLogicService.MuteMember(userGuild, spamMuteTime, roleId);
+                                await message.DeleteAsync();
+                            }
+                        }
+                        else
+                        {
+                            usersInfo.Counter = 0;
+                            usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
+                        }
                     }
                 }
-                else
-                {
-                    usersInfo.Counter = 0;
-                    usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
-                }                       
             }
         }
-    }
-
 
 
         #region GrantDivinePunishment
@@ -122,7 +125,6 @@ namespace ModBot.Bot.Handler
                     return false;
             }
         }
-
 
         public async Task HandleMemeberStrikes(SocketMessage message)
         {
@@ -169,8 +171,6 @@ namespace ModBot.Bot.Handler
             await user.SendMessageAsync($"You have been muted for {time} of seconds, for the following message: {message}");
             await commandLogicService.MuteMember(user, time, roleId);
         }
-
-
         #endregion
     }
 }
