@@ -123,10 +123,10 @@ namespace ChatFilterBot
 
 
         private Task _client_Log(LogMessage arg)
-            {
-                Console.WriteLine(arg);
-                return Task.CompletedTask;
-            }
+        {
+            Console.WriteLine(arg);
+            return Task.CompletedTask;
+        }
 
 
         public async Task RegisterComamndsAsync()
@@ -144,18 +144,38 @@ namespace ChatFilterBot
 
         private async Task HandleCommandsAsync(SocketMessage arg)
         {
-            var message = arg as SocketUserMessage;
-            var context = new SocketCommandContext(_client, message);
-            if (message.Author.IsBot) return;
-
-            int argPos = 0;
-            if (message.HasStringPrefix("!", ref argPos))
+            if (arg is SocketUserMessage message)
             {
-                var result = await _commandsServices.ExecuteAsync(context, argPos, _services);
-                if (!result.IsSuccess) Console.WriteLine(result.ErrorReason);
-              
-            }
-        }     
+                var context = new SocketCommandContext(_client, message);
+                if (message.Author.IsBot) return;
 
-    }
+                int argPos = 0;
+ 
+                if (message.HasStringPrefix("!", ref argPos))
+                {
+                    var result = await _commandsServices.ExecuteAsync(context, argPos, _services);
+                    if (result.ErrorReason != null)
+                        switch (result.ErrorReason)
+                        {
+                            //Not enough paramaters
+                            case "The input text has too few parameters.":
+                                await context.Channel.SendMessageAsync(
+                                    "This command lacks parameters. Check the command description for more details.");
+                                break;
+                            //Bad command
+                            case "Unknown command.":
+                                await context.Channel.SendMessageAsync(
+                                    "I don't understand this command. :frowning: You can type **c!list** to see the list of avaliable commands.");
+                                break;
+                            //Some other shenanigans
+                            default:
+                                await context.Channel.SendMessageAsync(
+                                    $"{result.ErrorReason}");
+                                break;
+                        }
+                }
+
+            }
+            }
+     }     
 }
