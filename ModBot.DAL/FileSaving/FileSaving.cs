@@ -12,17 +12,17 @@ namespace ModBot.DAL.FileSaving
     public class FileSaving
     {
 
-        public string SetDirectoryAndFilePath()
+        public string SetDirectoryAndFilePath(ulong guildId)
         {
             string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            return @$"{solutionDirectory}\DiscordBot\ModBot.DAL\Textfiles\BannedWords.txt";
+            return @$"{solutionDirectory}\DiscordBot\ModBot.DAL\Textfiles\{guildId}.txt";
         }
 
-        public List<T> LoadFromFile<T>()
+        public List<T> LoadFromFile<T>(ulong guildId)
         {
-            CheckFileStatus();
+            CheckFileStatus(guildId);
 
-            using (StreamReader file = File.OpenText(SetDirectoryAndFilePath()))
+            using (StreamReader file = File.OpenText(SetDirectoryAndFilePath(guildId)))
             {
                 var fetchedValue = JsonConvert.DeserializeObject<List<T>>(file.ReadToEnd());
                 if (fetchedValue == null)
@@ -34,10 +34,10 @@ namespace ModBot.DAL.FileSaving
                  
         }
 
-        private void CheckFileStatus()
+        private void CheckFileStatus(ulong guildId)
         {
             string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
-            var fileName = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles\\BannedWords.txt";
+            var fileName = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles\\{guildId}.txt";
             var directory = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles";
             if (!Directory.Exists(directory))
             {              
@@ -50,11 +50,11 @@ namespace ModBot.DAL.FileSaving
             }
                  
         }
-        public void SaveToFile<T>(T objectToBeSaved)
+        public void SaveToFile<T>(T objectToBeSaved, ulong guildId)
         {
-            CheckFileStatus();
+            CheckFileStatus(guildId);
 
-            using (StreamWriter file = File.CreateText(SetDirectoryAndFilePath()))
+            using (StreamWriter file = File.CreateText(SetDirectoryAndFilePath(guildId)))
             {
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, objectToBeSaved);

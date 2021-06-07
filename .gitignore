@@ -356,3 +356,4 @@ MigrationBackup/
 /ModBot.Bot/appsettings.json
 /ModBot.WebClient/appsettings.Development (1).json
 /ModBot.WebClient/appsettings.Production (1).json
+/ModBot.DAL/Textfiles
