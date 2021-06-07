@@ -40,7 +40,7 @@ namespace ModBot.Domain.Models
  
         public int SpamMuteTime
         {
-            get { return _strikeMuteTime; }
+            get { return _spamMuteTime; }
             private set { }
         }
 

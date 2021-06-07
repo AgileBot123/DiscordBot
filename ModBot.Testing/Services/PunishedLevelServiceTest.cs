@@ -61,55 +61,55 @@ namespace ModBot.Testing.Services
             response.Should().BeFalse();
         }
 
-        [TestMethod]
-        public async Task GetPunishmentLevel_shouldReturnABannedWordWithCOrrectWord()
-        {
-            //Arrange
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevls);
-            //Act
-            var response = await _punishedLevelService.GetPunishmentLevel(1123123123123, 1);
+        //[TestMethod]
+        //public async Task GetPunishmentLevel_shouldReturnABannedWordWithCOrrectWord()
+        //{
+        //    //Arrange
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevls);
+        //    //Act
+        //    var response = await _punishedLevelService.GetPunishmentLevel(1123123123123, 1);
 
-            //Assert
-            response.BanLevel.Should().Be(3);
-        }
+        //    //Assert
+        //    response.BanLevel.Should().Be(3);
+        //}
 
-        [TestMethod]
-        public async Task GetPunishmentLevel_shouldReturnNullIfNoBannedWordExists()
-        {
-            //Arrange
-            IPunishmentsLevels punishmentLevels = null;
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevels);
-            //Act
-            var response = await _punishedLevelService.GetPunishmentLevel(1123123123123, 1);
+        //[TestMethod]
+        //public async Task GetPunishmentLevel_shouldReturnNullIfNoBannedWordExists()
+        //{
+        //    //Arrange
+        //    IPunishmentsLevels punishmentLevels = null;
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevels);
+        //    //Act
+        //    var response = await _punishedLevelService.GetPunishmentLevel(1123123123123, 1);
 
-            //Assert
-            response.Should().BeNull();
-        }
+        //    //Assert
+        //    response.Should().BeNull();
+        //}
 
-        [TestMethod]
-        public async Task DeletePunishmentLevel_ShouldReturnTrue()
-        {
-            //Arrange
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevls);
-            _mockRepo.Setup(x => x.DeletePunishmentSetting(It.IsAny<IPunishmentsLevels>())).Returns(true);
-            //Act
-            var response = await _punishedLevelService.DeletePunishemntLevel(punishmentDto);
-            //Assert
-            _mockRepo.Verify(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>()), Times.Once);
-            response.Should().BeTrue();
-        }
+        //[TestMethod]
+        //public async Task DeletePunishmentLevel_ShouldReturnTrue()
+        //{
+        //    //Arrange
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishmentLevls);
+        //    _mockRepo.Setup(x => x.DeletePunishmentSetting(It.IsAny<IPunishmentsLevels>())).Returns(true);
+        //    //Act
+        //    var response = await _punishedLevelService.DeletePunishemntLevel(punishmentDto);
+        //    //Assert
+        //    _mockRepo.Verify(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>()), Times.Once);
+        //    response.Should().BeTrue();
+        //}
 
-        [TestMethod]
-        public async Task DeleteBannedWord_ShouldReturnfalseIfBannedWordNotExist()
-        {
-            //Arrange
-            IPunishmentsLevels punishments = null;
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(),It.IsAny<int>())).ReturnsAsync(punishments);
-            //Act
-            var response = await _punishedLevelService.DeletePunishemntLevel(punishmentDto);
-            //Assert
-            response.Should().BeFalse();
-        }
+        //[TestMethod]
+        //public async Task DeleteBannedWord_ShouldReturnfalseIfBannedWordNotExist()
+        //{
+        //    //Arrange
+        //    IPunishmentsLevels punishments = null;
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(),It.IsAny<int>())).ReturnsAsync(punishments);
+        //    //Act
+        //    var response = await _punishedLevelService.DeletePunishemntLevel(punishmentDto);
+        //    //Assert
+        //    response.Should().BeFalse();
+        //}
 
         //[TestMethod]
         //public async Task GetAllBannedWords_ShouldReturnAlistWithBannedWords()
@@ -139,34 +139,34 @@ namespace ModBot.Testing.Services
         //}
 
 
-        [TestMethod]
-        public async Task UpdatePunishedLevels_ShouldReturnTrue()
-        {
-            //Arrange
-            var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };      
-            var punishments = new PunishmentSettings(1, 2, 3, default, default, 11231232131231);
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(),It.IsAny<int>())).ReturnsAsync(punishments);
-            _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
-            //Act
-            var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
+        //[TestMethod]
+        //public async Task UpdatePunishedLevels_ShouldReturnTrue()
+        //{
+        //    //Arrange
+        //    var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };      
+        //    var punishments = new PunishmentSettings(1, 2, 3, default, default, 11231232131231);
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(),It.IsAny<int>())).ReturnsAsync(punishments);
+        //    _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(true);
+        //    //Act
+        //    var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
 
-            //Assert
-            response.Should().BeTrue();
-        }
+        //    //Assert
+        //    response.Should().BeTrue();
+        //}
 
-        [TestMethod]
-        public async Task UpdatePunishedLevels_ShouldReturnFalse()
-        {
-            //Arrange
-            var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };
-            var punishments = new PunishmentSettings(1, 2, 3, default, default, 12312321321);
-            _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishments);
-            _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
-            //Act
-            var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
+        //[TestMethod]
+        //public async Task UpdatePunishedLevels_ShouldReturnFalse()
+        //{
+        //    //Arrange
+        //    var punishmentDto = new PunishmentSettingsDto() { BanLevel = 1 };
+        //    var punishments = new PunishmentSettings(1, 2, 3, default, default, 12312321321);
+        //    _mockRepo.Setup(x => x.GetPunishmentSetting(It.IsAny<ulong>(), It.IsAny<int>())).ReturnsAsync(punishments);
+        //    _mockRepo.Setup(x => x.UpdatePunishmentSetting(It.IsAny<IPunishmentsLevels>(), It.IsAny<int>())).Returns(false);
+        //    //Act
+        //    var response = await _punishedLevelService.UpdatePunishmentLevel(punishmentDto, 1);
 
-            //Assert
-            response.Should().BeFalse();
-        }
+        //    //Assert
+        //    response.Should().BeFalse();
+        //}
     }
 }
