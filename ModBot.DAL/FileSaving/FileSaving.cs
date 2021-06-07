@@ -15,6 +15,11 @@ namespace ModBot.DAL.FileSaving
         public string SetDirectoryAndFilePath(ulong guildId)
         {
             string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            if (solutionDirectory.Contains("bin"))
+            {
+                solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            }
+        
             return @$"{solutionDirectory}\DiscordBot\ModBot.DAL\Textfiles\{guildId}.txt";
         }
 
@@ -35,8 +40,13 @@ namespace ModBot.DAL.FileSaving
         }
 
         private void CheckFileStatus(ulong guildId)
-        {
+        {       
             string solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName;
+            if (solutionDirectory.Contains("bin"))
+            {
+                solutionDirectory = Directory.GetParent(Directory.GetCurrentDirectory()).Parent.Parent.Parent.Parent.FullName;
+            }
+
             var fileName = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles\\{guildId}.txt";
             var directory = $"{solutionDirectory}\\DiscordBot\\ModBot.DAL\\Textfiles";
             if (!Directory.Exists(directory))
