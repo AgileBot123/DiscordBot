@@ -132,9 +132,7 @@ namespace ModBot.DAL.Migrations
             modelBuilder.Entity("ModBot.Domain.Models.PunishmentSettings", b =>
                 {
                     b.Property<decimal>("GuildId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
+                        .HasColumnType("decimal(20,0)");
 
                     b.Property<int>("BanLevel")
                         .HasColumnType("int");
@@ -203,6 +201,17 @@ namespace ModBot.DAL.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("Punishment");
+                });
+
+            modelBuilder.Entity("ModBot.Domain.Models.PunishmentSettings", b =>
+                {
+                    b.HasOne("ModBot.Domain.Models.Guild", "Guild")
+                        .WithMany()
+                        .HasForeignKey("GuildId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Guild");
                 });
 #pragma warning restore 612, 618
         }
