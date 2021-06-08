@@ -167,6 +167,8 @@ namespace ModBot.Business.Services
                  "Muted", Discord.GuildPermissions.None,
                   Discord.Color.DarkTeal/*what ever color*/, false, null
                   );
+
+                roleID = mRole.Id;
                 try
                 {
                     foreach (var channel in guild.Channels)

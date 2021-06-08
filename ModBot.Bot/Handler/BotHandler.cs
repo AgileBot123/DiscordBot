@@ -31,73 +31,78 @@ namespace ModBot.Bot.Handler
         }
         public async Task CheckIfMessagesIsBannedWord(SocketMessage message)
         {
-           
-            if (!message.Author.IsBot)
+            if (!string.IsNullOrEmpty(message.Content))
             {
-                var user = message as SocketUserMessage;
-                var context = new SocketCommandContext(_client, user);
-
-                var punishmentValue = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
-
-                if (!string.IsNullOrEmpty(punishmentValue))
+                if (!message.Author.IsBot)
                 {
-                    await message.DeleteAsync();
+                    var user = message as SocketUserMessage;
+                    var context = new SocketCommandContext(_client, user);
 
-                    var result = await WordSpecificPunish(user, punishmentValue, context);
+                    var punishmentValue = await commandLogicService.CheckBannedWordsFromUsersMessage(user, context.Guild.Id);
 
-                    if (!result)
+                    if (!string.IsNullOrEmpty(punishmentValue))
                     {
-                        await HandleMemeberStrikes(message);
+                        await message.DeleteAsync();
+
+                        var result = await WordSpecificPunish(user, punishmentValue, context);
+
+                        if (!result)
+                        {
+                            await HandleMemeberStrikes(message);
+                        }
                     }
                 }
-            }
+            }          
         }
 
         public async Task AntiSpam(SocketMessage message)
         {
-            if (!message.Author.IsBot)
+            if (!string.IsNullOrEmpty(message.Content))
             {
-                var user = message as SocketUserMessage;
-                var userGuild = message.Author as SocketGuildUser;
-                var context = new SocketCommandContext(_client, user);
-
-                if (!userCooldownList.Any(x => x.User == userGuild))
+                if (!message.Author.IsBot)
                 {
-                    var antispamModel = new AntiSpamModel
-                    {
-                        User = userGuild,
-                        Counter = 0,
-                        Timer = DateTimeOffset.Now,
-                        TempMessage = message.Content
-                    };
-                    userCooldownList.Add(antispamModel);
-                }
+                    var user = message as SocketUserMessage;
+                    var userGuild = message.Author as SocketGuildUser;
+                    var context = new SocketCommandContext(_client, user);
 
-                if (userCooldownList.Any(x => x.TempMessage == message.Content))
-                {
-                    foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())
+                    if (!userCooldownList.Any(x => x.User == userGuild))
                     {
-
-                        if (usersInfo.Timer >= DateTimeOffset.Now)
+                        var antispamModel = new AntiSpamModel
                         {
-                            usersInfo.Counter++;
+                            User = userGuild,
+                            Counter = 0,
+                            Timer = DateTimeOffset.Now,
+                            TempMessage = message.Content
+                        };
+                        userCooldownList.Add(antispamModel);
+                    }
 
-                            if (usersInfo.Counter >= 3)
+                    if (userCooldownList.Any(x => x.TempMessage == message.Content))
+                    {
+                        foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())
+                        {
+
+                            if (usersInfo.Timer >= DateTimeOffset.Now)
                             {
-                                var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
-                                var spamMuteTime = await commandLogicService.GetMuteTime(context.Guild.Id);
-                                await commandLogicService.MuteMember(userGuild, spamMuteTime, roleId);
-                                await message.DeleteAsync();
+                                usersInfo.Counter++;
+
+                                if (usersInfo.Counter >= 3)
+                                {
+                                    var roleId = await commandLogicService.CreateMuteRole(userGuild.Guild);
+                                    var spamMuteTime = await commandLogicService.GetMuteTime(context.Guild.Id);
+                                    await commandLogicService.MuteMember(userGuild, spamMuteTime, roleId);
+                                    await message.DeleteAsync();
+                                }
                             }
-                        }
-                        else
-                        {
-                            usersInfo.Counter = 0;
-                            usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
+                            else
+                            {
+                                usersInfo.Counter = 0;
+                                usersInfo.Timer = DateTimeOffset.Now.AddSeconds(20);
+                            }
                         }
                     }
                 }
-            }
+            }    
         }
 
 
@@ -168,7 +173,7 @@ namespace ModBot.Bot.Handler
         public async Task TimeOutMember(SocketGuildUser user, SocketMessage message, int time)
         {
            var roleId =  await commandLogicService.CreateMuteRole(user.Guild);
-            await user.SendMessageAsync($"You have been muted for {time} of seconds, for the following message: {message}");
+            await user.SendMessageAsync($"You have been muted for {time} minutes, for the following message: {message}");
             await commandLogicService.MuteMember(user, time, roleId);
         }
         #endregion
