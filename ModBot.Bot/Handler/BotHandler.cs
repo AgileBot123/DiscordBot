@@ -65,6 +65,7 @@ namespace ModBot.Bot.Handler
                     var userGuild = message.Author as SocketGuildUser;
                     var context = new SocketCommandContext(_client, user);
 
+
                     if (!userCooldownList.Any(x => x.User == userGuild))
                     {
                         var antispamModel = new AntiSpamModel
@@ -76,12 +77,16 @@ namespace ModBot.Bot.Handler
                         };
                         userCooldownList.Add(antispamModel);
                     }
+                    else
+                    {
+                      var antiSpamTemp = userCooldownList.Where(x => x.User == userGuild).Single();
+                       antiSpamTemp.TempMessage = message.Content;
+                    }
 
                     if (userCooldownList.Any(x => x.TempMessage == message.Content))
                     {
                         foreach (var usersInfo in userCooldownList.Where(x => x.User == userGuild).ToList())
                         {
-
                             if (usersInfo.Timer >= DateTimeOffset.Now)
                             {
                                 usersInfo.Counter++;

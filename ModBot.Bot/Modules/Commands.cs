@@ -126,8 +126,9 @@ namespace ModBot.Bot.Modules
                 await ReplyAsync("You don't have permission to use this command");
             }
         }
+        
 
-        [Command("Mute")]
+        [Command("Mute", RunMode = RunMode.Async)]
         [RequireUserPermission(GuildPermission.KickMembers)]
         [RequireBotPermission(GuildPermission.KickMembers)]
         public async Task Mute (SocketGuildUser user, int time)
@@ -135,9 +136,11 @@ namespace ModBot.Bot.Modules
             var commandUser = Context.User as SocketGuildUser;
             if (commandUser.GuildPermissions.Administrator)
             {
-                var roleId = await _commandLogic.CreateMuteRole(Context.Guild);
-                await _commandLogic.MuteMember(user, time, roleId);
-            }else
+               var roleId =  await _commandLogic.CreateMuteRole(Context.Guild);
+               await _commandLogic.MuteMember(user, time, roleId);
+
+            }
+            else
             {
                 await ReplyAsync("You don't have permission to use this command");
             }

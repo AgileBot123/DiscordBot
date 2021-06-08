@@ -58,7 +58,6 @@ namespace ModBot.Domain.Models
         #endregion
 
 
-
         #region Constructors
         private PunishmentSettings() { }
 
