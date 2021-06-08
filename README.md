@@ -3,7 +3,7 @@
 
 
 This is the page you end up at when logged in. 
-![LoggedIn](https://user-images.githubusercontent.com/62704491/121243604-2cfb8080-c89e-11eb-86eb-47d8712525a2.png)
+![LoggedIn](https://user-images.githubusercontent.com/62704491/121246697-ba8c9f80-c8a1-11eb-9f6f-5b9a82e11b01.png)
 
 This is the servers list.
 ![ServerList](https://user-images.githubusercontent.com/62704491/121243606-2d941700-c89e-11eb-8ec0-f5b40fff47e9.png)
