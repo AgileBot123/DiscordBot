@@ -16,6 +16,7 @@ using ModBot.Bot.Handler;
 using System.Configuration;
 using System.IO;
 using Interactivity;
+using System.Linq;
 
 namespace ChatFilterBot
 {
@@ -159,6 +160,10 @@ namespace ChatFilterBot
                     if (result.ErrorReason != null)
                         switch (result.ErrorReason)
                         {
+                            //If bots roles is underneath mute role.
+                            case "The server responded with error 403: Forbidden":
+                                await context.Channel.SendMessageAsync("Bots role is underneath Mute role, please move boxbot role up above the muted role in the server settings");
+                                    break;
                             //Not enough paramaters
                             case "The input text has too few parameters.":
                                 await context.Channel.SendMessageAsync(

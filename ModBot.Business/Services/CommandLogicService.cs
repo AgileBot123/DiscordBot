@@ -148,6 +148,7 @@ namespace ModBot.Business.Services
 
         public async Task<ulong> CreateMuteRole(SocketGuild guild)
         {
+
             bool rExist = false;
             ulong roleID = 0;
             foreach (var gRole in guild.Roles)
@@ -164,11 +165,13 @@ namespace ModBot.Business.Services
             {
                 //if the roles doesnt exist u create it and set the perms of the channels
                 var mRole = await guild.CreateRoleAsync(
-                 "Muted", Discord.GuildPermissions.None,
-                  Discord.Color.DarkTeal/*what ever color*/, false, null
-                  );
+                    "Muted", Discord.GuildPermissions.None,
+                    Discord.Color.DarkTeal/*what ever color*/, false, null
+                    );
 
                 roleID = mRole.Id;
+
+
                 try
                 {
                     foreach (var channel in guild.Channels)
@@ -183,10 +186,10 @@ namespace ModBot.Business.Services
                 {
                     //handel error if occures
                 }
+          
             }
-            return roleID;
+            return roleID;                   
         }
-
 
         public async Task<int> GetMuteTime(ulong guild)
         {
@@ -194,12 +197,15 @@ namespace ModBot.Business.Services
             return punishmentSettings.SpamMuteTime;
         }
 
-
         public async Task MuteMember(SocketGuildUser user, int time, ulong roleID)
         {
+            await Task.Run(() =>
+            {
+                Task.Delay(10000);
                 var role = user.Guild.GetRole(roleID);
-                await user.AddRoleAsync(role);
-                await MutedList(user, time, role);
+                user.AddRoleAsync(role);
+                MutedList(user, time, role).GetAwaiter();
+            });            
         }
         private async Task<string> MutedList(SocketGuildUser user, int time, SocketRole role)
         {
@@ -211,7 +217,7 @@ namespace ModBot.Business.Services
 
                 var MuteCooldown = Task.Run(async delegate
                 {
-                    await Task .Delay(time);
+                    await Task.Delay(time);
                     await user.RemoveRoleAsync(role);
                     MutedMemeberList.Remove(user);
 
