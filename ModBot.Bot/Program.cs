@@ -132,9 +132,11 @@ namespace ChatFilterBot
         public async Task RegisterComamndsAsync()
         {
             _client.MessageReceived += HandleCommandsAsync;
-            _client.MessageReceived += _botHandler.CheckIfMessagesIsBannedWord;
-            _client.MessageReceived += _botHandler.AntiSpam;
+             _client.MessageReceived += _botHandler.CheckIfMessagesIsBannedWord;
+            
 
+  
+            _client.MessageReceived += _botHandler.AntiSpam;
 
 
             await _commandsServices.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
@@ -165,7 +167,7 @@ namespace ChatFilterBot
                             //Bad command
                             case "Unknown command.":
                                 await context.Channel.SendMessageAsync(
-                                    "I don't understand this command. :frowning: You can type **c!list** to see the list of avaliable commands.");
+                                    "I don't understand this command.");
                                 break;
                             //Some other shenanigans
                             default:
@@ -174,8 +176,7 @@ namespace ChatFilterBot
                                 break;
                         }
                 }
-
             }
-            }
+        }
      }     
 }
