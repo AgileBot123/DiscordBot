@@ -37,7 +37,7 @@ namespace ModBot.Bot.Modules
             await _commandLogic.AddMemberToDatabase(user.Id, user.Username, user.GetAvatarUrl(), user.IsBot, Context.Guild.Id);
         }
 
-        [Command("UserStrike")]
+        [Command("UserStrikes")]
         public async Task UserStrike(SocketGuildUser inputedUser = default)
         {
             var response = _commandLogic.BotResponseCooldown(Context);
@@ -82,7 +82,7 @@ namespace ModBot.Bot.Modules
                 if (result.Value)
                 {
                     await Context.Channel.SendMessageAsync("Confirmed :thumbsup:!");
-                    await _commandLogic.ResetAllStrikes();
+                    await _commandLogic.ResetAllStrikes(Context.Guild.Id);
                 }
                 else
                 {
@@ -151,8 +151,8 @@ namespace ModBot.Bot.Modules
         public async Task Help()
         {
             await ReplyAsync("These are the commands available: " + "\n" + 
-                             "!Ping       ->  will give you access to Pong" + "\n" + 
-                             "!Userstrike ->  Check your strikes"   + "\n" +
+                             "!Ping       ->  Will healthcheck the bot" + "\n" + 
+                             "!Userstrikes ->  Check your strikes"   + "\n" +
                              "!AdminHelp  ->  To check admin commnads");
         }
 

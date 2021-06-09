@@ -19,7 +19,7 @@ namespace ModBot.Domain.Interfaces
         Task MuteMember(SocketGuildUser user, int time, ulong roleID);
         Task<ulong> CreateMuteRole(SocketGuild guild);
         Task<bool> RemoveStrike(int amount, ulong UserId, ulong guilId);
-        Task ResetAllStrikes();
+        Task ResetAllStrikes(ulong guildId);
         Task<int> GetStrikeMuteTime(ulong guildId);
         Task<int> GetMuteTime(ulong guild);
     }
