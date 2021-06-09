@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -244,25 +245,54 @@ namespace ModBot.Business.Services
         {
             var allBannedWords = _fileSaving.LoadFromFile<BannedWordForFileDto>(guildId);
 
-            var specificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() == 
-                                            message.Content.ToString().ToLower() && x.GuildId == guildId);
-
-            var specificWordPunishment = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == 
-                                            message.Content.ToString().ToLower() && x.GuildId == guildId)
-                                                    .Select(x => x.Punishment).FirstOrDefault();
-
-            var strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() == 
-                                            message.Content.ToString().ToLower() && x.GuildId == guildId)
-                                                            .Select(x => x.Strikes).FirstOrDefault();
-
-            if (specificWord)
+            string sentence = message.Content;
+            string[] words = sentence.Split(' ');
+            bool hasBannedword = false;
+            for (int i = 0; i < words.Length; i++)
             {
-                await AddMemberToDatabase(message.Author.Id, message.Author.Username, message.Author.AvatarId, message.Author.IsBot, guildId);
+                if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() == words[i]))
+                {
+                    hasBannedword = true;
+                }               
+            }
 
-                var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id, guildId);
-                                       
-                if (strikeAdded)               
-                    return specificWordPunishment;              
+            if(hasBannedword)
+            {
+                bool IsSpecificWord = false;
+                for (int i = 0; i < words.Length; i++)
+                {
+                    if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() ==
+                                      words[i].ToLower() && x.GuildId == guildId))
+                    {
+                        IsSpecificWord = true;
+                    }
+                }
+
+                string specificWordPunishment = "";
+                for (int i = 0; i < words.Length; i++)
+                {
+                    specificWordPunishment = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
+                                                  words[i].ToLower() && x.GuildId == guildId)
+                                                          .Select(x => x.Punishment).FirstOrDefault();
+                }
+
+                int strikeValue = 0;
+                for (int i = 0; i < words.Length; i++)
+                {
+                    strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
+                                                words[i].ToString().ToLower() && x.GuildId == guildId)
+                                                                .Select(x => x.Strikes).FirstOrDefault();
+                }
+
+                if (IsSpecificWord)
+                {
+                    await AddMemberToDatabase(message.Author.Id, message.Author.Username, message.Author.AvatarId, message.Author.IsBot, guildId);
+
+                    var strikeAdded = await AddStrikeToUser(strikeValue, message.Author.Id, guildId);
+
+                    if (strikeAdded)
+                        return specificWordPunishment;
+                }      
             }
             return null;
         }

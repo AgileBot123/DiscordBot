@@ -59,8 +59,6 @@ namespace ChatFilterBot
             _client = new DiscordSocketClient();
             _commandsServices = new CommandService();
 
-  
-
             _services = new ServiceCollection()
                  .AddSingleton(_client)
                  .AddDbContext<ModBotContext>(o => o.UseSqlServer(DatabaseString))
