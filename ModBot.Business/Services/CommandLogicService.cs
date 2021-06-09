@@ -248,9 +248,13 @@ namespace ModBot.Business.Services
             string sentence = message.Content;
             string[] words = sentence.Split(' ');
             bool hasBannedword = false;
+            string specificWordPunishment = "";
+            int strikeValue = 0;
+            bool IsSpecificWord = false;
+
             for (int i = 0; i < words.Length; i++)
             {
-                if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() == words[i]))
+                if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() == words[i].ToLower()))
                 {
                     hasBannedword = true;
                 }               
@@ -258,30 +262,19 @@ namespace ModBot.Business.Services
 
             if(hasBannedword)
             {
-                bool IsSpecificWord = false;
+                
                 for (int i = 0; i < words.Length; i++)
                 {
-                    if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() ==
-                                      words[i].ToLower() && x.GuildId == guildId))
-                    {
-                        IsSpecificWord = true;
-                    }
-                }
-
-                string specificWordPunishment = "";
-                for (int i = 0; i < words.Length; i++)
-                {
+                    IsSpecificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() ==
+                                                           words[i].ToLower() && x.GuildId == guildId);
+                    
                     specificWordPunishment = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
-                                                  words[i].ToLower() && x.GuildId == guildId)
-                                                          .Select(x => x.Punishment).FirstOrDefault();
-                }
+                                                 words[i].ToLower() && x.GuildId == guildId)
+                                                         .Select(x => x.Punishment).FirstOrDefault();
 
-                int strikeValue = 0;
-                for (int i = 0; i < words.Length; i++)
-                {
                     strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
-                                                words[i].ToString().ToLower() && x.GuildId == guildId)
-                                                                .Select(x => x.Strikes).FirstOrDefault();
+                                               words[i].ToString().ToLower() && x.GuildId == guildId)
+                                                               .Select(x => x.Strikes).FirstOrDefault();
                 }
 
                 if (IsSpecificWord)
