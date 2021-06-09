@@ -94,7 +94,9 @@ namespace ModBot.Business.Services
             var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
 
 
-            var punishmentList = _databaseRepository.GetAllPunishments();
+
+
+            var punishmentList = await _databaseRepository.GetAllPunishmentsAsync();
             var Punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
 
             Punishment.StrikesAmount += amount;
@@ -277,7 +279,7 @@ namespace ModBot.Business.Services
             var membersp = getGuildPunishmentID.Intersect(selectspecifcmember).FirstOrDefault();
 
 
-            var punishmentList = _databaseRepository.GetAllPunishments();
+            var punishmentList = await _databaseRepository.GetAllPunishmentsAsync();
             var punishment = punishmentList.Where(p => p.Id == membersp).FirstOrDefault();
 
             if (amount > punishment.StrikesAmount)

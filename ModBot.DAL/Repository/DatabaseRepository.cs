@@ -276,7 +276,14 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-               return _context.Punishments.ToList();
+               var punishmentList =  _context.Punishments.ToList();
+
+                foreach (var punish in punishmentList)
+                {
+                    _context.Entry<Punishment>(punish).State = EntityState.Detached;
+                }
+
+                return punishmentList;
             }
             catch (Exception ex)
             {
@@ -284,11 +291,21 @@ namespace ModBot.DAL.Repository
                 throw ex;
             }
         }
+
         public async Task<List<Punishment>> GetAllPunishmentsAsync()
         {
             try
             {
-                return await _context.Punishments.AsNoTracking().ToListAsync();
+
+                var punishementsList =  _context.Punishments.ToList();
+
+                foreach (var punishments in punishementsList)
+                {
+                    _context.Entry<Punishment>(punishments).State = EntityState.Detached;
+                }
+
+                return punishementsList;
+
             }
             catch (Exception ex)
             {
@@ -302,9 +319,8 @@ namespace ModBot.DAL.Repository
         {
             try
             {
-               
                 _context.Update(memberPunishment);
-                return _context.SaveChanges() > 0;
+                return  _context.SaveChanges() > 0;
             }
             catch (Exception ex)
             {
