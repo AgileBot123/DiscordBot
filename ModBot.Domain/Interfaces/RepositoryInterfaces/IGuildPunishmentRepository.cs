@@ -9,6 +9,6 @@ namespace ModBot.Domain.Interfaces.RepositoryInterfaces
     public interface IGuildPunishmentRepository
     {
         Task<bool> CreateGuildPunishment(int punishmentId, ulong guildId);
-        Task<List<GuildPunishment>> GetAllGuildPunishments();
+        List<GuildPunishment> GetAllGuildPunishments();
     }
 }

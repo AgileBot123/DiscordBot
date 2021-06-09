@@ -380,11 +380,18 @@ namespace ModBot.DAL.Repository
                 throw ex;
             }
         }
-        public async Task<List<GuildPunishment>> GetAllGuildPunishments()
+        public List<GuildPunishment> GetAllGuildPunishments()
         {
             try
             {
-                return await _context.GuildPunishment.AsNoTracking().ToListAsync();
+                 var AllGuildPunishment = _context.GuildPunishment.ToList();
+
+                foreach (var guildPunishment in AllGuildPunishment)
+                {
+                    _context.Entry<GuildPunishment>(guildPunishment).State = EntityState.Detached;
+                }
+
+                return AllGuildPunishment;
             }
             catch (Exception)
             {
