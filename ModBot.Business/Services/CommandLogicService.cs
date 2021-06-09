@@ -247,6 +247,7 @@ namespace ModBot.Business.Services
 
             string sentence = message.Content;
             string[] words = sentence.Split(' ');
+            List<string> bannedWords = new List<string>();
             bool hasBannedword = false;
             string specificWordPunishment = "";
             int strikeValue = 0;
@@ -257,23 +258,24 @@ namespace ModBot.Business.Services
                 if (allBannedWords.Any(x => x.Profanity.ToString().ToLower() == words[i].ToLower()))
                 {
                     hasBannedword = true;
-                }               
+                    bannedWords.Add(words[i]);
+                }  
             }
 
             if(hasBannedword)
             {
                 
-                for (int i = 0; i < words.Length; i++)
+                for (int i = 0; i < bannedWords.Count; i++)
                 {
                     IsSpecificWord = allBannedWords.Any(x => x.Profanity.ToString().ToLower() ==
-                                                           words[i].ToLower() && x.GuildId == guildId);
+                                                           bannedWords[i].ToLower() && x.GuildId == guildId);
                     
                     specificWordPunishment = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
-                                                 words[i].ToLower() && x.GuildId == guildId)
+                                                 bannedWords[i].ToLower() && x.GuildId == guildId)
                                                          .Select(x => x.Punishment).FirstOrDefault();
 
                     strikeValue = allBannedWords.Where(x => x.Profanity.ToString().ToLower() ==
-                                               words[i].ToString().ToLower() && x.GuildId == guildId)
+                                               bannedWords[i].ToString().ToLower() && x.GuildId == guildId)
                                                                .Select(x => x.Strikes).FirstOrDefault();
                 }
 
